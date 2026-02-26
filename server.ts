@@ -162,14 +162,21 @@ async function startServer() {
       });
       app.use(vite.middlewares);
       console.log("Vite middleware initialized.");
-    } else {
-      // Production static file serving would go here
-      // app.use(express.static('dist'));
-    }
 
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
+      const server = app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+      });
+
+      server.on('upgrade', (req, socket, head) => {
+        if (vite.ws && typeof vite.ws.handleUpgrade === 'function') {
+          vite.ws.handleUpgrade(req, socket, head);
+        }
+      });
+    } else {
+      app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+      });
+    }
   } catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);

@@ -3,6 +3,8 @@ import { cn } from "../lib/utils";
 import { Wallet, LogOut, Copy, Check } from "lucide-react";
 import { useWallet } from "../context/WalletContext";
 import { useState } from "react";
+import { PhantomLogo } from "./icons/PhantomLogo";
+import { MetaMaskLogo } from "./icons/MetaMaskLogo";
 
 export function Navbar() {
   const { isConnected, address, openModal, disconnect, walletType } = useWallet();
@@ -58,7 +60,13 @@ export function Navbar() {
                 onClick={copyAddress}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-900 border border-blue-500/30 text-white text-sm font-mono rounded-full hover:bg-gray-800 transition-all"
               >
-                <div className={`w-2 h-2 rounded-full ${walletType === 'phantom' ? 'bg-[#AB9FF2]' : 'bg-[#F6851B]'}`} />
+                {walletType === 'phantom' ? (
+                  <PhantomLogo className="w-4 h-4" />
+                ) : walletType === 'metamask' ? (
+                  <MetaMaskLogo className="w-4 h-4" />
+                ) : (
+                  <div className="w-2 h-2 rounded-full bg-blue-500" />
+                )}
                 {formatAddress(address)}
                 {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3 text-gray-500" />}
               </button>

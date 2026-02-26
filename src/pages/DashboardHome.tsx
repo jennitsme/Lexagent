@@ -1,5 +1,5 @@
-import { motion } from "motion/react";
-import { ArrowUpRight, ArrowDownLeft, Loader2, Wallet } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { ArrowUpRight, ArrowDownLeft, Loader2, Wallet, Copy, Check, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useWallet } from "../context/WalletContext";
@@ -22,11 +22,13 @@ function truncateSig(sig: string): string {
 }
 
 export default function DashboardHome() {
-  const { address, isConnected } = useWallet();
+  const { address, isConnected, openModal } = useWallet();
   const [solBalance, setSolBalance] = useState<number>(0);
   const [solPrice, setSolPrice] = useState<number>(0);
   const [transactions, setTransactions] = useState<TransactionInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showReceive, setShowReceive] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!address) {
@@ -54,12 +56,26 @@ export default function DashboardHome() {
       });
   }, [address]);
 
+  const copyAddress = () => {
+    if (address) {
+      navigator.clipboard.writeText(address);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   if (!isConnected) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
         <Wallet className="w-16 h-16 text-gray-500" />
         <h2 className="text-2xl font-bold text-gray-300">Wallet Not Connected</h2>
         <p className="text-gray-500">Connect your Phantom wallet to view your dashboard.</p>
+        <button
+          onClick={openModal}
+          className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+        >
+          Connect Wallet
+        </button>
       </div>
     );
   }
@@ -72,6 +88,61 @@ export default function DashboardHome() {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-8"
     >
+      <AnimatePresence>
+        {showReceive && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowReceive(false)}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100]"
+            />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md z-[101] p-6"
+            >
+              <div className="bg-[#0a0a0a] border border-blue-500/30 rounded-2xl p-6 shadow-[0_0_50px_rgba(37,99,235,0.2)]">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-bold">Receive SOL</h3>
+                  <button onClick={() => setShowReceive(false)} className="p-1 hover:bg-white/10 rounded-full transition-colors">
+                    <X className="w-5 h-5 text-gray-400" />
+                  </button>
+                </div>
+
+                <p className="text-sm text-gray-400 mb-4">
+                  Share your wallet address to receive SOL or SPL tokens on Solana.
+                </p>
+
+                <div className="p-4 bg-white/5 rounded-xl border border-white/10 mb-4">
+                  <p className="text-xs text-gray-500 mb-2">Your Solana Address</p>
+                  <p className="font-mono text-sm break-all text-white">{address}</p>
+                </div>
+
+                <button
+                  onClick={copyAddress}
+                  className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      Copy Address
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 p-8 rounded-2xl bg-gradient-to-br from-blue-900/20 to-black border border-blue-500/20 relative overflow-hidden group">
           <div className="absolute inset-0 bg-blue-600/5 group-hover:bg-blue-600/10 transition-colors duration-500" />
@@ -96,7 +167,10 @@ export default function DashboardHome() {
                 <ArrowUpRight className="w-5 h-5" />
                 Send
               </Link>
-              <button className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-bold flex items-center gap-2 transition-all">
+              <button
+                onClick={() => setShowReceive(true)}
+                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-bold flex items-center gap-2 transition-all"
+              >
                 <ArrowDownLeft className="w-5 h-5" />
                 Receive
               </button>
@@ -161,8 +235,11 @@ export default function DashboardHome() {
             <div className="p-8 text-center text-gray-500">No recent transactions found.</div>
           ) : (
             transactions.map((tx, i) => (
-              <div
+              <a
                 key={tx.signature}
+                href={`https://explorer.solana.com/tx/${tx.signature}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors"
               >
                 <div className="flex items-center gap-4">
@@ -196,7 +273,7 @@ export default function DashboardHome() {
                   </div>
                   <div className="text-xs text-gray-500">{timeAgo(tx.timestamp)}</div>
                 </div>
-              </div>
+              </a>
             ))
           )}
         </div>

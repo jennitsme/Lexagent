@@ -4,11 +4,12 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useWallet } from "../context/WalletContext";
 import { getSolBalance } from "../lib/solana";
 import { VersionedTransaction } from "@solana/web3.js";
+import { SolanaLogo, USDCLogo, USDTLogo } from "../components/icons/TokenLogos";
 
 const TOKENS = [
-  { symbol: "SOL", mint: "So11111111111111111111111111111111111111112", decimals: 9, color: "bg-purple-500" },
-  { symbol: "USDC", mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6, color: "bg-green-500" },
-  { symbol: "USDT", mint: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", decimals: 6, color: "bg-teal-500" },
+  { symbol: "SOL", mint: "So11111111111111111111111111111111111111112", decimals: 9, Logo: SolanaLogo },
+  { symbol: "USDC", mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6, Logo: USDCLogo },
+  { symbol: "USDT", mint: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", decimals: 6, Logo: USDTLogo },
 ];
 
 interface QuoteResponse {
@@ -61,15 +62,18 @@ export default function Swap() {
         slippageBps: "50",
       });
 
-      const response = await fetch(`https://quote-api.jup.ag/v6/quote?${params}`);
-      if (!response.ok) throw new Error("Failed to fetch quote");
+      const response = await fetch(`https://lite-api.jup.ag/swap/v1/quote?${params}`);
+      if (!response.ok) {
+        const errBody = await response.text();
+        throw new Error(errBody || "Failed to fetch quote");
+      }
 
       const data: QuoteResponse = await response.json();
       setQuote(data);
       const outAmt = parseInt(data.outAmount) / Math.pow(10, output.decimals);
       setToAmount(outAmt.toFixed(output.decimals > 6 ? 6 : output.decimals));
-    } catch {
-      setError("Failed to fetch quote. Try again.");
+    } catch (err: any) {
+      setError(err?.message || "Failed to fetch quote. Try again.");
       setToAmount("");
       setQuote(null);
     } finally {
@@ -131,7 +135,7 @@ export default function Swap() {
     setSuccess("");
 
     try {
-      const swapResponse = await fetch("https://quote-api.jup.ag/v6/swap", {
+      const swapResponse = await fetch("https://lite-api.jup.ag/swap/v1/swap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -141,7 +145,10 @@ export default function Swap() {
         }),
       });
 
-      if (!swapResponse.ok) throw new Error("Failed to build swap transaction");
+      if (!swapResponse.ok) {
+        const errBody = await swapResponse.text();
+        throw new Error(errBody || "Failed to build swap transaction");
+      }
 
       const { swapTransaction } = await swapResponse.json();
       const swapTransactionBuf = Buffer.from(swapTransaction, "base64");
@@ -176,6 +183,10 @@ export default function Swap() {
     if (!quote) return null;
     return parseFloat(quote.priceImpactPct).toFixed(4);
   };
+
+  const TokenIcon = ({ token, size = "w-5 h-5" }: { token: typeof TOKENS[0]; size?: string }) => (
+    <token.Logo className={size} />
+  );
 
   return (
     <motion.div 
@@ -218,7 +229,7 @@ export default function Swap() {
                       onClick={() => { setShowFromDropdown(!showFromDropdown); setShowToDropdown(false); }}
                       className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors font-bold"
                     >
-                      <div className={`w-5 h-5 rounded-full ${fromToken.color}`} />
+                      <TokenIcon token={fromToken} />
                       {fromToken.symbol}
                       <ChevronDown className="w-3 h-3" />
                     </button>
@@ -230,7 +241,7 @@ export default function Swap() {
                             onClick={() => selectFromToken(t)}
                             className="flex items-center gap-2 w-full px-4 py-3 hover:bg-white/10 transition-colors text-left"
                           >
-                            <div className={`w-4 h-4 rounded-full ${t.color}`} />
+                            <TokenIcon token={t} size="w-4 h-4" />
                             <span className="font-medium">{t.symbol}</span>
                           </button>
                         ))}
@@ -267,7 +278,7 @@ export default function Swap() {
                       onClick={() => { setShowToDropdown(!showToDropdown); setShowFromDropdown(false); }}
                       className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors font-bold"
                     >
-                      <div className={`w-5 h-5 rounded-full ${toToken.color}`} />
+                      <TokenIcon token={toToken} />
                       {toToken.symbol}
                       <ChevronDown className="w-3 h-3" />
                     </button>
@@ -279,7 +290,7 @@ export default function Swap() {
                             onClick={() => selectToToken(t)}
                             className="flex items-center gap-2 w-full px-4 py-3 hover:bg-white/10 transition-colors text-left"
                           >
-                            <div className={`w-4 h-4 rounded-full ${t.color}`} />
+                            <TokenIcon token={t} size="w-4 h-4" />
                             <span className="font-medium">{t.symbol}</span>
                           </button>
                         ))}

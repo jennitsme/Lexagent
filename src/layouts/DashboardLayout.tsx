@@ -14,9 +14,10 @@ import { useWallet } from "../context/WalletContext";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { PhantomLogo } from "../components/icons/PhantomLogo";
 import { MetaMaskLogo } from "../components/icons/MetaMaskLogo";
+import { WalletModal } from "../components/WalletModal";
 
 export default function DashboardLayout() {
-  const { address, walletType } = useWallet();
+  const { address, walletType, openModal, isConnected } = useWallet();
   const location = useLocation();
 
   const formatAddress = (addr: string | null) => {
@@ -35,6 +36,7 @@ export default function DashboardLayout() {
 
   return (
     <div className="flex h-screen bg-black text-white overflow-hidden">
+      <WalletModal />
       {/* Sidebar */}
       <motion.aside 
         initial={{ x: -100, opacity: 0 }}
@@ -42,10 +44,7 @@ export default function DashboardLayout() {
         className="w-64 border-r border-white/5 bg-[#050505] flex flex-col"
       >
         <div className="p-6 flex items-center gap-3 border-b border-white/5">
-          <div className="w-8 h-8 bg-blue-600 rounded-sm flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-blue-400 blur-md opacity-50" />
-            <div className="w-4 h-4 bg-white relative z-10 rounded-full" />
-          </div>
+          <img src="/logo.jpg" alt="LUMICHAN" className="w-8 h-8 rounded-sm object-cover" />
           <span className="font-bold text-xl tracking-wider">LUMICHAN</span>
         </div>
 
@@ -98,7 +97,10 @@ export default function DashboardLayout() {
                 <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-black" />
               </button>
               
-              <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+              <button
+                onClick={!isConnected ? openModal : undefined}
+                className={`flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full border border-white/10 ${!isConnected ? 'cursor-pointer hover:bg-white/10 hover:border-blue-500/30 transition-all' : ''}`}
+              >
                 {walletType === 'phantom' ? (
                   <PhantomLogo className="w-5 h-5" />
                 ) : walletType === 'metamask' ? (
@@ -107,7 +109,7 @@ export default function DashboardLayout() {
                   <Wallet className="w-5 h-5 text-gray-400" />
                 )}
                 <span className="font-mono text-sm">{formatAddress(address)}</span>
-              </div>
+              </button>
             </div>
           </header>
 

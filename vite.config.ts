@@ -19,9 +19,16 @@ export default defineConfig(({mode}) => {
       host: '0.0.0.0',
       port: 5000,
       allowedHosts: 'all',
-      hmr: process.env.DISABLE_HMR !== 'true',
+      hmr: false,
       watch: {
-        ignored: ['**/.local/**', '**/.cache/**', '**/.git/**', '**/data/**'],
+        usePolling: false,
+        ignored: ['**/.local/**', '**/.cache/**', '**/.git/**', '**/data/**', '**/.replit'],
+      },
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3001',
+          changeOrigin: true,
+        },
       },
     },
   };

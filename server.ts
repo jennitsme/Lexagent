@@ -4,26 +4,19 @@ import db from './src/db/index.ts';
 import TelegramBot from 'node-telegram-bot-api';
 import { GoogleGenAI } from '@google/genai';
 import OpenAI from 'openai';
-// import Anthropic from 'anthropic';
 
 const app = express();
 const PORT = 5000;
 
 app.use(express.json());
 
-// --- API Routes ---
-
-// Get agents for a wallet
 app.get('/api/agents', (req, res) => {
   const { walletAddress } = req.query;
   if (!walletAddress) return res.status(400).json({ error: 'Wallet address required' });
-  
-  // const agents = db.prepare('SELECT * FROM agents WHERE wallet_address = ?').all(walletAddress);
   const agents = db.getAgentsByWallet(walletAddress as string);
   res.json(agents);
 });
 
-// Create/Update Agent
 app.post('/api/agents', async (req, res) => {
   const { walletAddress, name, telegramToken, allowedChatId, llmProvider, llmApiKey, systemPrompt } = req.body;
   
@@ -32,29 +25,18 @@ app.post('/api/agents', async (req, res) => {
   }
 
   try {
-    // 1. Verify Telegram Token by getting bot info
     const bot = new TelegramBot(telegramToken, { polling: false });
     const botInfo = await bot.getMe();
     
-    // 2. Set Webhook
-    // We use the APP_URL env var injected by the platform
     const appUrl = process.env.APP_URL;
     if (appUrl) {
       const webhookUrl = `${appUrl}/api/telegram/webhook/${telegramToken}`;
       console.log(`Setting webhook to: ${webhookUrl}`);
       await bot.setWebHook(webhookUrl);
     } else {
-      console.warn("APP_URL not set, skipping webhook setup. Bot might not receive messages.");
+      console.warn("APP_URL not set, skipping webhook setup.");
     }
 
-    // 3. Save to DB
-    /*
-    const stmt = db.prepare(`
-      INSERT INTO agents (wallet_address, name, telegram_token, allowed_chat_id, llm_provider, llm_api_key, system_prompt)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `);
-    const result = stmt.run(walletAddress, name, telegramToken, allowedChatId, llmProvider, llmApiKey, systemPrompt || "You are a helpful AI agent.");
-    */
     const result = db.createAgent({
       wallet_address: walletAddress,
       name,
@@ -72,12 +54,10 @@ app.post('/api/agents', async (req, res) => {
   }
 });
 
-// Telegram Webhook Handler
 app.post('/api/telegram/webhook/:token', async (req, res) => {
   const { token } = req.params;
   const update = req.body;
   
-  // Respond immediately to Telegram to avoid timeouts
   res.sendStatus(200);
 
   if (!update.message || !update.message.text) return;
@@ -86,8 +66,6 @@ app.post('/api/telegram/webhook/:token', async (req, res) => {
   const text = update.message.text;
 
   try {
-    // 1. Find agent by token
-    // const agent = db.prepare('SELECT * FROM agents WHERE telegram_token = ?').get(token) as any;
     const agent = db.getAgentByToken(token);
     
     if (!agent) {
@@ -95,14 +73,12 @@ app.post('/api/telegram/webhook/:token', async (req, res) => {
       return;
     }
 
-    // 2. Check Allowed Chat ID (if set)
     if (agent.allowed_chat_id && agent.allowed_chat_id.toString() !== chatId.toString()) {
       const bot = new TelegramBot(token, { polling: false });
       await bot.sendMessage(chatId, "Access denied: You are not the authorized user for this agent.");
       return;
     }
 
-    // 3. Call LLM
     let responseText = "I'm sorry, I couldn't process that.";
 
     if (agent.llm_provider === 'gemini') {
@@ -125,20 +101,8 @@ app.post('/api/telegram/webhook/:token', async (req, res) => {
         model: "gpt-4o",
       });
       responseText = completion.choices[0].message.content || "No response";
-    /* } else if (agent.llm_provider === 'anthropic') {
-      const anthropic = new Anthropic({ apiKey: agent.llm_api_key });
-      const msg = await anthropic.messages.create({
-        model: "claude-3-5-sonnet-20241022",
-        max_tokens: 1024,
-        system: agent.system_prompt,
-        messages: [{ role: "user", content: text }],
-      });
-      // @ts-ignore
-      responseText = msg.content[0].text;
-    */
     }
 
-    // 4. Send Response back to Telegram
     const bot = new TelegramBot(token, { polling: false });
     await bot.sendMessage(chatId, responseText);
 
@@ -149,38 +113,27 @@ app.post('/api/telegram/webhook/:token', async (req, res) => {
   }
 });
 
-
-// --- Vite Middleware ---
 async function startServer() {
-  console.log("Starting server...");
-  try {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log("Initializing Vite middleware...");
-      const vite = await createViteServer({
-        server: { middlewareMode: true, allowedHosts: 'all' },
-        appType: 'spa',
-      });
-      app.use(vite.middlewares);
-      console.log("Vite middleware initialized.");
+  const vite = await createViteServer({
+    server: {
+      middlewareMode: true,
+      allowedHosts: 'all',
+      hmr: false,
+      watch: {
+        ignored: ['**/.local/**', '**/.cache/**', '**/.git/**', '**/data/**', '**/.replit', '**/node_modules/**'],
+      },
+    },
+    appType: 'spa',
+  });
 
-      const server = app.listen(PORT, '0.0.0.0', () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-      });
+  app.use(vite.middlewares);
 
-      server.on('upgrade', (req, socket, head) => {
-        if (vite.ws && typeof vite.ws.handleUpgrade === 'function') {
-          vite.ws.handleUpgrade(req, socket, head);
-        }
-      });
-    } else {
-      app.listen(PORT, '0.0.0.0', () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-      });
-    }
-  } catch (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  }
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
+  });
 }
 
-startServer();
+startServer().catch((err) => {
+  console.error("Failed to start:", err);
+  process.exit(1);
+});

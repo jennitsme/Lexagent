@@ -19,9 +19,8 @@ export function Hero() {
       >
         <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-blue-500/30 rounded-2xl flex items-center justify-center relative group">
           <div className="absolute inset-0 bg-blue-500/10 blur-xl group-hover:bg-blue-500/20 transition-all duration-500" />
-          <div className="w-16 h-16 bg-white rounded-full relative z-10 shadow-[0_0_40px_rgba(255,255,255,0.5)]" />
+          <img src="/logo.jpg" alt="LUMICHAN" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
           
-          {/* Decorative corners */}
           <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-blue-500" />
           <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-blue-500" />
           <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-blue-500" />

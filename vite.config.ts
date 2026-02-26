@@ -16,7 +16,15 @@ function apiPlugin(): Plugin {
           req.on('data', (chunk: string) => { body += chunk; });
           req.on('end', () => resolve());
         });
-        const json = body ? JSON.parse(body) : {};
+        let json: any = {};
+        if (body) {
+          try {
+            json = JSON.parse(body);
+          } catch {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: 'Invalid JSON body' }));
+          }
+        }
 
         try {
           const { default: db } = await server.ssrLoadModule('./src/db/index.ts');
@@ -117,7 +125,11 @@ export default defineConfig(({mode}) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+        buffer: 'buffer/',
       },
+    },
+    optimizeDeps: {
+      include: ['buffer'],
     },
     server: {
       host: '0.0.0.0',

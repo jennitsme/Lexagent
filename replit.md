@@ -1,57 +1,85 @@
-# LumiChan - Telegram AI Agent Platform
+# LumiChan - Telegram AI Agent & Solana Wallet Platform
 
 ## Overview
-A full-stack web application that lets users create and manage AI-powered Telegram bots. Users connect a crypto wallet, configure a Telegram bot token, choose an LLM provider (Gemini or OpenAI), and the platform handles webhook routing and message processing.
+A full-stack web application for Solana blockchain interaction and Telegram AI agent management. Users connect their Phantom wallet, view real SOL balances, send SOL, swap tokens via Jupiter, view transaction history, and create AI-powered Telegram bots.
 
 ## Architecture
 
-- **Runtime**: Node.js 20 with TypeScript (via `tsx`)
+- **Runtime**: Node.js 20 with TypeScript
 - **Frontend**: React 19 + Vite 6 + Tailwind CSS v4
-- **Backend**: Express.js serving both API routes and Vite middleware (unified server)
-- **Database**: JSON file-based DB (`data/lumichan.json`)
-- **Entry point**: `server.ts` — starts Express + Vite middleware together
+- **Backend**: API routes via Vite plugin (dev), Express server (production)
+- **Database**: JSON file-based DB (`data/lumichan.json`) for agent storage
+- **Blockchain**: Solana mainnet-beta via `@solana/web3.js`
+- **DEX**: Jupiter V6 API for token swaps
 
 ## Project Structure
 
 ```
-server.ts          # Express server + Vite dev middleware
+vite.config.ts     # Vite config with API plugin for dev server
+server.ts          # Express server for production
 src/
-  main.tsx         # React entry point
+  main.tsx         # React entry point (with Buffer polyfill)
   App.tsx          # Root component with routing
-  pages/           # Route-level page components
-  components/      # Shared UI components
-  context/         # React context (WalletContext)
-  db/index.ts      # JSON-based database abstraction
-  layouts/         # Page layout wrappers
-  lib/             # Utility functions
+  pages/
+    DashboardHome  # Real SOL balance, SOL price, recent transactions
+    Transfer       # Real SOL transfers via Phantom signing
+    Swap           # Jupiter-powered token swaps (SOL/USDC/USDT)
+    History        # Real Solana transaction history
+    CreateAgent    # Telegram bot deployment with LLM integration
+    Settings       # Wallet info, disconnect, copy address
+  components/      # Shared UI components (Navbar, Hero, Footer, etc.)
+  context/
+    WalletContext  # Phantom/MetaMask connection + signAndSendTransaction
+  db/index.ts      # JSON-based database for agent storage
+  lib/
+    solana.ts      # Solana utilities (balance, transfers, history, price)
+    utils.ts       # General utilities (cn)
+  layouts/         # Dashboard layout wrapper
 index.html         # Vite HTML template
-vite.config.ts     # Vite config (host: 0.0.0.0, port: 5000)
+public/logo.jpg    # LUMICHAN logo
 ```
 
 ## Key Configuration
 
-- **Port**: 5000 (both frontend and backend via unified Express+Vite server)
+- **Port**: 5000 (Vite dev server)
 - **Host**: `0.0.0.0` — required for Replit proxy
-- **Dev command**: `npm run dev` (runs `tsx server.ts`)
+- **allowedHosts**: `true` (Vite 6 requires boolean, not string 'all')
+- **Dev command**: `npm run dev` (runs `vite`)
 - **Workflow**: "Start application" → `npm run dev` → port 5000 (webview)
+
+## Solana Integration
+
+- **RPC**: `https://api.mainnet-beta.solana.com`
+- **Wallet**: Phantom browser extension via `window.solana`
+- **Balance**: Real SOL balance via `getBalance()`
+- **Transfers**: `SystemProgram.transfer` signed by Phantom
+- **History**: `getSignaturesForAddress` with parsed transaction details
+- **Price**: CoinGecko API for SOL/USD price
+- **Swaps**: Jupiter V6 Quote + Swap APIs
+
+## API Routes (via Vite plugin in dev)
+
+- `GET /api/agents?walletAddress=...` — Get agents for a wallet
+- `POST /api/agents` — Create/deploy a Telegram bot agent
+- `POST /api/telegram/webhook/:token` — Telegram webhook handler
 
 ## Environment Variables
 
-- `GEMINI_API_KEY` — Google Gemini API key (optional, for Gemini LLM)
-- `APP_URL` — Public URL for Telegram webhook setup (set in production)
+- `GEMINI_API_KEY` — Google Gemini API key (optional)
+- `APP_URL` — Public URL for Telegram webhook setup (production)
 
-## Features
+## Dependencies
 
-- Wallet connection modal (Solana-style)
-- Dashboard with agent management
-- Create/configure AI agents backed by Telegram bots
-- LLM providers: Gemini (`gemini-2.5-flash`) and OpenAI (`gpt-4o`)
-- Telegram webhook handler (`/api/telegram/webhook/:token`)
-- Transaction history, swap, and transfer pages
+- `@solana/web3.js` — Solana blockchain interaction
+- `buffer` — Buffer polyfill for browser
+- `react-router-dom` — Client-side routing
+- `motion` — Animation library
+- `lucide-react` — Icon library
+- `@google/genai`, `openai` — LLM providers for agents
+- `node-telegram-bot-api` — Telegram bot API
 
 ## Deployment
 
-- Target: `vm` (always-running, needed for Telegram webhooks)
+- Target: `vm` (always-running for Telegram webhooks)
 - Build: `npm run build` (Vite SPA build to `dist/`)
-- Run: `node server.js` (production)
-- Set `APP_URL` environment variable to the deployed URL for webhook setup
+- Run: `node server.js` (production Express server)

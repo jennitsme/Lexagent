@@ -6,6 +6,7 @@ declare global {
       isPhantom?: boolean;
       connect: (options?: { onlyIfTrusted?: boolean }) => Promise<{ publicKey: { toString: () => string } }>;
       disconnect: () => Promise<void>;
+      signAndSendTransaction: (transaction: any) => Promise<{ signature: string }>;
       isConnected: boolean;
     };
     ethereum?: {

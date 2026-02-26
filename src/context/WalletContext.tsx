@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { Transaction, VersionedTransaction } from '@solana/web3.js';
 
 type WalletType = 'phantom' | 'metamask' | null;
 
@@ -11,6 +12,8 @@ interface WalletContextType {
   isModalOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
+  signAndSendTransaction: (transaction: Transaction | VersionedTransaction) => Promise<string>;
+  provider: typeof window.solana | null;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -87,6 +90,16 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const signAndSendTransaction = async (transaction: Transaction | VersionedTransaction): Promise<string> => {
+    if (!window.solana?.isPhantom) {
+      throw new Error('Phantom wallet is not available');
+    }
+    const { signature } = await window.solana.signAndSendTransaction(transaction);
+    return signature;
+  };
+
+  const provider = window.solana || null;
+
   return (
     <WalletContext.Provider value={{
       address,
@@ -96,7 +109,9 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       disconnect,
       isModalOpen,
       openModal,
-      closeModal
+      closeModal,
+      signAndSendTransaction,
+      provider
     }}>
       {children}
     </WalletContext.Provider>

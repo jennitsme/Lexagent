@@ -7,7 +7,7 @@ import OpenAI from 'openai';
 // import Anthropic from 'anthropic';
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 app.use(express.json());
 
@@ -135,7 +135,8 @@ app.post('/api/telegram/webhook/:token', async (req, res) => {
       });
       // @ts-ignore
       responseText = msg.content[0].text;
-    } */
+    */
+    }
 
     // 4. Send Response back to Telegram
     const bot = new TelegramBot(token, { polling: false });

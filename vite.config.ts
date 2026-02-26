@@ -122,7 +122,7 @@ export default defineConfig(({mode}) => {
     server: {
       host: '0.0.0.0',
       port: 5000,
-      allowedHosts: 'all',
+      allowedHosts: true,
       watch: {
         ignored: ['**/.local/**', '**/.cache/**', '**/.git/**', '**/data/**', '**/.replit', '**/node_modules/**'],
       },

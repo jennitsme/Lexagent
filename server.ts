@@ -9,7 +9,7 @@ import OpenAI from 'openai';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const PORT = 5000;
+const PORT = parseInt(process.env.PORT || '5000', 10);
 const distPath = path.join(__dirname, 'dist');
 const isProd = fs.existsSync(path.join(distPath, 'index.html'));
 

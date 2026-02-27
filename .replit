@@ -47,6 +47,6 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "vm"
-run = ["node", "server.js"]
+run = ["bash", "-c", "PORT=24678 node server.js"]
 build = ["npm", "run", "build"]
 publicDir = "dist/public"

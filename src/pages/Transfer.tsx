@@ -15,6 +15,7 @@ import {
   EyeOff,
   Lock,
   Key,
+  ExternalLink,
 } from "lucide-react";
 import { useWallet } from "../context/WalletContext";
 import { getSolBalance, createPrivatePool, claimFromPool } from "../lib/solana";
@@ -34,6 +35,7 @@ export default function Transfer() {
   const [generatedCode, setGeneratedCode] = useState<string | null>(null);
   const [poolAddress, setPoolAddress] = useState<string | null>(null);
   const [codeCopied, setCodeCopied] = useState(false);
+  const [poolCopied, setPoolCopied] = useState(false);
   const [showCode, setShowCode] = useState(false);
 
   const [claimCode, setClaimCode] = useState("");
@@ -331,9 +333,38 @@ export default function Transfer() {
                   </div>
 
                   {poolAddress && (
-                    <p className="text-xs text-gray-500">
-                      Pool: {poolAddress.slice(0, 8)}...{poolAddress.slice(-8)}
-                    </p>
+                    <div className="mt-3 p-3 bg-black/40 rounded-lg border border-white/10">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs text-gray-500 font-medium">Pool Address</span>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(poolAddress);
+                              setPoolCopied(true);
+                              setTimeout(() => setPoolCopied(false), 2000);
+                            }}
+                            className="p-1 hover:bg-white/10 rounded transition-colors"
+                            title="Copy pool address"
+                          >
+                            {poolCopied ? (
+                              <Check className="w-3 h-3 text-green-400" />
+                            ) : (
+                              <Copy className="w-3 h-3 text-gray-400" />
+                            )}
+                          </button>
+                          <a
+                            href={`https://explorer.solana.com/address/${poolAddress}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-1 hover:bg-white/10 rounded transition-colors"
+                            title="View on Solana Explorer"
+                          >
+                            <ExternalLink className="w-3 h-3 text-gray-400" />
+                          </a>
+                        </div>
+                      </div>
+                      <p className="font-mono text-xs break-all text-blue-300">{poolAddress}</p>
+                    </div>
                   )}
                 </motion.div>
               )}

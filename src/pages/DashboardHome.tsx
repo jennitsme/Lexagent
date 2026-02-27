@@ -150,14 +150,14 @@ export default function DashboardHome() {
       </AnimatePresence>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 p-8 rounded-2xl bg-gradient-to-br from-blue-900/20 to-black border border-blue-500/20 relative overflow-hidden group">
+        <div className="lg:col-span-2 p-5 sm:p-8 rounded-2xl bg-gradient-to-br from-blue-900/20 to-black border border-blue-500/20 relative overflow-hidden group">
           <div className="absolute inset-0 bg-blue-600/5 group-hover:bg-blue-600/10 transition-colors duration-500" />
 
           <div className="relative z-10">
-            <div className="text-gray-400 mb-2">Total Balance</div>
-            <div className="text-5xl font-black tracking-tight mb-6">
+            <div className="text-gray-400 mb-2 text-sm sm:text-base">Total Balance</div>
+            <div className="text-3xl sm:text-5xl font-black tracking-tight mb-4 sm:mb-6">
               {loading ? (
-                <Loader2 className="w-10 h-10 animate-spin text-blue-400 inline-block" />
+                <Loader2 className="w-8 sm:w-10 h-8 sm:h-10 animate-spin text-blue-400 inline-block" />
               ) : (
                 <>
                   ${totalUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -165,19 +165,19 @@ export default function DashboardHome() {
               )}
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4">
               <Link
                 to="/dashboard/transfer"
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold flex items-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold flex items-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] text-sm sm:text-base"
               >
-                <ArrowUpRight className="w-5 h-5" />
+                <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 Send
               </Link>
               <button
                 onClick={() => setShowReceive(true)}
-                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-bold flex items-center gap-2 transition-all"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-bold flex items-center gap-2 transition-all text-sm sm:text-base"
               >
-                <ArrowDownLeft className="w-5 h-5" />
+                <ArrowDownLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                 Receive
               </button>
             </div>

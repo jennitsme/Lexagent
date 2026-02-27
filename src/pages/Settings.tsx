@@ -40,14 +40,14 @@ export default function Settings() {
       animate={{ opacity: 1, y: 0 }}
       className="max-w-3xl mx-auto space-y-8"
     >
-      <div className="flex items-center gap-6 p-6 rounded-2xl bg-white/5 border border-white/10">
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-2xl font-bold">
-          <Wallet className="w-8 h-8" />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10">
+        <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-2xl font-bold shrink-0">
+          <Wallet className="w-6 h-6 sm:w-8 sm:h-8" />
         </div>
         <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold">{truncatedAddress}</h2>
-          <p className="text-gray-400 text-sm break-all">{address}</p>
-          <div className="flex items-center gap-2 mt-2">
+          <h2 className="text-xl sm:text-2xl font-bold">{truncatedAddress}</h2>
+          <p className="text-gray-400 text-xs sm:text-sm break-all">{address}</p>
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
             <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-xs border border-purple-500/30 capitalize">
               {walletType}
             </span>
@@ -59,7 +59,7 @@ export default function Settings() {
         </div>
         <button
           onClick={copyAddress}
-          className="ml-auto px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5 transition-colors flex items-center gap-2"
+          className="w-full sm:w-auto px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5 transition-colors flex items-center justify-center gap-2"
         >
           {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
           {copied ? "Copied" : "Copy Address"}

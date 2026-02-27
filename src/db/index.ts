@@ -38,6 +38,11 @@ class JsonDB {
     return data.agents.find((a: any) => a.telegram_token === token);
   }
 
+  getAllAgents() {
+    const data = this.read();
+    return data.agents;
+  }
+
   createAgent(agent: any) {
     const data = this.read();
     const newAgent = { ...agent, id: Date.now(), created_at: new Date().toISOString() };

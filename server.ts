@@ -33,7 +33,7 @@ app.post('/api/agents', async (req, res) => {
     const bot = new TelegramBot(telegramToken, { polling: false });
     const botInfo = await bot.getMe();
     
-    const appUrl = process.env.APP_URL;
+    const appUrl = process.env.APP_URL || (process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : null);
     if (appUrl) {
       const webhookUrl = `${appUrl}/api/telegram/webhook/${telegramToken}`;
       console.log(`Setting webhook to: ${webhookUrl}`);
@@ -142,8 +142,33 @@ async function startServer() {
     app.use(vite.middlewares);
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  app.listen(PORT, '0.0.0.0', async () => {
     console.log(`Server running on http://0.0.0.0:${PORT} (${isProd ? 'production' : 'development'})`);
+
+    const appUrl = process.env.APP_URL || (process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : null);
+    if (appUrl) {
+      console.log(`App URL: ${appUrl}`);
+      try {
+        const agents = db.getAllAgents();
+        for (const agent of agents) {
+          try {
+            const bot = new TelegramBot(agent.telegram_token, { polling: false });
+            const webhookUrl = `${appUrl}/api/telegram/webhook/${agent.telegram_token}`;
+            await bot.setWebHook(webhookUrl);
+            console.log(`Webhook registered for agent "${agent.name}": ${webhookUrl}`);
+          } catch (err: any) {
+            console.error(`Failed to register webhook for agent "${agent.name}":`, err.message);
+          }
+        }
+        if (agents.length === 0) {
+          console.log('No agents found to register webhooks for.');
+        }
+      } catch (err: any) {
+        console.error('Failed to re-register webhooks:', err.message);
+      }
+    } else {
+      console.warn('APP_URL and REPLIT_DOMAINS not set — webhooks cannot be registered.');
+    }
   });
 }
 

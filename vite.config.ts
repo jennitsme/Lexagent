@@ -49,7 +49,7 @@ function apiPlugin(): Plugin {
             const { default: TelegramBot } = await server.ssrLoadModule('node-telegram-bot-api');
             const bot = new TelegramBot(telegramToken, { polling: false });
             const botInfo = await bot.getMe();
-            const appUrl = process.env.APP_URL;
+            const appUrl = process.env.APP_URL || (process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : null);
             if (appUrl) {
               await bot.setWebHook(`${appUrl}/api/telegram/webhook/${telegramToken}`);
             }

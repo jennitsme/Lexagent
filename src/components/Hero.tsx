@@ -1,10 +1,21 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Copy, Check } from "lucide-react";
 import { Link } from "react-router-dom";
+
+const CONTRACT_ADDRESS = "6Meoj6NZNQecBKDDkPDfYD2XHNKPrFiXDdxTcxYBpump";
 
 const cryptoAssets = ["SOL", "BTC", "ETH", "BNB", "XRP", "USDT", "USDC"];
 
 export function Hero() {
+  const [caCopied, setCaCopied] = useState(false);
+
+  const copyCA = () => {
+    navigator.clipboard.writeText(CONTRACT_ADDRESS);
+    setCaCopied(true);
+    setTimeout(() => setCaCopied(false), 2000);
+  };
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden">
       {/* Background Elements */}
@@ -51,6 +62,26 @@ export function Hero() {
             {asset}
           </span>
         ))}
+      </motion.div>
+
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="mb-8 relative z-10 w-full max-w-lg px-4"
+      >
+        <button
+          onClick={copyCA}
+          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-blue-500/20 bg-blue-950/20 hover:bg-blue-950/40 hover:border-blue-500/40 transition-all group"
+        >
+          <div className="flex flex-col items-start min-w-0">
+            <span className="text-[10px] uppercase tracking-wider text-blue-400 font-medium">Contract Address</span>
+            <span className="font-mono text-xs sm:text-sm text-gray-300 truncate w-full text-left">{CONTRACT_ADDRESS}</span>
+          </div>
+          <div className="shrink-0 p-1.5 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors">
+            {caCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-gray-400" />}
+          </div>
+        </button>
       </motion.div>
 
       <motion.div 

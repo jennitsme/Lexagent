@@ -8,7 +8,7 @@ import {
 } from "@solana/web3.js";
 import bs58 from "bs58";
 
-const RPC_URL = "https://api.mainnet-beta.solana.com";
+const RPC_URL = "https://solana-rpc.publicnode.com";
 
 let connectionInstance: Connection | null = null;
 

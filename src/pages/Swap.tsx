@@ -22,7 +22,7 @@ interface QuoteResponse {
 }
 
 export default function Swap() {
-  const { address, isConnected, signAndSendTransaction } = useWallet();
+  const { address, isConnected, signAndSendTransaction, walletType, openModal } = useWallet();
   const [fromToken, setFromToken] = useState(TOKENS[0]);
   const [toToken, setToToken] = useState(TOKENS[1]);
   const [fromAmount, setFromAmount] = useState("");
@@ -38,10 +38,10 @@ export default function Swap() {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (isConnected && address) {
+    if (isConnected && address && walletType === "phantom") {
       getSolBalance(address).then(setSolBalance).catch(() => setSolBalance(0));
     }
-  }, [isConnected, address]);
+  }, [isConnected, address, walletType]);
 
   const fetchQuote = useCallback(async (amount: string, input: typeof TOKENS[0], output: typeof TOKENS[0]) => {
     if (!amount || parseFloat(amount) <= 0) {
@@ -202,9 +202,19 @@ export default function Swap() {
           </button>
         </div>
 
-        {!isConnected ? (
-          <div className="text-center py-8 text-gray-400">
-            Connect your wallet to swap tokens
+        {!isConnected || walletType !== "phantom" ? (
+          <div className="text-center py-8 text-gray-400 space-y-4">
+            <p>
+              {walletType === "metamask"
+                ? "MetaMask is not supported. Please connect a Phantom wallet."
+                : "Connect your wallet to swap tokens"}
+            </p>
+            <button
+              onClick={openModal}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-all"
+            >
+              Connect Phantom Wallet
+            </button>
           </div>
         ) : (
           <>

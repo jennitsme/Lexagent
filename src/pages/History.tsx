@@ -19,13 +19,13 @@ function truncateSignature(sig: string): string {
 }
 
 export default function History() {
-  const { address, isConnected } = useWallet();
+  const { address, isConnected, walletType, openModal } = useWallet();
   const [transactions, setTransactions] = useState<TransactionInfo[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    if (!isConnected || !address) return;
+    if (!isConnected || !address || walletType !== "phantom") return;
     setLoading(true);
     getRecentTransactions(address, 20)
       .then(setTransactions)
@@ -39,15 +39,25 @@ export default function History() {
     return transactions.filter((tx) => tx.signature.toLowerCase().includes(q));
   }, [transactions, searchQuery]);
 
-  if (!isConnected) {
+  if (!isConnected || walletType !== "phantom") {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col items-center justify-center py-20 text-gray-400"
+        className="flex flex-col items-center justify-center py-20 text-gray-400 space-y-4"
       >
-        <Inbox className="w-12 h-12 mb-4" />
-        <p className="text-lg font-medium">Connect your wallet to view transaction history</p>
+        <Inbox className="w-12 h-12" />
+        <p className="text-lg font-medium">
+          {walletType === "metamask"
+            ? "MetaMask is not supported. Please connect a Phantom wallet."
+            : "Connect your wallet to view transaction history"}
+        </p>
+        <button
+          onClick={openModal}
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-all"
+        >
+          Connect Phantom Wallet
+        </button>
       </motion.div>
     );
   }

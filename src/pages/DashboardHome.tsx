@@ -22,7 +22,7 @@ function truncateSig(sig: string): string {
 }
 
 export default function DashboardHome() {
-  const { address, isConnected, openModal } = useWallet();
+  const { address, isConnected, openModal, walletType } = useWallet();
   const [solBalance, setSolBalance] = useState<number>(0);
   const [solPrice, setSolPrice] = useState<number>(0);
   const [transactions, setTransactions] = useState<TransactionInfo[]>([]);
@@ -31,7 +31,7 @@ export default function DashboardHome() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (!address) {
+    if (!address || walletType !== "phantom") {
       setLoading(false);
       return;
     }
@@ -64,17 +64,23 @@ export default function DashboardHome() {
     }
   };
 
-  if (!isConnected) {
+  if (!isConnected || walletType !== "phantom") {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
         <Wallet className="w-16 h-16 text-gray-500" />
-        <h2 className="text-2xl font-bold text-gray-300">Wallet Not Connected</h2>
-        <p className="text-gray-500">Connect your Phantom wallet to view your dashboard.</p>
+        <h2 className="text-2xl font-bold text-gray-300">
+          {walletType === "metamask" ? "Unsupported Wallet" : "Wallet Not Connected"}
+        </h2>
+        <p className="text-gray-500">
+          {walletType === "metamask"
+            ? "MetaMask is not supported. Please connect a Phantom wallet for Solana."
+            : "Connect your Phantom wallet to view your dashboard."}
+        </p>
         <button
           onClick={openModal}
           className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
         >
-          Connect Wallet
+          Connect Phantom Wallet
         </button>
       </div>
     );

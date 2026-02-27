@@ -49,8 +49,8 @@ public/logo.jpg    # LUMICHAN logo
 
 ## Solana Integration
 
-- **RPC**: `https://api.mainnet-beta.solana.com`
-- **Wallet**: Phantom browser extension via `window.solana`
+- **RPC**: `https://solana-rpc.publicnode.com` (free public RPC, no API key needed)
+- **Wallet**: Phantom browser extension via `window.solana` (MetaMask is detected but unsupported for Solana features — all pages show a clear message to connect Phantom instead)
 - **Balance**: Real SOL balance via `getBalance()`
 - **Transfers**: Private pool-based transfers with claim codes (Keypair-based escrow)
 - **Direct Transfers**: `SystemProgram.transfer` signed by Phantom (available in solana.ts)

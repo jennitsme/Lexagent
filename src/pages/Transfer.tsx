@@ -23,7 +23,7 @@ import { getSolBalance, createPrivatePool, claimFromPool } from "../lib/solana";
 type Tab = "send" | "claim";
 
 export default function Transfer() {
-  const { address, isConnected, signAndSendTransaction, openModal } = useWallet();
+  const { address, isConnected, signAndSendTransaction, openModal, walletType } = useWallet();
   const [activeTab, setActiveTab] = useState<Tab>("send");
 
   const [amount, setAmount] = useState("");
@@ -43,7 +43,7 @@ export default function Transfer() {
   const [claimStatus, setClaimStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   useEffect(() => {
-    if (!address) return;
+    if (!address || walletType !== "phantom") return;
     setBalanceLoading(true);
     getSolBalance(address)
       .then(setBalance)
@@ -135,7 +135,7 @@ export default function Transfer() {
     setShowCode(false);
   };
 
-  if (!isConnected) {
+  if (!isConnected || walletType !== "phantom") {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -144,12 +144,16 @@ export default function Transfer() {
       >
         <div className="p-8 rounded-2xl bg-white/5 border border-white/10 text-center">
           <Shield className="w-12 h-12 text-gray-500 mx-auto mb-4" />
-          <p className="text-gray-400 mb-4">Connect your wallet to use Private Transfer</p>
+          <p className="text-gray-400 mb-4">
+            {walletType === "metamask"
+              ? "MetaMask is not supported. Please connect a Phantom wallet for Solana."
+              : "Connect your wallet to use Private Transfer"}
+          </p>
           <button
             onClick={openModal}
             className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-all"
           >
-            Connect Wallet
+            Connect Phantom Wallet
           </button>
         </div>
       </motion.div>

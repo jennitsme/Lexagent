@@ -91,8 +91,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const closeModal = () => setIsModalOpen(false);
 
   const signAndSendTransaction = async (transaction: Transaction | VersionedTransaction): Promise<string> => {
-    if (!window.solana?.isPhantom) {
-      throw new Error('Phantom wallet is not available');
+    if (walletType !== 'phantom' || !window.solana?.isPhantom) {
+      throw new Error('Phantom wallet is required for Solana transactions');
     }
     const { signature } = await window.solana.signAndSendTransaction(transaction);
     return signature;

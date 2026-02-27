@@ -1,12 +1,17 @@
 import express from 'express';
-import { createServer as createViteServer } from 'vite';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import db from './src/db/index.ts';
 import TelegramBot from 'node-telegram-bot-api';
 import { GoogleGenAI } from '@google/genai';
 import OpenAI from 'openai';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = 5000;
+const distPath = path.join(__dirname, 'dist');
+const isProd = fs.existsSync(path.join(distPath, 'index.html'));
 
 app.use(express.json());
 
@@ -114,22 +119,31 @@ app.post('/api/telegram/webhook/:token', async (req, res) => {
 });
 
 async function startServer() {
-  const vite = await createViteServer({
-    server: {
-      middlewareMode: true,
-      allowedHosts: 'all',
-      hmr: false,
-      watch: {
-        ignored: ['**/.local/**', '**/.cache/**', '**/.git/**', '**/data/**', '**/.replit', '**/node_modules/**'],
+  if (isProd) {
+    app.use(express.static(distPath));
+    app.get('*', (req, res) => {
+      if (!req.path.startsWith('/api/')) {
+        res.sendFile(path.join(distPath, 'index.html'));
+      }
+    });
+  } else {
+    const { createServer: createViteServer } = await import('vite');
+    const vite = await createViteServer({
+      server: {
+        middlewareMode: true,
+        allowedHosts: true,
+        hmr: false,
+        watch: {
+          ignored: ['**/.local/**', '**/.cache/**', '**/.git/**', '**/data/**', '**/.replit', '**/node_modules/**'],
+        },
       },
-    },
-    appType: 'spa',
-  });
-
-  app.use(vite.middlewares);
+      appType: 'spa',
+    });
+    app.use(vite.middlewares);
+  }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on http://0.0.0.0:${PORT}`);
+    console.log(`Server running on http://0.0.0.0:${PORT} (${isProd ? 'production' : 'development'})`);
   });
 }
 

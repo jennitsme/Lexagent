@@ -10,7 +10,7 @@ A full-stack web application for Solana blockchain interaction and Telegram AI a
 - **Backend**: API routes via Vite plugin (dev), Express server (production)
 - **Database**: JSON file-based DB (`data/lumichan.json`) for agent storage
 - **Blockchain**: Solana mainnet-beta via `@solana/web3.js`
-- **DEX**: Jupiter V6 API for token swaps
+- **DEX**: Jupiter Lite API for token swaps
 
 ## Project Structure
 
@@ -22,7 +22,7 @@ src/
   App.tsx          # Root component with routing
   pages/
     DashboardHome  # Real SOL balance, SOL price, recent transactions
-    Transfer       # Real SOL transfers via Phantom signing
+    Transfer       # Private Transfer: send SOL to pool, generate claim codes
     Swap           # Jupiter-powered token swaps (SOL/USDC/USDT)
     History        # Real Solana transaction history
     CreateAgent    # Telegram bot deployment with LLM integration
@@ -52,10 +52,11 @@ public/logo.jpg    # LUMICHAN logo
 - **RPC**: `https://api.mainnet-beta.solana.com`
 - **Wallet**: Phantom browser extension via `window.solana`
 - **Balance**: Real SOL balance via `getBalance()`
-- **Transfers**: `SystemProgram.transfer` signed by Phantom
+- **Transfers**: Private pool-based transfers with claim codes (Keypair-based escrow)
+- **Direct Transfers**: `SystemProgram.transfer` signed by Phantom (available in solana.ts)
 - **History**: `getSignaturesForAddress` with parsed transaction details
 - **Price**: CoinGecko API for SOL/USD price
-- **Swaps**: Jupiter V6 Quote + Swap APIs
+- **Swaps**: Jupiter Lite API (`lite-api.jup.ag/swap/v1`) Quote + Swap
 
 ## API Routes (via Vite plugin in dev)
 

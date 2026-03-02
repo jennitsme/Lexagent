@@ -194,16 +194,16 @@ export default function Swap() {
       animate={{ opacity: 1, y: 0 }}
       className="max-w-md mx-auto"
     >
-      <div className="p-6 rounded-2xl bg-white/5 border border-white/10 relative overflow-hidden">
+      <div className="p-6 rounded-2xl bg-white border border-black/10 relative overflow-hidden">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">Swap</h2>
-          <button className="p-2 hover:bg-white/5 rounded-lg transition-colors">
+          <h2 className="text-xl font-bold text-black">Swap</h2>
+          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
             <Settings2 className="w-5 h-5 text-gray-400" />
           </button>
         </div>
 
         {!isConnected || walletType !== "phantom" ? (
-          <div className="text-center py-8 text-gray-400 space-y-4">
+          <div className="text-center py-8 text-gray-500 space-y-4">
             <p>
               {walletType === "metamask"
                 ? "MetaMask is not supported. Please connect a Phantom wallet."
@@ -211,7 +211,7 @@ export default function Swap() {
             </p>
             <button
               onClick={openModal}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-all"
+              className="px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-bold transition-all"
             >
               Connect Phantom Wallet
             </button>
@@ -219,7 +219,7 @@ export default function Swap() {
         ) : (
           <>
             <div className="space-y-2 relative">
-              <div className="p-4 rounded-xl bg-black/40 border border-white/5 hover:border-white/10 transition-colors">
+              <div className="p-4 rounded-xl bg-gray-50 border border-black/5 hover:border-black/10 transition-colors">
                 <div className="flex justify-between mb-2">
                   <span className="text-xs text-gray-400">From</span>
                   <span className="text-xs text-gray-400">
@@ -232,24 +232,24 @@ export default function Swap() {
                     placeholder="0.0"
                     value={fromAmount}
                     onChange={(e) => handleFromAmountChange(e.target.value)}
-                    className="w-full bg-transparent text-3xl font-bold focus:outline-none"
+                    className="w-full bg-transparent text-3xl font-bold focus:outline-none text-black"
                   />
                   <div className="relative">
                     <button 
                       onClick={() => { setShowFromDropdown(!showFromDropdown); setShowToDropdown(false); }}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors font-bold"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/10 hover:bg-gray-100 transition-colors font-bold text-black"
                     >
                       <TokenIcon token={fromToken} />
                       {fromToken.symbol}
                       <ChevronDown className="w-3 h-3" />
                     </button>
                     {showFromDropdown && (
-                      <div className="absolute right-0 top-full mt-2 bg-[#1a1a2e] border border-white/10 rounded-xl overflow-hidden z-20 min-w-[140px]">
+                      <div className="absolute right-0 top-full mt-2 bg-white border border-black/10 rounded-xl overflow-hidden z-20 min-w-[140px] shadow-lg">
                         {TOKENS.map((t) => (
                           <button
                             key={t.mint}
                             onClick={() => selectFromToken(t)}
-                            className="flex items-center gap-2 w-full px-4 py-3 hover:bg-white/10 transition-colors text-left"
+                            className="flex items-center gap-2 w-full px-4 py-3 hover:bg-gray-50 transition-colors text-left text-black"
                           >
                             <TokenIcon token={t} size="w-4 h-4" />
                             <span className="font-medium">{t.symbol}</span>
@@ -264,13 +264,13 @@ export default function Swap() {
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                 <button 
                   onClick={handleSwapTokens}
-                  className="p-2 rounded-xl bg-[#111] border border-white/10 hover:border-blue-500/50 hover:text-blue-400 transition-all"
+                  className="p-2 rounded-xl bg-white border border-black/10 hover:border-black/20 hover:bg-gray-50 transition-all text-black"
                 >
                   <ArrowDown className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="p-4 rounded-xl bg-black/40 border border-white/5 hover:border-white/10 transition-colors">
+              <div className="p-4 rounded-xl bg-gray-50 border border-black/5 hover:border-black/10 transition-colors">
                 <div className="flex justify-between mb-2">
                   <span className="text-xs text-gray-400">To</span>
                   {loadingQuote && <Loader2 className="w-3 h-3 text-gray-400 animate-spin" />}
@@ -281,24 +281,24 @@ export default function Swap() {
                     placeholder="0.0"
                     value={toAmount}
                     readOnly
-                    className="w-full bg-transparent text-3xl font-bold focus:outline-none text-gray-300"
+                    className="w-full bg-transparent text-3xl font-bold focus:outline-none text-gray-500"
                   />
                   <div className="relative">
                     <button 
                       onClick={() => { setShowToDropdown(!showToDropdown); setShowFromDropdown(false); }}
-                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors font-bold"
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-black/10 hover:bg-gray-100 transition-colors font-bold text-black"
                     >
                       <TokenIcon token={toToken} />
                       {toToken.symbol}
                       <ChevronDown className="w-3 h-3" />
                     </button>
                     {showToDropdown && (
-                      <div className="absolute right-0 top-full mt-2 bg-[#1a1a2e] border border-white/10 rounded-xl overflow-hidden z-20 min-w-[140px]">
+                      <div className="absolute right-0 top-full mt-2 bg-white border border-black/10 rounded-xl overflow-hidden z-20 min-w-[140px] shadow-lg">
                         {TOKENS.map((t) => (
                           <button
                             key={t.mint}
                             onClick={() => selectToToken(t)}
-                            className="flex items-center gap-2 w-full px-4 py-3 hover:bg-white/10 transition-colors text-left"
+                            className="flex items-center gap-2 w-full px-4 py-3 hover:bg-gray-50 transition-colors text-left text-black"
                           >
                             <TokenIcon token={t} size="w-4 h-4" />
                             <span className="font-medium">{t.symbol}</span>
@@ -313,30 +313,30 @@ export default function Swap() {
 
             <div className="mt-6 space-y-4">
               {quote && (
-                <div className="p-3 rounded-lg bg-white/5 text-xs space-y-2">
-                  <div className="flex justify-between text-gray-400">
+                <div className="p-3 rounded-lg bg-gray-50 text-xs space-y-2">
+                  <div className="flex justify-between text-gray-500">
                     <span>Rate</span>
-                    <span>1 {fromToken.symbol} = {getRate()} {toToken.symbol}</span>
+                    <span className="text-black">1 {fromToken.symbol} = {getRate()} {toToken.symbol}</span>
                   </div>
-                  <div className="flex justify-between text-gray-400">
+                  <div className="flex justify-between text-gray-500">
                     <span>Price Impact</span>
-                    <span>{getPriceImpact()}%</span>
+                    <span className="text-black">{getPriceImpact()}%</span>
                   </div>
-                  <div className="flex justify-between text-gray-400">
+                  <div className="flex justify-between text-gray-500">
                     <span>Slippage</span>
-                    <span>0.5%</span>
+                    <span className="text-black">0.5%</span>
                   </div>
                 </div>
               )}
 
               {error && (
-                <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm">
                   {error}
                 </div>
               )}
 
               {success && (
-                <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
+                <div className="p-3 rounded-lg bg-green-50 border border-green-200 text-green-600 text-sm">
                   {success}
                 </div>
               )}
@@ -344,7 +344,7 @@ export default function Swap() {
               <button 
                 onClick={handleSwap}
                 disabled={!quote || loadingSwap || loadingQuote || !fromAmount}
-                className="w-full py-4 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-600/30 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2"
+                className="w-full py-4 bg-black hover:bg-gray-800 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
               >
                 {loadingSwap ? (
                   <>

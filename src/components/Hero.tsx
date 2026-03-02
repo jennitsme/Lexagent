@@ -18,9 +18,7 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-100 via-white to-white pointer-events-none" />
 
       <motion.div 
         initial={{ scale: 0.8, opacity: 0 }}
@@ -28,14 +26,14 @@ export function Hero() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="relative z-10 mb-8"
       >
-        <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-blue-500/30 rounded-2xl flex items-center justify-center relative group">
-          <div className="absolute inset-0 bg-blue-500/10 blur-xl group-hover:bg-blue-500/20 transition-all duration-500" />
+        <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-black/10 rounded-2xl flex items-center justify-center relative group">
+          <div className="absolute inset-0 bg-black/5 blur-xl group-hover:bg-black/10 transition-all duration-500" />
           <img src="/logo.jpg" alt="SENDRA" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
           
-          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-blue-500" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-blue-500" />
-          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-blue-500" />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-blue-500" />
+          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-black" />
+          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-black" />
+          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-black" />
+          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-black" />
         </div>
       </motion.div>
 
@@ -43,9 +41,9 @@ export function Hero() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10"
+        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-black"
       >
-        SEN<span className="text-blue-600 inline-block animate-pulse">D</span>RA
+        SEN<span className="text-gray-400 inline-block animate-pulse">D</span>RA
       </motion.h1>
 
       <motion.div 
@@ -57,7 +55,7 @@ export function Hero() {
         {cryptoAssets.map((asset, i) => (
           <span 
             key={asset}
-            className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-gray-400 hover:border-blue-500/50 hover:text-blue-400 hover:bg-blue-500/10 transition-all cursor-default"
+            className="px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-mono text-gray-600 hover:border-black/30 hover:text-black hover:bg-black/10 transition-all cursor-default"
           >
             {asset}
           </span>
@@ -72,14 +70,14 @@ export function Hero() {
       >
         <button
           onClick={copyCA}
-          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-blue-500/20 bg-blue-950/20 hover:bg-blue-950/40 hover:border-blue-500/40 transition-all group"
+          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-black/10 bg-gray-50 hover:bg-gray-100 hover:border-black/20 transition-all group"
         >
           <div className="flex flex-col items-start min-w-0">
-            <span className="text-[10px] uppercase tracking-wider text-blue-400 font-medium">Contract Address</span>
-            <span className="font-mono text-xs sm:text-sm text-gray-300 truncate w-full text-left">{CONTRACT_ADDRESS}</span>
+            <span className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">Contract Address</span>
+            <span className="font-mono text-xs sm:text-sm text-gray-700 truncate w-full text-left">{CONTRACT_ADDRESS}</span>
           </div>
-          <div className="shrink-0 p-1.5 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors">
-            {caCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-gray-400" />}
+          <div className="shrink-0 p-1.5 rounded-lg bg-black/5 group-hover:bg-black/10 transition-colors">
+            {caCopied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-400" />}
           </div>
         </button>
       </motion.div>
@@ -91,8 +89,8 @@ export function Hero() {
         className="flex flex-col items-center gap-6 relative z-10"
       >
         <Link to="/dashboard">
-          <button className="group relative px-8 py-4 bg-blue-600 text-white font-bold text-lg tracking-wider rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(37,99,235,0.6)]">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:animate-[shimmer_1s_infinite]" />
+          <button className="group relative px-8 py-4 bg-black text-white font-bold text-lg tracking-wider rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:animate-[shimmer_1s_infinite]" />
             <span className="relative z-10 flex items-center gap-2">
               ENTER SENDRA
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -101,17 +99,17 @@ export function Hero() {
         </Link>
 
         <div className="text-center space-y-2">
-          <p className="text-blue-200/80 font-medium tracking-wide text-sm uppercase">
+          <p className="text-gray-500 font-medium tracking-wide text-sm uppercase">
             Next-Gen Encrypted Pathway Register
           </p>
-          <p className="text-gray-500 text-xs font-mono">
+          <p className="text-gray-400 text-xs font-mono">
             CERTIFIED GHOST TX CHANNEL • UNTRACEABLE LEDGER MIGRATION
           </p>
         </div>
 
-        <div className="mt-8 px-4 py-2 rounded-full border border-blue-900/50 bg-blue-950/20 text-blue-400 text-[10px] font-mono flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-          COMPLIANT WITH VOID STANDARD Ø
+        <div className="mt-8 px-4 py-2 rounded-full border border-black/10 bg-gray-50 text-gray-600 text-[10px] font-mono flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+          COMPLIANT WITH VOID STANDARD
         </div>
       </motion.div>
     </section>

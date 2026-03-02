@@ -22,7 +22,7 @@ import CreateAgent from "./pages/CreateAgent";
 
 function LandingPage() {
   return (
-    <div className="bg-black min-h-screen text-white selection:bg-blue-500/30">
+    <div className="bg-white min-h-screen text-black selection:bg-black/10">
       <Navbar />
       <WalletModal />
       <main>

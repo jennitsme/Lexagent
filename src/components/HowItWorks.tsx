@@ -31,7 +31,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="transfer" className="py-32 px-6 bg-black relative">
+    <section id="transfer" className="py-32 px-6 bg-white relative">
       <div className="max-w-4xl mx-auto">
         <motion.div 
           initial={{ opacity: 0 }}
@@ -39,13 +39,13 @@ export function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-24"
         >
-          <h2 className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-4">
+          <h2 className="text-6xl md:text-8xl font-black tracking-tighter text-black mb-4">
             HOW IT<br />WORKS
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto" />
+          <div className="w-24 h-1 bg-black mx-auto" />
         </motion.div>
 
-        <div className="relative border-l border-white/10 ml-4 md:ml-0 space-y-24">
+        <div className="relative border-l border-black/10 ml-4 md:ml-0 space-y-24">
           {steps.map((step, index) => (
             <motion.div 
               key={step.id}
@@ -55,44 +55,41 @@ export function HowItWorks() {
               transition={{ delay: index * 0.1 }}
               className="relative pl-12 md:pl-24"
             >
-              {/* Timeline Dot */}
-              <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 bg-blue-600 rounded-full shadow-[0_0_10px_rgba(37,99,235,0.8)]" />
+              <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 bg-black rounded-full" />
               
               <div className="grid md:grid-cols-2 gap-12 items-start">
                 <div className="space-y-4">
-                  <div className="text-blue-600 font-mono text-xs tracking-widest uppercase">
+                  <div className="text-gray-400 font-mono text-xs tracking-widest uppercase">
                     Step {step.title.split(" ")[0]}
                   </div>
-                  <h3 className="text-4xl md:text-5xl font-bold tracking-tight leading-none">
+                  <h3 className="text-4xl md:text-5xl font-bold tracking-tight leading-none text-black">
                     {step.title}
                   </h3>
-                  <p className="text-gray-400 leading-relaxed text-sm md:text-base">
+                  <p className="text-gray-500 leading-relaxed text-sm md:text-base">
                     {step.description}
                   </p>
-                  <div className="w-12 h-1 bg-blue-600" />
+                  <div className="w-12 h-1 bg-black" />
                 </div>
 
                 <div className="relative group">
-                  <div className="border border-blue-500/30 bg-blue-900/5 p-8 h-40 flex flex-col justify-center items-center relative overflow-hidden transition-all hover:border-blue-500/60">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="border border-black/10 bg-gray-50 p-8 h-40 flex flex-col justify-center items-center relative overflow-hidden transition-all hover:border-black/20">
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     {step.icon ? (
-                      <step.icon className="w-12 h-12 text-blue-500 mb-2" />
+                      <step.icon className="w-12 h-12 text-black mb-2" />
                     ) : (
-                      <ArrowRight className="w-8 h-8 text-blue-500 mb-2 group-hover:translate-x-2 transition-transform" />
+                      <ArrowRight className="w-8 h-8 text-black mb-2 group-hover:translate-x-2 transition-transform" />
                     )}
                     
-                    <span className="text-xs font-mono text-gray-500 uppercase tracking-widest">
+                    <span className="text-xs font-mono text-gray-400 uppercase tracking-widest">
                       {step.action}
                     </span>
 
-                    {/* Decorative corners */}
-                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-blue-500/50" />
-                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-blue-500/50" />
+                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/20" />
+                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/20" />
                   </div>
                   
-                  {/* Background number */}
-                  <div className="absolute -top-10 -right-4 text-9xl font-black text-white/5 pointer-events-none select-none">
+                  <div className="absolute -top-10 -right-4 text-9xl font-black text-black/5 pointer-events-none select-none">
                     {step.id}
                   </div>
                 </div>

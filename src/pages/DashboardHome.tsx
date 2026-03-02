@@ -27,6 +27,7 @@ export default function DashboardHome() {
   const [solPrice, setSolPrice] = useState<number>(0);
   const [transactions, setTransactions] = useState<TransactionInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showReceive, setShowReceive] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -37,6 +38,7 @@ export default function DashboardHome() {
     }
 
     setLoading(true);
+    setError(null);
 
     Promise.all([
       getSolBalance(address),
@@ -50,6 +52,7 @@ export default function DashboardHome() {
       })
       .catch((err) => {
         console.error("Failed to fetch dashboard data:", err);
+        setError("Failed to load dashboard data. Please check your connection and try again.");
       })
       .finally(() => {
         setLoading(false);
@@ -67,18 +70,18 @@ export default function DashboardHome() {
   if (!isConnected || walletType !== "phantom") {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
-        <Wallet className="w-16 h-16 text-gray-500" />
-        <h2 className="text-2xl font-bold text-gray-300">
+        <Wallet className="w-16 h-16 text-gray-300" />
+        <h2 className="text-2xl font-bold text-gray-700">
           {walletType === "metamask" ? "Unsupported Wallet" : "Wallet Not Connected"}
         </h2>
-        <p className="text-gray-500">
+        <p className="text-gray-400">
           {walletType === "metamask"
             ? "MetaMask is not supported. Please connect a Phantom wallet for Solana."
             : "Connect your Phantom wallet to view your dashboard."}
         </p>
         <button
           onClick={openModal}
-          className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+          className="mt-4 px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-bold transition-all"
         >
           Connect Phantom Wallet
         </button>
@@ -102,7 +105,7 @@ export default function DashboardHome() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowReceive(false)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100]"
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-[100]"
             />
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -110,26 +113,26 @@ export default function DashboardHome() {
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md z-[101] p-6"
             >
-              <div className="bg-[#0a0a0a] border border-blue-500/30 rounded-2xl p-6 shadow-[0_0_50px_rgba(37,99,235,0.2)]">
+              <div className="bg-white border border-black/10 rounded-2xl p-6 shadow-xl">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-bold">Receive SOL</h3>
-                  <button onClick={() => setShowReceive(false)} className="p-1 hover:bg-white/10 rounded-full transition-colors">
+                  <button onClick={() => setShowReceive(false)} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
                     <X className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
 
-                <p className="text-sm text-gray-400 mb-4">
+                <p className="text-sm text-gray-500 mb-4">
                   Share your wallet address to receive SOL or SPL tokens on Solana.
                 </p>
 
-                <div className="p-4 bg-white/5 rounded-xl border border-white/10 mb-4">
-                  <p className="text-xs text-gray-500 mb-2">Your Solana Address</p>
-                  <p className="font-mono text-sm break-all text-white">{address}</p>
+                <div className="p-4 bg-gray-50 rounded-xl border border-black/5 mb-4">
+                  <p className="text-xs text-gray-400 mb-2">Your Solana Address</p>
+                  <p className="font-mono text-sm break-all text-black">{address}</p>
                 </div>
 
                 <button
                   onClick={copyAddress}
-                  className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
+                  className="w-full py-3 bg-black hover:bg-gray-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
                 >
                   {copied ? (
                     <>
@@ -149,15 +152,20 @@ export default function DashboardHome() {
         )}
       </AnimatePresence>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 p-5 sm:p-8 rounded-2xl bg-gradient-to-br from-blue-900/20 to-black border border-blue-500/20 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-blue-600/5 group-hover:bg-blue-600/10 transition-colors duration-500" />
+      {error && (
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm flex items-center gap-2">
+          <span>{error}</span>
+          <button onClick={() => window.location.reload()} className="ml-auto px-3 py-1 bg-red-100 hover:bg-red-200 rounded-lg text-xs font-medium transition-colors">Retry</button>
+        </div>
+      )}
 
+      <div className="grid lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 p-5 sm:p-8 rounded-2xl bg-white border border-black/10 relative overflow-hidden group">
           <div className="relative z-10">
             <div className="text-gray-400 mb-2 text-sm sm:text-base">Total Balance</div>
-            <div className="text-3xl sm:text-5xl font-black tracking-tight mb-4 sm:mb-6">
+            <div className="text-3xl sm:text-5xl font-black tracking-tight mb-4 sm:mb-6 text-black">
               {loading ? (
-                <Loader2 className="w-8 sm:w-10 h-8 sm:h-10 animate-spin text-blue-400 inline-block" />
+                <Loader2 className="w-8 sm:w-10 h-8 sm:h-10 animate-spin text-gray-400 inline-block" />
               ) : (
                 <>
                   ${totalUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -168,14 +176,14 @@ export default function DashboardHome() {
             <div className="flex gap-3 sm:gap-4">
               <Link
                 to="/dashboard/transfer"
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold flex items-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] text-sm sm:text-base"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-bold flex items-center gap-2 transition-all text-sm sm:text-base"
               >
                 <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 Send
               </Link>
               <button
                 onClick={() => setShowReceive(true)}
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-white/10 hover:bg-white/20 text-white rounded-lg font-bold flex items-center gap-2 transition-all text-sm sm:text-base"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-100 hover:bg-gray-200 text-black rounded-lg font-bold flex items-center gap-2 transition-all text-sm sm:text-base"
               >
                 <ArrowDownLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                 Receive
@@ -183,10 +191,10 @@ export default function DashboardHome() {
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-500/10 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent">
             <svg className="w-full h-full" preserveAspectRatio="none">
-              <path d="M0,100 C150,80 300,120 450,60 C600,0 750,40 900,20 L900,128 L0,128 Z" fill="rgba(37, 99, 235, 0.1)" />
-              <path d="M0,100 C150,80 300,120 450,60 C600,0 750,40 900,20" fill="none" stroke="#3B82F6" strokeWidth="2" />
+              <path d="M0,100 C150,80 300,120 450,60 C600,0 750,40 900,20 L900,128 L0,128 Z" fill="rgba(0, 0, 0, 0.03)" />
+              <path d="M0,100 C150,80 300,120 450,60 C600,0 750,40 900,20" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="2" />
             </svg>
           </div>
         </div>
@@ -197,19 +205,19 @@ export default function DashboardHome() {
               label: "SOL Balance",
               value: loading ? "..." : `${solBalance.toLocaleString(undefined, { maximumFractionDigits: 4 })} SOL`,
               change: loading ? "..." : `$${solPrice.toFixed(2)}`,
-              color: "text-blue-400",
+              color: "text-gray-500",
             },
             {
               label: "Network Status",
               value: "Solana Mainnet",
               change: "Active",
-              color: "text-green-400",
+              color: "text-green-500",
             },
             {
               label: "SOL Price",
               value: loading ? "..." : `$${solPrice.toFixed(2)}`,
               change: "USD",
-              color: "text-purple-400",
+              color: "text-gray-500",
             },
           ].map((stat, i) => (
             <motion.div
@@ -217,11 +225,11 @@ export default function DashboardHome() {
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: i * 0.1 }}
-              className="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/30 transition-colors"
+              className="p-6 rounded-xl bg-white border border-black/10 hover:border-black/20 transition-colors"
             >
               <div className="text-gray-400 text-sm mb-1">{stat.label}</div>
               <div className="flex justify-between items-end">
-                <div className="text-xl font-bold">{stat.value}</div>
+                <div className="text-xl font-bold text-black">{stat.value}</div>
                 <div className={`text-sm font-mono ${stat.color}`}>{stat.change}</div>
               </div>
             </motion.div>
@@ -230,15 +238,15 @@ export default function DashboardHome() {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-bold">Recent Activity</h2>
-        <div className="rounded-xl border border-white/10 bg-white/5 overflow-hidden">
+        <h2 className="text-xl font-bold text-black">Recent Activity</h2>
+        <div className="rounded-xl border border-black/10 bg-white overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center p-8">
-              <Loader2 className="w-6 h-6 animate-spin text-blue-400" />
+              <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
               <span className="ml-2 text-gray-400">Loading transactions...</span>
             </div>
           ) : transactions.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">No recent transactions found.</div>
+            <div className="p-8 text-center text-gray-400">No recent transactions found.</div>
           ) : (
             transactions.map((tx, i) => (
               <a
@@ -246,16 +254,16 @@ export default function DashboardHome() {
                 href={`https://explorer.solana.com/tx/${tx.signature}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors"
+                className="flex items-center justify-between p-4 border-b border-black/5 last:border-0 hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center ${
                       tx.type === "sent"
-                        ? "bg-red-500/20 text-red-400"
+                        ? "bg-red-50 text-red-500"
                         : tx.type === "received"
-                        ? "bg-green-500/20 text-green-400"
-                        : "bg-blue-500/20 text-blue-400"
+                        ? "bg-green-50 text-green-500"
+                        : "bg-gray-100 text-gray-500"
                     }`}
                   >
                     {tx.type === "sent" ? (
@@ -265,19 +273,19 @@ export default function DashboardHome() {
                     )}
                   </div>
                   <div>
-                    <div className="font-bold">
+                    <div className="font-bold text-black">
                       {tx.type === "sent" ? "Sent SOL" : tx.type === "received" ? "Received SOL" : "Transaction"}
                     </div>
-                    <div className="text-xs text-gray-500">{truncateSig(tx.signature)}</div>
+                    <div className="text-xs text-gray-400">{truncateSig(tx.signature)}</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-mono">
+                  <div className="font-mono text-black">
                     {tx.amount !== null
                       ? `${tx.type === "sent" ? "-" : "+"}${tx.amount.toFixed(4)} SOL`
                       : "—"}
                   </div>
-                  <div className="text-xs text-gray-500">{timeAgo(tx.timestamp)}</div>
+                  <div className="text-xs text-gray-400">{timeAgo(tx.timestamp)}</div>
                 </div>
               </a>
             ))

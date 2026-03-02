@@ -27,28 +27,28 @@ export function Navbar() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-white/5 bg-black/50"
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-black/5 bg-white/80"
     >
       <div className="flex items-center gap-2">
         <img src="/logo.jpg" alt="SENDRA" className="w-8 h-8 rounded-sm object-cover" />
-        <span className="font-bold text-xl tracking-wider">SENDRA</span>
+        <span className="font-bold text-xl tracking-wider text-black">SENDRA</span>
       </div>
 
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
         {["About", "Agents", "Transfer", "Community"].map((item) => (
           <a 
             key={item} 
             href={`#${item.toLowerCase()}`}
-            className="hover:text-white transition-colors relative group"
+            className="hover:text-black transition-colors relative group"
           >
             {item}
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300" />
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-300" />
           </a>
         ))}
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-900 rounded-full border border-gray-800 text-xs font-mono text-gray-400">
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-full border border-gray-200 text-xs font-mono text-gray-600">
           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
           $SENDRA
         </div>
@@ -58,22 +58,22 @@ export function Navbar() {
             <div className="relative group">
               <button 
                 onClick={copyAddress}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-900 border border-blue-500/30 text-white text-sm font-mono rounded-full hover:bg-gray-800 transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 text-black text-sm font-mono rounded-full hover:bg-gray-200 transition-all"
               >
                 {walletType === 'phantom' ? (
                   <PhantomLogo className="w-4 h-4" />
                 ) : walletType === 'metamask' ? (
                   <MetaMaskLogo className="w-4 h-4" />
                 ) : (
-                  <div className="w-2 h-2 rounded-full bg-blue-500" />
+                  <div className="w-2 h-2 rounded-full bg-black" />
                 )}
                 {formatAddress(address)}
-                {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3 text-gray-500" />}
+                {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3 text-gray-400" />}
               </button>
             </div>
             <button 
               onClick={disconnect}
-              className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-full transition-colors"
+              className="p-2 bg-red-50 hover:bg-red-100 text-red-500 rounded-full transition-colors"
               title="Disconnect"
             >
               <LogOut className="w-4 h-4" />
@@ -82,7 +82,7 @@ export function Navbar() {
         ) : (
           <button 
             onClick={openModal}
-            className="flex items-center gap-2 px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-full transition-all hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] active:scale-95"
+            className="flex items-center gap-2 px-5 py-2 bg-black hover:bg-gray-800 text-white text-sm font-bold rounded-full transition-all active:scale-95"
           >
             <Wallet className="w-4 h-4" />
             Connect

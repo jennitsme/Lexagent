@@ -1,102 +1,241 @@
 import { motion } from "motion/react";
-import { ArrowRight, Check } from "lucide-react";
+import { FileText, Cpu, Route, ShieldCheck } from "lucide-react";
 
 const steps = [
   {
     id: "01",
-    title: "ENTER TRANSFER DETAILS",
-    description: "Navigate to the \"Transfer\" tab, select your currency, and enter the recipient's wallet address and the amount you want to send privately.",
-    action: "TRANSFER FORM",
+    title: "ENTER DETAILS",
+    subtitle: "Initialize Transfer",
+    description: "Navigate to the Transfer tab, enter the recipient's wallet address and the amount you want to send privately through our encrypted pathway.",
+    icon: FileText,
+    status: "INPUT_READY",
+    metrics: [
+      { label: "PROTOCOL", value: "AES-256" },
+      { label: "LATENCY", value: "<100ms" },
+    ],
   },
   {
     id: "02",
-    title: "CREATE TRANSACTION",
-    description: "Click \"Create Transaction\" to generate a private deposit address. Review the fee estimate and transaction details before proceeding.",
-    action: "TRANSACTION CREATION",
+    title: "CREATE TX",
+    subtitle: "Generate Private Pool",
+    description: "A temporary private pool is generated with a unique claim code. Review the fee estimate and transaction details before signing.",
+    icon: Cpu,
+    status: "PROCESSING",
+    metrics: [
+      { label: "KEYPAIR", value: "ED25519" },
+      { label: "ENTROPY", value: "256-BIT" },
+    ],
   },
   {
     id: "03",
-    title: "INITIATE PRIVATE TRANSFER",
-    description: "Click \"Create Transaction\" to initiate. Your crypto will be routed through our secure exchange infrastructure, ensuring complete privacy.",
-    action: "PRIVATE ROUTING",
+    title: "ROUTE TX",
+    subtitle: "Private Pathway Routing",
+    description: "Your SOL is routed to the private pool via Solana's high-speed network. The claim code is the only link to the funds.",
+    icon: Route,
+    status: "ROUTING",
+    metrics: [
+      { label: "NETWORK", value: "SOLANA" },
+      { label: "CONFIRM", value: "~400ms" },
+    ],
   },
   {
     id: "04",
-    title: "RECEIVE CONFIRMATION",
-    description: "Once processed, you'll receive confirmation. The recipient receives funds with no traceable connection to your original transaction.",
-    action: "COMPLETE",
-    icon: Check,
+    title: "CONFIRMED",
+    subtitle: "Delivery Complete",
+    description: "The recipient claims funds using the code. No traceable connection exists between sender and receiver on the blockchain.",
+    icon: ShieldCheck,
+    status: "COMPLETE",
+    metrics: [
+      { label: "PRIVACY", value: "100%" },
+      { label: "TRACE", value: "NULL" },
+    ],
   },
 ];
 
+function HexagonIcon({ Icon, index }: { Icon: typeof FileText; index: number }) {
+  return (
+    <div className="relative w-16 h-16 flex items-center justify-center">
+      <svg viewBox="0 0 80 80" className="absolute inset-0 w-full h-full">
+        <polygon
+          points="40,4 72,22 72,58 40,76 8,58 8,22"
+          fill="none"
+          stroke="black"
+          strokeOpacity="0.1"
+          strokeWidth="1.5"
+        />
+        <polygon
+          points="40,12 64,26 64,54 40,68 16,54 16,26"
+          fill="black"
+          fillOpacity="0.03"
+          stroke="none"
+        />
+      </svg>
+      <Icon className="w-6 h-6 text-black relative z-10" strokeWidth={1.5} />
+    </div>
+  );
+}
+
+function StepConnector({ isLast }: { isLast: boolean }) {
+  if (isLast) return null;
+  return (
+    <div className="hidden md:flex flex-col items-center py-2">
+      <div className="w-[1px] h-16 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-transparent" />
+        <div
+          className="absolute top-0 left-0 w-full h-4 bg-gradient-to-b from-black/30 to-transparent"
+          style={{ animation: 'scan-line 2s linear infinite' }}
+        />
+      </div>
+      <svg width="12" height="12" viewBox="0 0 12 12" className="text-black/20 mt-1">
+        <polygon points="6,12 0,4 12,4" fill="currentColor" />
+      </svg>
+    </div>
+  );
+}
+
 export function HowItWorks() {
   return (
-    <section id="transfer" className="py-32 px-6 bg-white relative">
-      <div className="max-w-4xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+    <section id="transfer" className="py-32 px-6 bg-white relative overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.02]" style={{
+        backgroundImage: `
+          linear-gradient(rgba(0,0,0,1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,0,0,1) 1px, transparent 1px)
+        `,
+        backgroundSize: '60px 60px',
+      }} />
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
         >
-          <h2 className="text-6xl md:text-8xl font-black tracking-tighter text-black mb-4">
-            HOW IT<br />WORKS
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 bg-gray-50 mb-8 font-mono text-[10px] tracking-widest text-gray-500 uppercase"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+            Protocol Workflow
+          </motion.div>
+
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-black mb-4">
+            HOW IT WORKS
           </h2>
-          <div className="w-24 h-1 bg-black mx-auto" />
+
+          <div className="flex items-center justify-center gap-3 mt-6">
+            <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-black/20" />
+            <svg width="8" height="8" viewBox="0 0 8 8">
+              <rect x="1" y="1" width="6" height="6" fill="none" stroke="black" strokeOpacity="0.3" strokeWidth="1" transform="rotate(45 4 4)" />
+            </svg>
+            <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-black/20" />
+          </div>
         </motion.div>
 
-        <div className="relative border-l border-black/10 ml-4 md:ml-0 space-y-24">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4">
           {steps.map((step, index) => (
-            <motion.div 
+            <motion.div
               key={step.id}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: index * 0.1 }}
-              className="relative pl-12 md:pl-24"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="group relative"
             >
-              <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 bg-black rounded-full" />
-              
-              <div className="grid md:grid-cols-2 gap-12 items-start">
-                <div className="space-y-4">
-                  <div className="text-gray-400 font-mono text-xs tracking-widest uppercase">
-                    Step {step.title.split(" ")[0]}
+              <motion.div
+                whileHover={{ y: -6, transition: { duration: 0.3 } }}
+                className="relative bg-white border border-black/[0.08] p-6 h-full flex flex-col overflow-hidden transition-shadow duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] hover:border-black/20"
+              >
+                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-black/20 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-black/40" />
+                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-black/20 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-black/40" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-black/20 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-black/40" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-black/20 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-black/40" />
+
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-black/0 to-transparent group-hover:via-black/20 transition-all duration-500" />
+
+                <div className="absolute inset-0 bg-gradient-to-br from-black/[0.01] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                <div className="flex items-start justify-between mb-5 relative z-10">
+                  <HexagonIcon Icon={step.icon} index={index} />
+                  <div className="text-right">
+                    <span className="font-mono text-[10px] tracking-widest text-gray-400 block">STEP</span>
+                    <span className="font-mono text-2xl font-black text-black/10 group-hover:text-black/20 transition-colors">{step.id}</span>
                   </div>
-                  <h3 className="text-4xl md:text-5xl font-bold tracking-tight leading-none text-black">
+                </div>
+
+                <div className="relative z-10 flex-1">
+                  <h3 className="text-xl font-black tracking-tight text-black mb-1 group-hover:tracking-normal transition-all duration-300">
                     {step.title}
                   </h3>
-                  <p className="text-gray-500 leading-relaxed text-sm md:text-base">
+                  <p className="font-mono text-[10px] tracking-widest text-gray-400 uppercase mb-3">
+                    {step.subtitle}
+                  </p>
+                  <p className="text-gray-500 text-sm leading-relaxed mb-5">
                     {step.description}
                   </p>
-                  <div className="w-12 h-1 bg-black" />
                 </div>
 
-                <div className="relative group">
-                  <div className="border border-black/10 bg-gray-50 p-8 h-40 flex flex-col justify-center items-center relative overflow-hidden transition-all hover:border-black/20">
-                    <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    
-                    {step.icon ? (
-                      <step.icon className="w-12 h-12 text-black mb-2" />
-                    ) : (
-                      <ArrowRight className="w-8 h-8 text-black mb-2 group-hover:translate-x-2 transition-transform" />
-                    )}
-                    
-                    <span className="text-xs font-mono text-gray-400 uppercase tracking-widest">
-                      {step.action}
-                    </span>
+                <div className="relative z-10 mt-auto">
+                  <div className="h-[1px] bg-gradient-to-r from-black/10 to-transparent mb-4" />
 
-                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/20" />
-                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/20" />
+                  <div className="flex items-center justify-between">
+                    {step.metrics.map((metric, mi) => (
+                      <div key={mi} className="text-left">
+                        <span className="font-mono text-[9px] tracking-widest text-gray-400 block">{metric.label}</span>
+                        <span className="font-mono text-xs font-bold text-black/70 group-hover:text-black transition-colors">{metric.value}</span>
+                      </div>
+                    ))}
                   </div>
-                  
-                  <div className="absolute -top-10 -right-4 text-9xl font-black text-black/5 pointer-events-none select-none">
-                    {step.id}
+
+                  <div className="flex items-center gap-2 mt-4">
+                    <span className={`w-1.5 h-1.5 rounded-full ${step.status === 'COMPLETE' ? 'bg-black' : 'bg-black/30'} ${step.status !== 'COMPLETE' ? 'animate-pulse' : ''}`} />
+                    <span className="font-mono text-[9px] tracking-widest text-gray-400">{step.status}</span>
                   </div>
                 </div>
-              </div>
+
+                <svg className="absolute bottom-0 right-0 w-24 h-24 text-black/[0.02] group-hover:text-black/[0.05] transition-colors duration-500" viewBox="0 0 100 100">
+                  <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="currentColor" strokeWidth="1" />
+                  <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                </svg>
+              </motion.div>
+
+              {index < steps.length - 1 && (
+                <div className="hidden lg:flex absolute -right-2 top-1/2 -translate-y-1/2 z-20 items-center">
+                  <svg width="16" height="16" viewBox="0 0 16 16" className="text-black/20">
+                    <path d="M4 8 L12 8 M9 5 L12 8 L9 11" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8 }}
+          className="mt-16 flex justify-center"
+        >
+          <div className="inline-flex items-center gap-6 px-8 py-4 border border-black/[0.06] bg-gray-50/50">
+            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/10" />
+            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/10" />
+            {[
+              { label: "TOTAL STEPS", value: "04" },
+              { label: "AVG TIME", value: "<2 MIN" },
+              { label: "SUCCESS RATE", value: "99.9%" },
+            ].map((stat, i) => (
+              <div key={i} className="text-center px-4">
+                <span className="font-mono text-[9px] tracking-widest text-gray-400 block">{stat.label}</span>
+                <span className="font-mono text-sm font-bold text-black">{stat.value}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

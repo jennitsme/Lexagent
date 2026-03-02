@@ -4,10 +4,111 @@ import { Link } from "react-router-dom";
 
 const cryptoAssets = ["SOL", "BTC", "ETH", "BNB", "XRP", "USDT", "USDC"];
 
+function HiTechBackground() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.02)_0%,transparent_70%)]" />
+
+      <div className="absolute inset-0 opacity-[0.04]">
+        <div className="absolute inset-0 animate-grid-scroll" style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,0,0,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+          height: 'calc(100% + 80px)',
+        }} />
+      </div>
+
+      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="nodeGlow">
+            <stop offset="0%" stopColor="black" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="black" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        {[
+          { x1: "10%", y1: "20%", x2: "30%", y2: "40%" },
+          { x1: "70%", y1: "15%", x2: "90%", y2: "35%" },
+          { x1: "20%", y1: "60%", x2: "40%", y2: "80%" },
+          { x1: "60%", y1: "70%", x2: "85%", y2: "55%" },
+          { x1: "30%", y1: "40%", x2: "70%", y2: "15%" },
+          { x1: "40%", y1: "80%", x2: "60%", y2: "70%" },
+          { x1: "5%", y1: "50%", x2: "20%", y2: "60%" },
+          { x1: "85%", y1: "55%", x2: "95%", y2: "30%" },
+        ].map((line, i) => (
+          <line key={i} {...line} stroke="black" strokeOpacity="0.06" strokeWidth="1" strokeDasharray="6 4" style={{ animation: `dash-flow ${1.5 + i * 0.2}s linear infinite` }} />
+        ))}
+
+        {[
+          { cx: "10%", cy: "20%" }, { cx: "30%", cy: "40%" },
+          { cx: "70%", cy: "15%" }, { cx: "90%", cy: "35%" },
+          { cx: "20%", cy: "60%" }, { cx: "40%", cy: "80%" },
+          { cx: "60%", cy: "70%" }, { cx: "85%", cy: "55%" },
+          { cx: "50%", cy: "50%" }, { cx: "5%", cy: "50%" },
+          { cx: "95%", cy: "30%" },
+        ].map((node, i) => (
+          <g key={i}>
+            <circle {...node} r="12" fill="url(#nodeGlow)" />
+            <circle {...node} r="2" fill="black" fillOpacity="0.15">
+              <animate attributeName="r" values="2;4;2" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
+              <animate attributeName="fill-opacity" values="0.15;0.4;0.15" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
+            </circle>
+          </g>
+        ))}
+      </svg>
+
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
+        <div className="absolute inset-0 rounded-full border border-black/[0.04] animate-pulse-ring" />
+        <div className="absolute inset-8 rounded-full border border-dashed border-black/[0.05] animate-hex-rotate" />
+        <div className="absolute inset-16 rounded-full border border-black/[0.03]" style={{ animation: 'hex-rotate 25s linear infinite reverse' }} />
+      </div>
+
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="animate-orbit">
+          <div className="w-1.5 h-1.5 bg-black/20 rounded-full" />
+        </div>
+      </div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="animate-orbit-reverse">
+          <div className="w-1 h-1 bg-black/15 rounded-full" />
+        </div>
+      </div>
+
+      <div className="absolute top-0 left-0 right-0 h-full opacity-[0.03]">
+        <div className="absolute inset-0 animate-scan-line" style={{
+          background: 'linear-gradient(to bottom, transparent 0%, black 50%, transparent 100%)',
+          height: '2px',
+        }} />
+      </div>
+
+      {[
+        { left: '15%', top: '25%', delay: '0s' },
+        { left: '80%', top: '30%', delay: '1.5s' },
+        { left: '25%', top: '70%', delay: '3s' },
+        { left: '75%', top: '75%', delay: '4.5s' },
+        { left: '50%', top: '15%', delay: '2s' },
+        { left: '45%', top: '85%', delay: '5s' },
+      ].map((p, i) => (
+        <div
+          key={i}
+          className="absolute w-1 h-1 bg-black/10 rounded-full"
+          style={{
+            left: p.left,
+            top: p.top,
+            animation: `float-particle 6s ease-in-out ${p.delay} infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-100 via-white to-white pointer-events-none" />
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden bg-white">
+      <HiTechBackground />
 
       <motion.div 
         initial={{ scale: 0.8, opacity: 0 }}
@@ -23,6 +124,10 @@ export function Hero() {
           <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-black" />
           <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-black" />
           <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-black" />
+
+          <svg className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" viewBox="0 0 200 200">
+            <rect x="5" y="5" width="190" height="190" rx="20" fill="none" stroke="black" strokeOpacity="0.1" strokeWidth="1" strokeDasharray="8 4" className="animate-dash-flow" />
+          </svg>
         </div>
       </motion.div>
 
@@ -42,12 +147,16 @@ export function Hero() {
         className="flex flex-wrap justify-center gap-3 mb-12 max-w-2xl px-4"
       >
         {cryptoAssets.map((asset, i) => (
-          <span 
+          <motion.span 
             key={asset}
-            className="px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-mono text-gray-600 hover:border-black/30 hover:text-black hover:bg-black/10 transition-all cursor-default"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
+            whileHover={{ scale: 1.1, y: -2 }}
+            className="px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-mono text-gray-600 hover:border-black/30 hover:text-black hover:bg-black/10 transition-colors cursor-default"
           >
             {asset}
-          </span>
+          </motion.span>
         ))}
       </motion.div>
 
@@ -58,13 +167,17 @@ export function Hero() {
         className="flex flex-col items-center gap-6 relative z-10"
       >
         <Link to="/dashboard">
-          <button className="group relative px-8 py-4 bg-black text-white font-bold text-lg tracking-wider rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:animate-[shimmer_1s_infinite]" />
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="group relative px-8 py-4 bg-black text-white font-bold text-lg tracking-wider rounded-lg overflow-hidden transition-shadow hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:animate-shimmer" />
             <span className="relative z-10 flex items-center gap-2">
               ENTER SENDRA
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </span>
-          </button>
+          </motion.button>
         </Link>
 
         <div className="text-center space-y-2">
@@ -72,7 +185,7 @@ export function Hero() {
             Next-Gen Encrypted Pathway Register
           </p>
           <p className="text-gray-400 text-xs font-mono">
-            CERTIFIED GHOST TX CHANNEL • UNTRACEABLE LEDGER MIGRATION
+            CERTIFIED GHOST TX CHANNEL &bull; UNTRACEABLE LEDGER MIGRATION
           </p>
         </div>
 

@@ -30,8 +30,8 @@ export function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-white/5 bg-black/50"
     >
       <div className="flex items-center gap-2">
-        <img src="/logo.jpg" alt="LUMICHAN" className="w-8 h-8 rounded-sm object-cover" />
-        <span className="font-bold text-xl tracking-wider">LUMICHAN</span>
+        <img src="/logo.jpg" alt="SENDRA" className="w-8 h-8 rounded-sm object-cover" />
+        <span className="font-bold text-xl tracking-wider">SENDRA</span>
       </div>
 
       <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
@@ -50,7 +50,7 @@ export function Navbar() {
       <div className="flex items-center gap-4">
         <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-900 rounded-full border border-gray-800 text-xs font-mono text-gray-400">
           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          $LUMI: $0.0420
+          $SENDRA
         </div>
         
         {isConnected && address ? (

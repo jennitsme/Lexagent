@@ -116,7 +116,7 @@ export function OpenClaw() {
                     </div>
                     <div>
                       <span className="text-gray-500 block">NETWORK</span>
-                      <span className="text-white">LumiChan Mainnet</span>
+                      <span className="text-white">Sendra Mainnet</span>
                     </div>
                   </div>
                 </div>

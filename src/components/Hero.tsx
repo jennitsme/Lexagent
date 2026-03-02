@@ -30,7 +30,7 @@ export function Hero() {
       >
         <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-blue-500/30 rounded-2xl flex items-center justify-center relative group">
           <div className="absolute inset-0 bg-blue-500/10 blur-xl group-hover:bg-blue-500/20 transition-all duration-500" />
-          <img src="/logo.jpg" alt="LUMICHAN" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
+          <img src="/logo.jpg" alt="SENDRA" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
           
           <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-blue-500" />
           <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-blue-500" />
@@ -45,7 +45,7 @@ export function Hero() {
         transition={{ delay: 0.2, duration: 0.8 }}
         className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10"
       >
-        LUMI <span className="text-blue-600 inline-block animate-pulse">Ø</span> CHAN
+        SEN<span className="text-blue-600 inline-block animate-pulse">D</span>RA
       </motion.h1>
 
       <motion.div 
@@ -94,7 +94,7 @@ export function Hero() {
           <button className="group relative px-8 py-4 bg-blue-600 text-white font-bold text-lg tracking-wider rounded-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(37,99,235,0.6)]">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:animate-[shimmer_1s_infinite]" />
             <span className="relative z-10 flex items-center gap-2">
-              ENTER LUMICHAN
+              ENTER SENDRA
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </span>
           </button>

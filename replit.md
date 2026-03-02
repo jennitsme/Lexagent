@@ -1,4 +1,4 @@
-# LumiChan - Telegram AI Agent & Solana Wallet Platform
+# Sendra - Telegram AI Agent & Solana Wallet Platform
 
 ## Overview
 A full-stack web application for Solana blockchain interaction and Telegram AI agent management. Users connect their Phantom wallet, view real SOL balances, send SOL, swap tokens via Jupiter, view transaction history, and create AI-powered Telegram bots.
@@ -8,7 +8,7 @@ A full-stack web application for Solana blockchain interaction and Telegram AI a
 - **Runtime**: Node.js 20 with TypeScript
 - **Frontend**: React 19 + Vite 6 + Tailwind CSS v4
 - **Backend**: API routes via Vite plugin (dev), Express server (production)
-- **Database**: JSON file-based DB (`data/lumichan.json`) for agent storage
+- **Database**: JSON file-based DB (`data/sendra.json`) for agent storage
 - **Blockchain**: Solana mainnet-beta via `@solana/web3.js`
 - **DEX**: Jupiter Lite API for token swaps
 
@@ -36,7 +36,8 @@ src/
     utils.ts       # General utilities (cn)
   layouts/         # Dashboard layout wrapper
 index.html         # Vite HTML template
-public/logo.jpg    # LUMICHAN logo
+public/logo.jpg    # Sendra logo
+public/favicon.png # Sendra favicon
 ```
 
 ## Key Configuration

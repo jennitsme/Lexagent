@@ -15,7 +15,7 @@ export function Footer() {
             Ready to start making private transactions?
           </h2>
           <p className="text-gray-400 max-w-lg mx-auto">
-            Join thousands of users who trust LumiChan for their secure and anonymous crypto transfers.
+            Join thousands of users who trust Sendra for their secure and anonymous crypto transfers.
           </p>
         </motion.div>
 
@@ -30,10 +30,10 @@ export function Footer() {
 
         <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-sm text-gray-500 font-mono">
-            Powered by LUMICHAN
+            Powered by SENDRA
           </div>
           
-          <a href="https://x.com/LumiChanDEV" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-500 transition-colors">
+          <a href="https://x.com/SendraDEV" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-500 transition-colors">
             <Twitter className="w-5 h-5" />
           </a>
         </div>

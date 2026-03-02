@@ -82,7 +82,7 @@ export function WalletModal() {
               {/* Footer */}
               <div className="mt-8 pt-6 border-t border-white/5 text-center">
                 <p className="text-xs text-gray-500">
-                  By connecting, you agree to LumiChan's <a href="#" className="text-blue-500 hover:underline">Terms of Service</a>
+                  By connecting, you agree to Sendra's <a href="#" className="text-blue-500 hover:underline">Terms of Service</a>
                 </p>
               </div>
 

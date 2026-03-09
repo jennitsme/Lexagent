@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Copy, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const CONTRACT_ADDRESS = "2pN3DLF7zLDciSoLa8THYRmLHNJSt9YTgTkB9n61pump";
 const cryptoAssets = ["SOL", "BTC", "ETH", "BNB", "XRP", "USDT", "USDC"];
 
 function HiTechBackground() {
@@ -106,6 +108,14 @@ function HiTechBackground() {
 }
 
 export function Hero() {
+  const [caCopied, setCaCopied] = useState(false);
+
+  const copyCA = () => {
+    navigator.clipboard.writeText(CONTRACT_ADDRESS);
+    setCaCopied(true);
+    setTimeout(() => setCaCopied(false), 2000);
+  };
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden bg-white">
       <HiTechBackground />
@@ -158,6 +168,26 @@ export function Hero() {
             {asset}
           </motion.span>
         ))}
+      </motion.div>
+
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.55, duration: 0.8 }}
+        className="mb-8 relative z-10 w-full max-w-lg px-4"
+      >
+        <button
+          onClick={copyCA}
+          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-black/10 bg-gray-50 hover:bg-gray-100 hover:border-black/20 transition-all group"
+        >
+          <div className="flex flex-col items-start min-w-0">
+            <span className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">Contract Address</span>
+            <span className="font-mono text-xs sm:text-sm text-gray-700 truncate w-full text-left">{CONTRACT_ADDRESS}</span>
+          </div>
+          <div className="shrink-0 p-1.5 rounded-lg bg-black/5 group-hover:bg-black/10 transition-colors">
+            {caCopied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-400" />}
+          </div>
+        </button>
       </motion.div>
 
       <motion.div 

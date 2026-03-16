@@ -33,7 +33,7 @@ export function Footer() {
             Powered by SENDRA
           </div>
           
-          <a href="https://x.com/SendraDEV" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition-colors">
+          <a href="https://x.com/agentsendra?s=21" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition-colors">
             <Twitter className="w-5 h-5" />
           </a>
         </div>

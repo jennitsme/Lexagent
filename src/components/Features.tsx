@@ -85,7 +85,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="flex items-center gap-2 px-3 py-1 border border-sky-200/50 bg-gray-50 font-mono text-[10px] tracking-widest text-slate-600">
-            <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
             FEATURE {feature.id}
           </div>
           <div className="h-[1px] flex-1 bg-gradient-to-r from-black/10 to-transparent" />
@@ -118,10 +118,10 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5 + i * 0.1 }}
-              className="group/spec relative px-4 py-3 border border-black/[0.08] bg-white hover:border-black/20 transition-all duration-300 cursor-default"
+              className="group/spec relative px-4 py-3 border border-sky-200/60 bg-white hover:border-sky-300/70 transition-all duration-300 cursor-default"
             >
-              <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-black/20 group-hover/spec:border-black/40 transition-colors" />
-              <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-black/20 group-hover/spec:border-black/40 transition-colors" />
+              <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-sky-300/70 group-hover/spec:border-sky-400/70 transition-colors" />
+              <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-sky-300/70 group-hover/spec:border-sky-400/70 transition-colors" />
               <span className="font-mono text-[9px] tracking-widest text-slate-500 block">{spec.label}</span>
               <span className="font-mono text-sm font-bold text-slate-900">{spec.value}</span>
             </motion.div>
@@ -137,11 +137,11 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
           style={{ rotateX, rotateY, transformPerspective: 1000 }}
           className="relative w-full max-w-md aspect-[4/3] group cursor-default"
         >
-          <div className="absolute inset-0 border border-black/[0.08] bg-white overflow-hidden transition-all duration-500 group-hover:border-black/20 group-hover:shadow-[0_12px_50px_rgba(0,0,0,0.08)]">
-            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-black/15 group-hover:border-black/40 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
-            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-black/15 group-hover:border-black/40 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
-            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-black/15 group-hover:border-black/40 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
-            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-black/15 group-hover:border-black/40 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+          <div className="absolute inset-0 border border-sky-200/60 bg-white overflow-hidden transition-all duration-500 group-hover:border-sky-300/70 group-hover:shadow-[0_12px_50px_rgba(0,0,0,0.08)]">
+            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
 
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-black/0 to-transparent group-hover:via-black/20 transition-all duration-700" />
             <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-black/0 to-transparent group-hover:via-black/10 transition-all duration-700" />
@@ -155,7 +155,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`w-1.5 h-1.5 rounded-full ${feature.status === 'ACTIVE' ? 'bg-green-500' : feature.status === 'OPTIMAL' ? 'bg-black' : 'bg-black'} animate-pulse`} />
+                    <span className={`w-1.5 h-1.5 rounded-full ${feature.status === 'ACTIVE' ? 'bg-green-500' : feature.status === 'OPTIMAL' ? 'bg-cyan-500' : 'bg-blue-500'} animate-pulse`} />
                     <span className="font-mono text-[9px] tracking-widest text-slate-500">{feature.status}</span>
                   </div>
                   <span className="font-mono text-[10px] tracking-widest text-slate-500">MODULE_{feature.id}</span>
@@ -230,7 +230,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
             </div>
           </div>
 
-          <div className="absolute -inset-3 border border-black/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          <div className="absolute -inset-3 border border-sky-200/35 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
           <svg className="absolute -inset-6 w-[calc(100%+48px)] h-[calc(100%+48px)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
             <line x1="0" y1="0" x2="8" y2="0" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />

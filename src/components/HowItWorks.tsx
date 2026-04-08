@@ -119,7 +119,7 @@ export function HowItWorks() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-200/50 bg-gray-50 mb-8 font-mono text-[10px] tracking-widest text-slate-600 uppercase"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
             Protocol Workflow
           </motion.div>
 
@@ -148,12 +148,12 @@ export function HowItWorks() {
             >
               <motion.div
                 whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                className="relative bg-white border border-black/[0.08] p-6 h-full flex flex-col overflow-hidden transition-shadow duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] hover:border-black/20"
+                className="relative bg-white border border-sky-200/60 p-6 h-full flex flex-col overflow-hidden transition-shadow duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] hover:border-sky-300/70"
               >
-                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-black/20 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-black/40" />
-                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-black/20 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-black/40" />
-                <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-black/20 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-black/40" />
-                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-black/20 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-black/40" />
+                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-sky-300/70 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-sky-400/70" />
+                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-sky-300/70 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-sky-400/70" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-sky-300/70 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-sky-400/70" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-sky-300/70 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-sky-400/70" />
 
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-black/0 to-transparent group-hover:via-black/20 transition-all duration-500" />
 
@@ -192,7 +192,7 @@ export function HowItWorks() {
                   </div>
 
                   <div className="flex items-center gap-2 mt-4">
-                    <span className={`w-1.5 h-1.5 rounded-full ${step.status === 'COMPLETE' ? 'bg-black' : 'bg-black/30'} ${step.status !== 'COMPLETE' ? 'animate-pulse' : ''}`} />
+                    <span className={`w-1.5 h-1.5 rounded-full ${step.status === 'COMPLETE' ? 'bg-cyan-500' : 'bg-sky-300/70'} ${step.status !== 'COMPLETE' ? 'animate-pulse' : ''}`} />
                     <span className="font-mono text-[9px] tracking-widest text-slate-500">{step.status}</span>
                   </div>
                 </div>
@@ -221,7 +221,7 @@ export function HowItWorks() {
           transition={{ delay: 0.8 }}
           className="mt-16 flex justify-center"
         >
-          <div className="inline-flex items-center gap-6 px-8 py-4 border border-black/[0.06] bg-gray-50/50">
+          <div className="inline-flex items-center gap-6 px-8 py-4 border border-sky-200/50 bg-gray-50/50">
             <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-sky-200/50" />
             <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-sky-200/50" />
             {[

@@ -63,9 +63,9 @@ function HiTechBackground() {
       </svg>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px]">
-        <div className="absolute inset-0 rounded-full border border-black/[0.04] animate-pulse-ring" />
-        <div className="absolute inset-8 rounded-full border border-dashed border-black/[0.05] animate-hex-rotate" />
-        <div className="absolute inset-16 rounded-full border border-black/[0.03]" style={{ animation: 'hex-rotate 25s linear infinite reverse' }} />
+        <div className="absolute inset-0 rounded-full border border-sky-200/40 animate-pulse-ring" />
+        <div className="absolute inset-8 rounded-full border border-dashed border-sky-200/45 animate-hex-rotate" />
+        <div className="absolute inset-16 rounded-full border border-sky-200/35" style={{ animation: 'hex-rotate 25s linear infinite reverse' }} />
       </div>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -128,13 +128,13 @@ export function Hero() {
         className="relative z-10 mb-8"
       >
         <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-sky-200/50 rounded-2xl flex items-center justify-center relative group">
-          <div className="absolute inset-0 bg-cyan-50/70 blur-xl group-hover:bg-black/10 transition-all duration-500" />
+          <div className="absolute inset-0 bg-cyan-50/70 blur-xl group-hover:bg-sky-100/70 transition-all duration-500" />
           <img src="/logo11.png" alt="LEXAGENT" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
           
-          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-black" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-black" />
-          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-black" />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-black" />
+          <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-sky-400/80" />
+          <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-sky-400/80" />
+          <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-sky-400/80" />
+          <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-sky-400/80" />
 
           <svg className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" viewBox="0 0 200 200">
             <rect x="5" y="5" width="190" height="190" rx="20" fill="none" stroke="black" strokeOpacity="0.1" strokeWidth="1" strokeDasharray="8 4" className="animate-dash-flow" />
@@ -164,7 +164,7 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
             whileHover={{ scale: 1.1, y: -2 }}
-            className="px-4 py-1.5 rounded-full border border-sky-200/50 bg-cyan-50/70 text-xs font-mono text-gray-600 hover:border-black/30 hover:text-slate-900 hover:bg-black/10 transition-colors cursor-default"
+            className="px-4 py-1.5 rounded-full border border-sky-200/50 bg-cyan-50/70 text-xs font-mono text-gray-600 hover:border-sky-400/70 hover:text-slate-900 hover:bg-sky-100/70 transition-colors cursor-default"
           >
             {asset}
           </motion.span>
@@ -179,13 +179,13 @@ export function Hero() {
       >
         <button
           onClick={copyCA}
-          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-sky-200/50 bg-gray-50 hover:bg-gray-100 hover:border-black/20 transition-all group"
+          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-sky-200/50 bg-gray-50 hover:bg-gray-100 hover:border-sky-300/70 transition-all group"
         >
           <div className="flex flex-col items-start min-w-0">
             <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Contract Address</span>
             <span className="font-mono text-xs text-gray-700 truncate w-full text-left">{CONTRACT_ADDRESS}</span>
           </div>
-          <div className="shrink-0 p-1.5 rounded-lg bg-cyan-50/70 group-hover:bg-black/10 transition-colors">
+          <div className="shrink-0 p-1.5 rounded-lg bg-cyan-50/70 group-hover:bg-sky-100/70 transition-colors">
             {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-slate-500" />}
           </div>
         </button>

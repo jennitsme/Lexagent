@@ -17,25 +17,24 @@ export function OpenClaw() {
           >
             <div className="flex items-center gap-3 text-gray-500 font-mono text-sm tracking-widest uppercase">
               <Terminal className="w-4 h-4" />
-              <span>Autonomous Agent Factory</span>
+              <span>What is Lexagent</span>
             </div>
 
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-black">
-              DEPLOY<br />
-              YOUR OWN<br />
-              <span className="text-gray-400">AI AGENT</span>
+              PROGRAMMABLE<br />
+              PAYMENT LAYER<br />
+              <span className="text-gray-400">FOR AGENTS</span>
             </h2>
 
             <p className="text-gray-500 text-lg leading-relaxed max-w-lg">
-              Create and deploy autonomous Telegram bots powered by advanced AI. 
-              Configure personality, connect to LLM providers, and launch in minutes.
+              Lexagent is a programmable payment layer on Solana. Agents can think—Lexagent lets them transact, from simple transfers to complex automated workflows.
             </p>
 
             <div className="flex gap-4">
               {[
-                { icon: Bot, label: "Custom Bots" },
-                { icon: Cpu, label: "Multi-LLM" },
-                { icon: Network, label: "Webhook" },
+                { icon: Bot, label: "Agent-to-Agent" },
+                { icon: Cpu, label: "Conditional Rules" },
+                { icon: Network, label: "Trustless Escrow" },
               ].map((item) => (
                 <div 
                   key={item.label}
@@ -65,29 +64,29 @@ export function OpenClaw() {
               <div className="space-y-2 text-xs">
                 <div>
                   <span className="text-gray-400">{'>'}</span>
-                  <span className="text-gray-500"> Initializing neural core...</span>
+                  <span className="text-gray-500"> Loading payment rules...</span>
                 </div>
                 <div>
                   <span className="text-gray-400">{'>'}</span>
-                  <span className="text-green-600"> Agent deployed successfully</span>
+                  <span className="text-green-600"> Conditional transfer executed</span>
                 </div>
                 <div>
                   <span className="text-gray-400">{'>'}</span>
                   <span className="text-gray-500"> Status: </span>
-                  <span className="text-green-600">ACTIVE</span>
+                  <span className="text-green-600">AUTONOMOUS</span>
                 </div>
                 <div className="pt-4 border-t border-black/5 mt-4 space-y-1 text-gray-400">
                   <div className="flex justify-between">
-                    <span>AGENT_ID</span>
+                    <span>FLOW_ID</span>
                     <span className="text-black">0x7F3a...9C2d</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>LATENCY</span>
+                    <span>SETTLEMENT</span>
                     <span className="text-black">00:00:01</span>
                   </div>
                   <div>
                     <span className="text-gray-400 block">NETWORK</span>
-                    <span className="text-black">Lexagent Mainnet</span>
+                    <span className="text-black">Solana</span>
                   </div>
                 </div>
               </div>

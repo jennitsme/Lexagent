@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const CONTRACT_ADDRESS = "FKWwPSYGpfBLxYoTW25HMmVHRrjvcybUxGTZweTopump";
 
-const cryptoAssets = ["SOL", "BTC", "ETH", "BNB", "XRP", "USDT", "USDC"];
+const cryptoAssets = ["AUTONOMOUS", "ON-CHAIN", "SOLANA", "TRUSTLESS", "AGENTS", "RULES", "PAYMENTS"];
 
 function HiTechBackground() {
   return (
@@ -148,7 +148,7 @@ export function Hero() {
         transition={{ delay: 0.2, duration: 0.8 }}
         className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-black"
       >
-        SEN<span className="text-gray-400 inline-block animate-pulse">D</span>RA
+        LEX<span className="text-gray-400 inline-block animate-pulse">A</span>GENT
       </motion.h1>
 
       <motion.div 
@@ -211,18 +211,18 @@ export function Hero() {
           </motion.button>
         </Link>
 
-        <div className="text-center space-y-2">
+        <div className="text-center space-y-2 max-w-2xl px-4">
           <p className="text-gray-500 font-medium tracking-wide text-sm uppercase">
-            Next-Gen Encrypted Pathway Register
+            The way we send money is still manual. Click. Confirm. Repeat.
           </p>
           <p className="text-gray-400 text-xs font-mono">
-            CERTIFIED GHOST TX CHANNEL &bull; UNTRACEABLE LEDGER MIGRATION
+            But the future isn’t manual. It’s autonomous. Lexagent bridges the gap between AI agents and on-chain value movement.
           </p>
         </div>
 
         <div className="mt-8 px-4 py-2 rounded-full border border-black/10 bg-gray-50 text-gray-600 text-[10px] font-mono flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
-          COMPLIANT WITH VOID STANDARD
+          BUILT FOR THE NEXT GENERATION OF AUTONOMOUS ECONOMIES
         </div>
       </motion.div>
     </section>

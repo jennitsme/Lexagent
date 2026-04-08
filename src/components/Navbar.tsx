@@ -31,15 +31,15 @@ export function Navbar() {
     >
       <div className="flex items-center gap-2">
         <img src="/logo11.png" alt="LEXAGENT" className="w-8 h-8 rounded-sm object-cover" />
-        <span className="font-bold text-xl tracking-wider text-slate-700">LEXAGENT</span>
+        <span className="font-bold text-xl tracking-wider text-blue-700">LEXAGENT</span>
       </div>
 
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-blue-600">
         {["About", "Agents", "Transfer", "Community"].map((item) => (
           <a 
             key={item} 
             href={`#${item.toLowerCase()}`}
-            className="hover:text-slate-700 transition-colors relative group"
+            className="hover:text-blue-700 transition-colors relative group"
           >
             {item}
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-violet-500 group-hover:w-full transition-all duration-300" />
@@ -48,7 +48,7 @@ export function Navbar() {
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-cyan-50/70 rounded-full border border-sky-200/70 text-xs font-mono text-slate-600">
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-cyan-50/70 rounded-full border border-sky-200/70 text-xs font-mono text-blue-600">
           <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
           $LEXAGENT
         </div>
@@ -58,7 +58,7 @@ export function Navbar() {
             <div className="relative group">
               <button 
                 onClick={copyAddress}
-                className="flex items-center gap-2 px-4 py-2 bg-sky-100/70 border border-gray-200 text-slate-700 text-sm font-mono rounded-full hover:bg-sky-200/70 transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-sky-100/70 border border-gray-200 text-blue-700 text-sm font-mono rounded-full hover:bg-sky-200/70 transition-all"
               >
                 {walletType === 'phantom' ? (
                   <PhantomLogo className="w-4 h-4" />
@@ -68,7 +68,7 @@ export function Navbar() {
                   <div className="w-2 h-2 rounded-full bg-violet-500" />
                 )}
                 {formatAddress(address)}
-                {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3 text-slate-500" />}
+                {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3 text-blue-500" />}
               </button>
             </div>
             <button 

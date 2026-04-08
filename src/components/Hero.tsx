@@ -78,7 +78,7 @@ function HiTechBackground() {
 
       <div className="absolute top-0 left-0 right-0 h-full opacity-[0.03]">
         <div className="absolute inset-0 animate-scan-line" style={{
-          background: 'linear-gradient(to bottom, transparent 0%, black 50%, transparent 100%)',
+          background: 'linear-gradient(to bottom, transparent 0%, #3b82f6 50%, transparent 100%)',
           height: '2px',
         }} />
       </div>
@@ -135,7 +135,7 @@ export function Hero() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-slate-700"
+        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-blue-700"
       >
         LEX<span className="lex-accent-text inline-block animate-pulse">A</span>GENT
       </motion.h1>
@@ -153,7 +153,7 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
             whileHover={{ scale: 1.1, y: -2 }}
-            className="px-4 py-1.5 rounded-full border border-sky-200/65 bg-cyan-50/70 text-xs font-mono text-gray-600 hover:border-sky-400/70 hover:text-slate-700 hover:bg-sky-100/70 transition-colors cursor-default"
+            className="px-4 py-1.5 rounded-full border border-sky-200/65 bg-cyan-50/70 text-xs font-mono text-blue-600 hover:border-sky-400/70 hover:text-blue-700 hover:bg-sky-100/70 transition-colors cursor-default"
           >
             {asset}
           </motion.span>
@@ -182,15 +182,15 @@ export function Hero() {
         </Link>
 
         <div className="text-center space-y-2 max-w-2xl px-4">
-          <p className="text-slate-600 font-medium tracking-wide text-sm uppercase">
+          <p className="text-blue-600 font-medium tracking-wide text-sm uppercase">
             The way we send money is still manual. Click. Confirm. Repeat.
           </p>
-          <p className="text-slate-500 text-xs font-mono">
+          <p className="text-blue-500 text-xs font-mono">
             But the future isn’t manual. It’s autonomous. Lexagent bridges the gap between AI agents and on-chain value movement.
           </p>
         </div>
 
-        <div className="mt-8 px-4 py-2 rounded-full border border-sky-200/65 bg-cyan-50/60 text-slate-600 text-[10px] font-mono flex items-center gap-2">
+        <div className="mt-8 px-4 py-2 rounded-full border border-sky-200/65 bg-cyan-50/60 text-blue-600 text-[10px] font-mono flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
           BUILT FOR THE NEXT GENERATION OF AUTONOMOUS ECONOMIES
         </div>

@@ -129,7 +129,7 @@ export function Hero() {
       >
         <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-black/10 rounded-2xl flex items-center justify-center relative group">
           <div className="absolute inset-0 bg-black/5 blur-xl group-hover:bg-black/10 transition-all duration-500" />
-          <img src="/logo.jpg" alt="LEXAGENT" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
+          <img src="/logo11.png" alt="LEXAGENT" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
           
           <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-black" />
           <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-black" />

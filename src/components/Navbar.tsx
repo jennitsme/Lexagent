@@ -30,7 +30,7 @@ export function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-black/5 bg-white/80"
     >
       <div className="flex items-center gap-2">
-        <img src="/logo.jpg" alt="LEXAGENT" className="w-8 h-8 rounded-sm object-cover" />
+        <img src="/logo11.png" alt="LEXAGENT" className="w-8 h-8 rounded-sm object-cover" />
         <span className="font-bold text-xl tracking-wider text-black">LEXAGENT</span>
       </div>
 

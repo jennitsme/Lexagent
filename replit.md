@@ -36,8 +36,8 @@ src/
     utils.ts       # General utilities (cn)
   layouts/         # Dashboard layout wrapper
 index.html         # Vite HTML template
-public/logo.jpg    # Lexagent logo
-public/favicon.png # Lexagent favicon
+public/logo11.png    # Lexagent logo
+public/logo11.png # Lexagent favicon
 ```
 
 ## Key Configuration

@@ -20,7 +20,7 @@ export function OpenClaw() {
               <span>What is Lexagent</span>
             </div>
 
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-slate-900">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] text-slate-800">
               PROGRAMMABLE<br />
               PAYMENT LAYER<br />
               <span className="text-slate-500">FOR AGENTS</span>
@@ -75,24 +75,24 @@ export function OpenClaw() {
                   <span className="text-slate-600"> Status: </span>
                   <span className="text-green-600">AUTONOMOUS</span>
                 </div>
-                <div className="pt-4 border-t border-black/5 mt-4 space-y-1 text-slate-500">
+                <div className="pt-4 border-t border-sky-200/40 mt-4 space-y-1 text-slate-500">
                   <div className="flex justify-between">
                     <span>FLOW_ID</span>
-                    <span className="text-slate-900">0x7F3a...9C2d</span>
+                    <span className="text-slate-800">0x7F3a...9C2d</span>
                   </div>
                   <div className="flex justify-between">
                     <span>SETTLEMENT</span>
-                    <span className="text-slate-900">00:00:01</span>
+                    <span className="text-slate-800">00:00:01</span>
                   </div>
                   <div>
                     <span className="text-slate-500 block">NETWORK</span>
-                    <span className="text-slate-900">Solana</span>
+                    <span className="text-slate-800">Solana</span>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="absolute -inset-4 border border-black/5 -z-10" />
+            <div className="absolute -inset-4 border border-sky-200/40 -z-10" />
           </motion.div>
         </div>
       </div>

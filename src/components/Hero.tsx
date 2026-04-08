@@ -26,8 +26,8 @@ function HiTechBackground() {
       <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="nodeGlow">
-            <stop offset="0%" stopColor="black" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="black" stopOpacity="0" />
+            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -41,7 +41,7 @@ function HiTechBackground() {
           { x1: "5%", y1: "50%", x2: "20%", y2: "60%" },
           { x1: "85%", y1: "55%", x2: "95%", y2: "30%" },
         ].map((line, i) => (
-          <line key={i} {...line} stroke="black" strokeOpacity="0.06" strokeWidth="1" strokeDasharray="6 4" style={{ animation: `dash-flow ${1.5 + i * 0.2}s linear infinite` }} />
+          <line key={i} {...line} stroke="#3b82f6" strokeOpacity="0.06" strokeWidth="1" strokeDasharray="6 4" style={{ animation: `dash-flow ${1.5 + i * 0.2}s linear infinite` }} />
         ))}
 
         {[
@@ -54,7 +54,7 @@ function HiTechBackground() {
         ].map((node, i) => (
           <g key={i}>
             <circle {...node} r="12" fill="url(#nodeGlow)" />
-            <circle {...node} r="2" fill="black" fillOpacity="0.15">
+            <circle {...node} r="2" fill="#3b82f6" fillOpacity="0.15">
               <animate attributeName="r" values="2;4;2" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
               <animate attributeName="fill-opacity" values="0.15;0.4;0.15" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
             </circle>
@@ -70,12 +70,12 @@ function HiTechBackground() {
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className="animate-orbit">
-          <div className="w-1.5 h-1.5 bg-black/20 rounded-full" />
+          <div className="w-1.5 h-1.5 bg-cyan-400/40 rounded-full" />
         </div>
       </div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className="animate-orbit-reverse">
-          <div className="w-1 h-1 bg-black/15 rounded-full" />
+          <div className="w-1 h-1 bg-sky-400/35 rounded-full" />
         </div>
       </div>
 
@@ -96,7 +96,7 @@ function HiTechBackground() {
       ].map((p, i) => (
         <div
           key={i}
-          className="absolute w-1 h-1 bg-black/10 rounded-full"
+          className="absolute w-1 h-1 bg-indigo-300/50 rounded-full"
           style={{
             left: p.left,
             top: p.top,
@@ -137,7 +137,7 @@ export function Hero() {
           <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-sky-400/80" />
 
           <svg className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" viewBox="0 0 200 200">
-            <rect x="5" y="5" width="190" height="190" rx="20" fill="none" stroke="black" strokeOpacity="0.1" strokeWidth="1" strokeDasharray="8 4" className="animate-dash-flow" />
+            <rect x="5" y="5" width="190" height="190" rx="20" fill="none" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="1" strokeDasharray="8 4" className="animate-dash-flow" />
           </svg>
         </div>
       </motion.div>
@@ -146,7 +146,7 @@ export function Hero() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-slate-900"
+        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-slate-800"
       >
         LEX<span className="lex-accent-text inline-block animate-pulse">A</span>GENT
       </motion.h1>
@@ -164,7 +164,7 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
             whileHover={{ scale: 1.1, y: -2 }}
-            className="px-4 py-1.5 rounded-full border border-sky-200/50 bg-cyan-50/70 text-xs font-mono text-gray-600 hover:border-sky-400/70 hover:text-slate-900 hover:bg-sky-100/70 transition-colors cursor-default"
+            className="px-4 py-1.5 rounded-full border border-sky-200/50 bg-cyan-50/70 text-xs font-mono text-gray-600 hover:border-sky-400/70 hover:text-slate-800 hover:bg-sky-100/70 transition-colors cursor-default"
           >
             {asset}
           </motion.span>

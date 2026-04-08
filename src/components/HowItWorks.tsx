@@ -59,18 +59,18 @@ function HexagonIcon({ Icon, index }: { Icon: typeof FileText; index: number }) 
         <polygon
           points="40,4 72,22 72,58 40,76 8,58 8,22"
           fill="none"
-          stroke="black"
+          stroke="#3b82f6"
           strokeOpacity="0.1"
           strokeWidth="1.5"
         />
         <polygon
           points="40,12 64,26 64,54 40,68 16,54 16,26"
-          fill="black"
+          fill="#3b82f6"
           fillOpacity="0.03"
           stroke="none"
         />
       </svg>
-      <Icon className="w-6 h-6 text-slate-900 relative z-10" strokeWidth={1.5} />
+      <Icon className="w-6 h-6 text-slate-800 relative z-10" strokeWidth={1.5} />
     </div>
   );
 }
@@ -80,13 +80,13 @@ function StepConnector({ isLast }: { isLast: boolean }) {
   return (
     <div className="hidden md:flex flex-col items-center py-2">
       <div className="w-[1px] h-16 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-300/60 via-sky-300/40 to-transparent" />
         <div
-          className="absolute top-0 left-0 w-full h-4 bg-gradient-to-b from-black/30 to-transparent"
+          className="absolute top-0 left-0 w-full h-4 bg-gradient-to-b from-blue-400/60 to-transparent"
           style={{ animation: 'scan-line 2s linear infinite' }}
         />
       </div>
-      <svg width="12" height="12" viewBox="0 0 12 12" className="text-slate-900/20 mt-1">
+      <svg width="12" height="12" viewBox="0 0 12 12" className="text-slate-800/20 mt-1">
         <polygon points="6,12 0,4 12,4" fill="currentColor" />
       </svg>
     </div>
@@ -123,16 +123,16 @@ export function HowItWorks() {
             Protocol Workflow
           </motion.div>
 
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-4">
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-800 mb-4">
             HOW IT WORKS
           </h2>
 
           <div className="flex items-center justify-center gap-3 mt-6">
-            <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-black/20" />
+            <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-sky-300/60" />
             <svg width="8" height="8" viewBox="0 0 8 8">
-              <rect x="1" y="1" width="6" height="6" fill="none" stroke="black" strokeOpacity="0.3" strokeWidth="1" transform="rotate(45 4 4)" />
+              <rect x="1" y="1" width="6" height="6" fill="none" stroke="#3b82f6" strokeOpacity="0.3" strokeWidth="1" transform="rotate(45 4 4)" />
             </svg>
-            <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-black/20" />
+            <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-sky-300/60" />
           </div>
         </motion.div>
 
@@ -155,20 +155,20 @@ export function HowItWorks() {
                 <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-sky-300/70 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-sky-400/70" />
                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-sky-300/70 transition-all duration-300 group-hover:w-5 group-hover:h-5 group-hover:border-sky-400/70" />
 
-                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-black/0 to-transparent group-hover:via-black/20 transition-all duration-500" />
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-sky-200/0 to-transparent group-hover:via-sky-300/60 transition-all duration-500" />
 
-                <div className="absolute inset-0 bg-gradient-to-br from-black/[0.01] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="flex items-start justify-between mb-5 relative z-10">
                   <HexagonIcon Icon={step.icon} index={index} />
                   <div className="text-right">
                     <span className="font-mono text-[10px] tracking-widest text-slate-500 block">STEP</span>
-                    <span className="font-mono text-2xl font-black text-slate-900/10 group-hover:text-slate-900/20 transition-colors">{step.id}</span>
+                    <span className="font-mono text-2xl font-black text-slate-800/10 group-hover:text-slate-800/20 transition-colors">{step.id}</span>
                   </div>
                 </div>
 
                 <div className="relative z-10 flex-1">
-                  <h3 className="text-xl font-black tracking-tight text-slate-900 mb-1 group-hover:tracking-normal transition-all duration-300">
+                  <h3 className="text-xl font-black tracking-tight text-slate-800 mb-1 group-hover:tracking-normal transition-all duration-300">
                     {step.title}
                   </h3>
                   <p className="font-mono text-[10px] tracking-widest text-slate-500 uppercase mb-3">
@@ -180,13 +180,13 @@ export function HowItWorks() {
                 </div>
 
                 <div className="relative z-10 mt-auto">
-                  <div className="h-[1px] bg-gradient-to-r from-black/10 to-transparent mb-4" />
+                  <div className="h-[1px] bg-gradient-to-r from-sky-300/50 to-transparent mb-4" />
 
                   <div className="flex items-center justify-between">
                     {step.metrics.map((metric, mi) => (
                       <div key={mi} className="text-left">
                         <span className="font-mono text-[9px] tracking-widest text-slate-500 block">{metric.label}</span>
-                        <span className="font-mono text-xs font-bold text-slate-900/70 group-hover:text-slate-900 transition-colors">{metric.value}</span>
+                        <span className="font-mono text-xs font-bold text-slate-800/70 group-hover:text-slate-800 transition-colors">{metric.value}</span>
                       </div>
                     ))}
                   </div>
@@ -197,7 +197,7 @@ export function HowItWorks() {
                   </div>
                 </div>
 
-                <svg className="absolute bottom-0 right-0 w-24 h-24 text-slate-900/[0.02] group-hover:text-slate-900/[0.05] transition-colors duration-500" viewBox="0 0 100 100">
+                <svg className="absolute bottom-0 right-0 w-24 h-24 text-slate-800/[0.02] group-hover:text-slate-800/[0.05] transition-colors duration-500" viewBox="0 0 100 100">
                   <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="currentColor" strokeWidth="1" />
                   <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="none" stroke="currentColor" strokeWidth="0.5" />
                 </svg>
@@ -205,7 +205,7 @@ export function HowItWorks() {
 
               {index < steps.length - 1 && (
                 <div className="hidden lg:flex absolute -right-2 top-1/2 -translate-y-1/2 z-20 items-center">
-                  <svg width="16" height="16" viewBox="0 0 16 16" className="text-slate-900/20">
+                  <svg width="16" height="16" viewBox="0 0 16 16" className="text-slate-800/20">
                     <path d="M4 8 L12 8 M9 5 L12 8 L9 11" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
@@ -231,7 +231,7 @@ export function HowItWorks() {
             ].map((stat, i) => (
               <div key={i} className="text-center px-4">
                 <span className="font-mono text-[9px] tracking-widest text-slate-500 block">{stat.label}</span>
-                <span className="font-mono text-sm font-bold text-slate-900">{stat.value}</span>
+                <span className="font-mono text-sm font-bold text-slate-800">{stat.value}</span>
               </div>
             ))}
           </div>

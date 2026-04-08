@@ -3,7 +3,7 @@ import { ArrowRight, Twitter } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer id="community" className="py-24 px-6 bg-white border-t border-black/5 relative overflow-hidden">
+    <footer id="community" className="py-24 px-6 bg-white border-t border-sky-200/40 relative overflow-hidden">
       <div className="max-w-4xl mx-auto text-center space-y-12 relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -11,7 +11,7 @@ export function Footer() {
           viewport={{ once: true }}
           className="space-y-6"
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-800">
             Stop clicking “send.” Start deploying agents.
           </h2>
           <p className="text-slate-600 max-w-lg mx-auto">
@@ -28,12 +28,12 @@ export function Footer() {
           <ArrowRight className="w-5 h-5" />
         </motion.button>
 
-        <div className="pt-24 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="pt-24 border-t border-sky-200/40 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-sm text-slate-500 font-mono">
             Built for the next generation of autonomous economies.
           </div>
           
-          <a href="https://x.com/agentlexagent?s=21" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 transition-colors">
+          <a href="https://x.com/agentlexagent?s=21" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-800 transition-colors">
             <Twitter className="w-5 h-5" />
           </a>
         </div>

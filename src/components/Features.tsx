@@ -88,10 +88,10 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
             FEATURE {feature.id}
           </div>
-          <div className="h-[1px] flex-1 bg-gradient-to-r from-black/10 to-transparent" />
+          <div className="h-[1px] flex-1 bg-gradient-to-r from-sky-300/50 to-transparent" />
         </div>
 
-        <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] text-slate-900 mb-6">
+        <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] text-slate-800 mb-6">
           {feature.title.split(" ").map((word, i) => (
             <motion.span
               key={i}
@@ -123,7 +123,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
               <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-sky-300/70 group-hover/spec:border-sky-400/70 transition-colors" />
               <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-sky-300/70 group-hover/spec:border-sky-400/70 transition-colors" />
               <span className="font-mono text-[9px] tracking-widest text-slate-500 block">{spec.label}</span>
-              <span className="font-mono text-sm font-bold text-slate-900">{spec.value}</span>
+              <span className="font-mono text-sm font-bold text-slate-800">{spec.value}</span>
             </motion.div>
           ))}
         </div>
@@ -143,8 +143,8 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
             <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
 
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-black/0 to-transparent group-hover:via-black/20 transition-all duration-700" />
-            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-black/0 to-transparent group-hover:via-black/10 transition-all duration-700" />
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-sky-200/0 to-transparent group-hover:via-sky-300/60 transition-all duration-700" />
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-sky-200/0 to-transparent group-hover:via-sky-300/40 transition-all duration-700" />
 
             <div className="absolute inset-0 opacity-[0.03]" style={{
               backgroundImage: 'linear-gradient(rgba(0,0,0,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,1) 1px, transparent 1px)',
@@ -162,9 +162,9 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
                 </div>
                 <div className="relative w-12 h-12 flex items-center justify-center">
                   <svg viewBox="0 0 50 50" className="absolute inset-0 w-full h-full">
-                    <polygon points="25,2 46,14.5 46,35.5 25,48 4,35.5 4,14.5" fill="none" stroke="black" strokeOpacity="0.08" strokeWidth="1" className="group-hover:stroke-[black] group-hover:[stroke-opacity:0.2] transition-all duration-500" />
+                    <polygon points="25,2 46,14.5 46,35.5 25,48 4,35.5 4,14.5" fill="none" stroke="#3b82f6" strokeOpacity="0.08" strokeWidth="1" className="group-hover:stroke-[#06b6d4] group-hover:[stroke-opacity:0.2] transition-all duration-500" />
                   </svg>
-                  <feature.icon className="w-5 h-5 text-slate-500 group-hover:text-slate-900 transition-colors duration-500" strokeWidth={1.5} />
+                  <feature.icon className="w-5 h-5 text-slate-500 group-hover:text-slate-800 transition-colors duration-500" strokeWidth={1.5} />
                 </div>
               </div>
 
@@ -172,8 +172,8 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
                 <svg viewBox="0 0 240 80" className="w-full h-full max-h-20" preserveAspectRatio="none">
                   <defs>
                     <linearGradient id={`grad-${feature.id}`} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="black" stopOpacity="0.06" />
-                      <stop offset="100%" stopColor="black" stopOpacity="0" />
+                      <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.06" />
+                      <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
                     </linearGradient>
                   </defs>
                   <path
@@ -184,7 +184,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
                   <polyline
                     points={feature.visualData.map((v, i) => `${(i / (feature.visualData.length - 1)) * 240},${80 - v * 0.7}`).join(' ')}
                     fill="none"
-                    stroke="black"
+                    stroke="#3b82f6"
                     strokeOpacity="0.12"
                     strokeWidth="1.5"
                     className="group-hover:[stroke-opacity:0.3] transition-all duration-500"
@@ -196,7 +196,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
                       cx={(i / (feature.visualData.length - 1)) * 240}
                       cy={80 - v * 0.7}
                       r="0"
-                      fill="black"
+                      fill="#3b82f6"
                       className="group-hover:[r:2] transition-all duration-500"
                       style={{ transitionDelay: `${i * 30}ms` }}
                     />
@@ -206,7 +206,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
 
               <div className="flex items-end justify-between">
                 <div className="space-y-1">
-                  <span className="text-5xl font-black text-slate-900/[0.06] group-hover:text-slate-900/[0.12] transition-colors duration-500 leading-none block">
+                  <span className="text-5xl font-black text-slate-800/[0.06] group-hover:text-slate-800/[0.12] transition-colors duration-500 leading-none block">
                     {feature.id}
                   </span>
                   <span className="font-mono text-[9px] tracking-widest text-slate-500 block uppercase">
@@ -214,7 +214,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
                   </span>
                 </div>
                 <div className="relative">
-                  <feature.accentIcon className="w-8 h-8 text-slate-900/[0.06] group-hover:text-slate-900/[0.15] transition-colors duration-500" strokeWidth={1} />
+                  <feature.accentIcon className="w-8 h-8 text-slate-800/[0.06] group-hover:text-slate-800/[0.15] transition-colors duration-500" strokeWidth={1} />
                 </div>
               </div>
             </div>
@@ -233,14 +233,14 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
           <div className="absolute -inset-3 border border-sky-200/35 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
           <svg className="absolute -inset-6 w-[calc(100%+48px)] h-[calc(100%+48px)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <line x1="0" y1="0" x2="8" y2="0" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />
-            <line x1="0" y1="0" x2="0" y2="8" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />
-            <line x1="92" y1="0" x2="100" y2="0" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />
-            <line x1="100" y1="0" x2="100" y2="8" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />
-            <line x1="0" y1="100" x2="8" y2="100" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />
-            <line x1="0" y1="92" x2="0" y2="100" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />
-            <line x1="92" y1="100" x2="100" y2="100" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />
-            <line x1="100" y1="92" x2="100" y2="100" stroke="black" strokeOpacity="0.1" strokeWidth="0.5" />
+            <line x1="0" y1="0" x2="8" y2="0" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="0.5" />
+            <line x1="0" y1="0" x2="0" y2="8" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="0.5" />
+            <line x1="92" y1="0" x2="100" y2="0" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="0.5" />
+            <line x1="100" y1="0" x2="100" y2="8" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="0.5" />
+            <line x1="0" y1="100" x2="8" y2="100" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="0.5" />
+            <line x1="0" y1="92" x2="0" y2="100" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="0.5" />
+            <line x1="92" y1="100" x2="100" y2="100" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="0.5" />
+            <line x1="100" y1="92" x2="100" y2="100" stroke="#3b82f6" strokeOpacity="0.1" strokeWidth="0.5" />
           </svg>
         </motion.div>
       </div>
@@ -275,16 +275,16 @@ export function Features() {
             Core Modules
           </motion.div>
 
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900">
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-800">
             FEATURES
           </h2>
 
           <div className="flex items-center justify-center gap-3 mt-6">
-            <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-black/20" />
+            <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-sky-300/60" />
             <svg width="8" height="8" viewBox="0 0 8 8">
-              <rect x="1" y="1" width="6" height="6" fill="none" stroke="black" strokeOpacity="0.3" strokeWidth="1" transform="rotate(45 4 4)" />
+              <rect x="1" y="1" width="6" height="6" fill="none" stroke="#3b82f6" strokeOpacity="0.3" strokeWidth="1" transform="rotate(45 4 4)" />
             </svg>
-            <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-black/20" />
+            <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-sky-300/60" />
           </div>
         </motion.div>
 

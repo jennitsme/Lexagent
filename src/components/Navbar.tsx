@@ -27,11 +27,11 @@ export function Navbar() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-black/5 bg-white/80"
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-md border-b border-sky-200/40 bg-white/80"
     >
       <div className="flex items-center gap-2">
         <img src="/logo11.png" alt="LEXAGENT" className="w-8 h-8 rounded-sm object-cover" />
-        <span className="font-bold text-xl tracking-wider text-slate-900">LEXAGENT</span>
+        <span className="font-bold text-xl tracking-wider text-slate-800">LEXAGENT</span>
       </div>
 
       <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
@@ -39,10 +39,10 @@ export function Navbar() {
           <a 
             key={item} 
             href={`#${item.toLowerCase()}`}
-            className="hover:text-slate-900 transition-colors relative group"
+            className="hover:text-slate-800 transition-colors relative group"
           >
             {item}
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-300" />
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-violet-500 group-hover:w-full transition-all duration-300" />
           </a>
         ))}
       </div>
@@ -58,14 +58,14 @@ export function Navbar() {
             <div className="relative group">
               <button 
                 onClick={copyAddress}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 text-slate-900 text-sm font-mono rounded-full hover:bg-gray-200 transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 text-slate-800 text-sm font-mono rounded-full hover:bg-gray-200 transition-all"
               >
                 {walletType === 'phantom' ? (
                   <PhantomLogo className="w-4 h-4" />
                 ) : walletType === 'metamask' ? (
                   <MetaMaskLogo className="w-4 h-4" />
                 ) : (
-                  <div className="w-2 h-2 rounded-full bg-black" />
+                  <div className="w-2 h-2 rounded-full bg-slate-900" />
                 )}
                 {formatAddress(address)}
                 {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3 text-slate-500" />}

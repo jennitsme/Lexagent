@@ -11,10 +11,10 @@ export function Footer() {
           viewport={{ once: true }}
           className="space-y-6"
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-black">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
             Stop clicking “send.” Start deploying agents.
           </h2>
-          <p className="text-gray-500 max-w-lg mx-auto">
+          <p className="text-slate-600 max-w-lg mx-auto">
             Whether you’re sending funds manually or deploying autonomous agents, Lexagent handles it all.
           </p>
         </motion.div>
@@ -22,18 +22,18 @@ export function Footer() {
         <motion.button 
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="px-8 py-4 bg-black text-white font-bold rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.1)] hover:shadow-[0_0_50px_rgba(0,0,0,0.2)] transition-shadow flex items-center gap-2 mx-auto"
+          className="px-8 py-4 lex-accent-bg text-white font-bold rounded-lg shadow-[0_0_30px_rgba(59,130,246,0.18)] hover:shadow-[0_0_50px_rgba(59,130,246,0.3)] transition-shadow flex items-center gap-2 mx-auto"
         >
-Launch Lexagent
+          Launch Lexagent
           <ArrowRight className="w-5 h-5" />
         </motion.button>
 
         <div className="pt-24 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-sm text-gray-400 font-mono">
+          <div className="text-sm text-slate-500 font-mono">
             Built for the next generation of autonomous economies.
           </div>
           
-          <a href="https://x.com/agentlexagent?s=21" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition-colors">
+          <a href="https://x.com/agentlexagent?s=21" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 transition-colors">
             <Twitter className="w-5 h-5" />
           </a>
         </div>

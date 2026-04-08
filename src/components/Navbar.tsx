@@ -31,15 +31,15 @@ export function Navbar() {
     >
       <div className="flex items-center gap-2">
         <img src="/logo11.png" alt="LEXAGENT" className="w-8 h-8 rounded-sm object-cover" />
-        <span className="font-bold text-xl tracking-wider text-black">LEXAGENT</span>
+        <span className="font-bold text-xl tracking-wider text-slate-900">LEXAGENT</span>
       </div>
 
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
+      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
         {["About", "Agents", "Transfer", "Community"].map((item) => (
           <a 
             key={item} 
             href={`#${item.toLowerCase()}`}
-            className="hover:text-black transition-colors relative group"
+            className="hover:text-slate-900 transition-colors relative group"
           >
             {item}
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black group-hover:w-full transition-all duration-300" />
@@ -48,8 +48,8 @@ export function Navbar() {
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-full border border-gray-200 text-xs font-mono text-gray-600">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-cyan-50/70 rounded-full border border-sky-200/60 text-xs font-mono text-slate-600">
+          <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
           $LEXAGENT
         </div>
         
@@ -58,7 +58,7 @@ export function Navbar() {
             <div className="relative group">
               <button 
                 onClick={copyAddress}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 text-black text-sm font-mono rounded-full hover:bg-gray-200 transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 border border-gray-200 text-slate-900 text-sm font-mono rounded-full hover:bg-gray-200 transition-all"
               >
                 {walletType === 'phantom' ? (
                   <PhantomLogo className="w-4 h-4" />
@@ -68,7 +68,7 @@ export function Navbar() {
                   <div className="w-2 h-2 rounded-full bg-black" />
                 )}
                 {formatAddress(address)}
-                {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3 text-gray-400" />}
+                {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3 text-slate-500" />}
               </button>
             </div>
             <button 
@@ -82,7 +82,7 @@ export function Navbar() {
         ) : (
           <button 
             onClick={openModal}
-            className="flex items-center gap-2 px-5 py-2 bg-black hover:bg-gray-800 text-white text-sm font-bold rounded-full transition-all active:scale-95"
+            className="flex items-center gap-2 px-5 py-2 lex-accent-bg text-white text-sm font-bold rounded-full transition-all active:scale-95"
           >
             <Wallet className="w-4 h-4" />
             Connect

@@ -84,14 +84,14 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
         className="flex-1 flex flex-col justify-center py-4"
       >
         <div className="flex items-center gap-3 mb-6">
-          <div className="flex items-center gap-2 px-3 py-1 border border-black/10 bg-gray-50 font-mono text-[10px] tracking-widest text-gray-500">
+          <div className="flex items-center gap-2 px-3 py-1 border border-sky-200/50 bg-gray-50 font-mono text-[10px] tracking-widest text-slate-600">
             <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
             FEATURE {feature.id}
           </div>
           <div className="h-[1px] flex-1 bg-gradient-to-r from-black/10 to-transparent" />
         </div>
 
-        <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] text-black mb-6">
+        <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] text-slate-900 mb-6">
           {feature.title.split(" ").map((word, i) => (
             <motion.span
               key={i}
@@ -106,7 +106,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
           ))}
         </h2>
 
-        <p className="text-gray-500 text-base leading-relaxed max-w-lg mb-8">
+        <p className="text-slate-600 text-base leading-relaxed max-w-lg mb-8">
           {feature.description}
         </p>
 
@@ -122,8 +122,8 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
             >
               <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-black/20 group-hover/spec:border-black/40 transition-colors" />
               <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-black/20 group-hover/spec:border-black/40 transition-colors" />
-              <span className="font-mono text-[9px] tracking-widest text-gray-400 block">{spec.label}</span>
-              <span className="font-mono text-sm font-bold text-black">{spec.value}</span>
+              <span className="font-mono text-[9px] tracking-widest text-slate-500 block">{spec.label}</span>
+              <span className="font-mono text-sm font-bold text-slate-900">{spec.value}</span>
             </motion.div>
           ))}
         </div>
@@ -156,15 +156,15 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className={`w-1.5 h-1.5 rounded-full ${feature.status === 'ACTIVE' ? 'bg-green-500' : feature.status === 'OPTIMAL' ? 'bg-black' : 'bg-black'} animate-pulse`} />
-                    <span className="font-mono text-[9px] tracking-widest text-gray-400">{feature.status}</span>
+                    <span className="font-mono text-[9px] tracking-widest text-slate-500">{feature.status}</span>
                   </div>
-                  <span className="font-mono text-[10px] tracking-widest text-gray-400">MODULE_{feature.id}</span>
+                  <span className="font-mono text-[10px] tracking-widest text-slate-500">MODULE_{feature.id}</span>
                 </div>
                 <div className="relative w-12 h-12 flex items-center justify-center">
                   <svg viewBox="0 0 50 50" className="absolute inset-0 w-full h-full">
                     <polygon points="25,2 46,14.5 46,35.5 25,48 4,35.5 4,14.5" fill="none" stroke="black" strokeOpacity="0.08" strokeWidth="1" className="group-hover:stroke-[black] group-hover:[stroke-opacity:0.2] transition-all duration-500" />
                   </svg>
-                  <feature.icon className="w-5 h-5 text-gray-400 group-hover:text-black transition-colors duration-500" strokeWidth={1.5} />
+                  <feature.icon className="w-5 h-5 text-slate-500 group-hover:text-slate-900 transition-colors duration-500" strokeWidth={1.5} />
                 </div>
               </div>
 
@@ -206,15 +206,15 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
 
               <div className="flex items-end justify-between">
                 <div className="space-y-1">
-                  <span className="text-5xl font-black text-black/[0.06] group-hover:text-black/[0.12] transition-colors duration-500 leading-none block">
+                  <span className="text-5xl font-black text-slate-900/[0.06] group-hover:text-slate-900/[0.12] transition-colors duration-500 leading-none block">
                     {feature.id}
                   </span>
-                  <span className="font-mono text-[9px] tracking-widest text-gray-400 block uppercase">
+                  <span className="font-mono text-[9px] tracking-widest text-slate-500 block uppercase">
                     {feature.title}
                   </span>
                 </div>
                 <div className="relative">
-                  <feature.accentIcon className="w-8 h-8 text-black/[0.06] group-hover:text-black/[0.15] transition-colors duration-500" strokeWidth={1} />
+                  <feature.accentIcon className="w-8 h-8 text-slate-900/[0.06] group-hover:text-slate-900/[0.15] transition-colors duration-500" strokeWidth={1} />
                 </div>
               </div>
             </div>
@@ -269,13 +269,13 @@ export function Features() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-black/10 bg-gray-50 mb-8 font-mono text-[10px] tracking-widest text-gray-500 uppercase"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-200/50 bg-gray-50 mb-8 font-mono text-[10px] tracking-widest text-slate-600 uppercase"
           >
             <Scan className="w-3 h-3" />
             Core Modules
           </motion.div>
 
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-black">
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900">
             FEATURES
           </h2>
 

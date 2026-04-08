@@ -127,8 +127,8 @@ export function Hero() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="relative z-10 mb-8"
       >
-        <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-black/10 rounded-2xl flex items-center justify-center relative group">
-          <div className="absolute inset-0 bg-black/5 blur-xl group-hover:bg-black/10 transition-all duration-500" />
+        <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-sky-200/50 rounded-2xl flex items-center justify-center relative group">
+          <div className="absolute inset-0 bg-cyan-50/70 blur-xl group-hover:bg-black/10 transition-all duration-500" />
           <img src="/logo11.png" alt="LEXAGENT" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
           
           <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-black" />
@@ -146,9 +146,9 @@ export function Hero() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-black"
+        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-slate-900"
       >
-        LEX<span className="text-gray-400 inline-block animate-pulse">A</span>GENT
+        LEX<span className="lex-accent-text inline-block animate-pulse">A</span>GENT
       </motion.h1>
 
       <motion.div 
@@ -164,7 +164,7 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
             whileHover={{ scale: 1.1, y: -2 }}
-            className="px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-mono text-gray-600 hover:border-black/30 hover:text-black hover:bg-black/10 transition-colors cursor-default"
+            className="px-4 py-1.5 rounded-full border border-sky-200/50 bg-cyan-50/70 text-xs font-mono text-gray-600 hover:border-black/30 hover:text-slate-900 hover:bg-black/10 transition-colors cursor-default"
           >
             {asset}
           </motion.span>
@@ -179,14 +179,14 @@ export function Hero() {
       >
         <button
           onClick={copyCA}
-          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-black/10 bg-gray-50 hover:bg-gray-100 hover:border-black/20 transition-all group"
+          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-sky-200/50 bg-gray-50 hover:bg-gray-100 hover:border-black/20 transition-all group"
         >
           <div className="flex flex-col items-start min-w-0">
-            <span className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">Contract Address</span>
+            <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Contract Address</span>
             <span className="font-mono text-xs text-gray-700 truncate w-full text-left">{CONTRACT_ADDRESS}</span>
           </div>
-          <div className="shrink-0 p-1.5 rounded-lg bg-black/5 group-hover:bg-black/10 transition-colors">
-            {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-gray-400" />}
+          <div className="shrink-0 p-1.5 rounded-lg bg-cyan-50/70 group-hover:bg-black/10 transition-colors">
+            {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-slate-500" />}
           </div>
         </button>
       </motion.div>
@@ -201,7 +201,7 @@ export function Hero() {
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.97 }}
-            className="group relative px-8 py-4 bg-black text-white font-bold text-lg tracking-wider rounded-lg overflow-hidden transition-shadow hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]"
+            className="group relative px-8 py-4 lex-accent-bg text-white font-bold text-lg tracking-wider rounded-lg overflow-hidden transition-shadow hover:shadow-[0_0_40px_rgba(59,130,246,0.35)]"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:animate-shimmer" />
             <span className="relative z-10 flex items-center gap-2">
@@ -212,16 +212,16 @@ export function Hero() {
         </Link>
 
         <div className="text-center space-y-2 max-w-2xl px-4">
-          <p className="text-gray-500 font-medium tracking-wide text-sm uppercase">
+          <p className="text-slate-600 font-medium tracking-wide text-sm uppercase">
             The way we send money is still manual. Click. Confirm. Repeat.
           </p>
-          <p className="text-gray-400 text-xs font-mono">
+          <p className="text-slate-500 text-xs font-mono">
             But the future isn’t manual. It’s autonomous. Lexagent bridges the gap between AI agents and on-chain value movement.
           </p>
         </div>
 
-        <div className="mt-8 px-4 py-2 rounded-full border border-black/10 bg-gray-50 text-gray-600 text-[10px] font-mono flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+        <div className="mt-8 px-4 py-2 rounded-full border border-sky-200/50 bg-cyan-50/60 text-slate-600 text-[10px] font-mono flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
           BUILT FOR THE NEXT GENERATION OF AUTONOMOUS ECONOMIES
         </div>
       </motion.div>

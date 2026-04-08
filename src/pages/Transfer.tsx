@@ -142,16 +142,16 @@ export default function Transfer() {
         animate={{ opacity: 1, y: 0 }}
         className="max-w-2xl mx-auto space-y-8"
       >
-        <div className="p-8 rounded-2xl bg-white border border-black/10 text-center">
+        <div className="p-8 rounded-2xl bg-white border border-sky-200/70 text-center">
           <Shield className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 mb-4">
+          <p className="text-blue-600 mb-4">
             {walletType === "metamask"
               ? "MetaMask is not supported. Please connect a Phantom wallet for Solana."
               : "Connect your wallet to use Private Transfer"}
           </p>
           <button
             onClick={openModal}
-            className="px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-bold transition-all"
+            className="px-6 py-3 lex-accent-bg text-white rounded-lg font-bold transition-all"
           >
             Connect Phantom Wallet
           </button>
@@ -167,20 +167,20 @@ export default function Transfer() {
       className="max-w-2xl mx-auto space-y-6"
     >
       <div className="flex items-center gap-3 mb-2">
-        <Shield className="w-6 h-6 text-black" />
+        <Shield className="w-6 h-6 text-blue-700" />
         <div>
           <h2 className="text-lg font-bold">Private Transfer</h2>
-          <p className="text-xs text-gray-400">Send SOL privately via claim codes</p>
+          <p className="text-xs text-blue-500">Send SOL privately via claim codes</p>
         </div>
       </div>
 
-      <div className="flex rounded-xl bg-gray-100 border border-black/5 p-1">
+      <div className="flex rounded-xl bg-sky-100/70 border border-sky-200/50 p-1">
         <button
           onClick={() => switchTab("send")}
           className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold text-sm transition-all ${
             activeTab === "send"
-              ? "bg-black text-white shadow-lg"
-              : "text-gray-500 hover:text-black hover:bg-white"
+              ? "lex-accent-bg text-white shadow-lg"
+              : "text-blue-600 hover:text-blue-700 hover:bg-white"
           }`}
         >
           <Send className="w-4 h-4" />
@@ -190,8 +190,8 @@ export default function Transfer() {
           onClick={() => switchTab("claim")}
           className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold text-sm transition-all ${
             activeTab === "claim"
-              ? "bg-black text-white shadow-lg"
-              : "text-gray-500 hover:text-black hover:bg-white"
+              ? "lex-accent-bg text-white shadow-lg"
+              : "text-blue-600 hover:text-blue-700 hover:bg-white"
           }`}
         >
           <Download className="w-4 h-4" />
@@ -206,15 +206,15 @@ export default function Transfer() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
-            className="p-6 rounded-2xl bg-white border border-black/10 relative overflow-hidden"
+            className="p-6 rounded-2xl bg-white border border-sky-200/70 relative overflow-hidden"
           >
             <div className="relative z-10 space-y-5">
-              <div className="p-4 rounded-xl bg-gray-50 border border-black/5">
+              <div className="p-4 rounded-xl bg-sky-50/70 border border-sky-200/50">
                 <div className="flex items-start gap-3">
-                  <Lock className="w-5 h-5 text-black mt-0.5 shrink-0" />
-                  <div className="text-sm text-gray-600">
-                    <p className="font-medium text-black mb-1">How it works</p>
-                    <ol className="list-decimal list-inside space-y-1 text-gray-500 text-xs">
+                  <Lock className="w-5 h-5 text-blue-700 mt-0.5 shrink-0" />
+                  <div className="text-sm text-blue-600">
+                    <p className="font-medium text-blue-700 mb-1">How it works</p>
+                    <ol className="list-decimal list-inside space-y-1 text-blue-600 text-xs">
                       <li>Your SOL is sent to a temporary private pool</li>
                       <li>A unique claim code is generated</li>
                       <li>Share the code with the recipient</li>
@@ -225,18 +225,18 @@ export default function Transfer() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm text-gray-500 font-medium">Amount to Send</label>
+                <label className="text-sm text-blue-600 font-medium">Amount to Send</label>
                 <div className="relative">
                   <input
                     type="number"
                     placeholder="0.00"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
-                    className="w-full bg-gray-50 border border-black/10 rounded-xl p-4 text-2xl font-bold focus:outline-none focus:border-black/30 transition-colors text-black"
+                    className="w-full bg-sky-50/70 border border-sky-200/70 rounded-xl p-4 text-2xl font-bold focus:outline-none focus:border-sky-400/70 transition-colors text-blue-700"
                   />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-mono">SOL</div>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-500 font-mono">SOL</div>
                 </div>
-                <div className="flex justify-between text-xs text-gray-400">
+                <div className="flex justify-between text-xs text-blue-500">
                   <span>
                     {balanceLoading
                       ? "Loading balance..."
@@ -244,24 +244,24 @@ export default function Transfer() {
                       ? `Available: ${balance.toFixed(4)} SOL`
                       : "Unable to load balance"}
                   </span>
-                  <button onClick={handleMax} className="text-black hover:text-gray-600 font-medium">
+                  <button onClick={handleMax} className="text-blue-700 hover:text-blue-600 font-medium">
                     Max
                   </button>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-gray-50 border border-black/5 text-sm text-gray-500 space-y-1">
+              <div className="p-4 rounded-xl bg-sky-50/70 border border-sky-200/50 text-sm text-blue-600 space-y-1">
                 <div className="flex justify-between">
                   <span>Transfer Type</span>
-                  <span className="text-black font-medium">Private Pool</span>
+                  <span className="text-blue-700 font-medium">Private Pool</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Network</span>
-                  <span className="text-black">Solana Mainnet</span>
+                  <span className="text-blue-700">Solana Mainnet</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Estimated Fee</span>
-                  <span className="text-black">~0.000005 SOL</span>
+                  <span className="text-blue-700">~0.000005 SOL</span>
                 </div>
               </div>
 
@@ -269,8 +269,8 @@ export default function Transfer() {
                 <div
                   className={`p-4 rounded-xl border flex items-start gap-3 ${
                     status.type === "success"
-                      ? "bg-green-50 border-green-200"
-                      : "bg-red-50 border-red-200"
+                      ? "bg-emerald-50 border-green-200"
+                      : "bg-rose-50 border-red-200"
                   }`}
                 >
                   {status.type === "success" ? (
@@ -292,52 +292,52 @@ export default function Transfer() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-5 rounded-xl bg-gray-50 border border-black/10"
+                  className="p-5 rounded-xl bg-sky-50/70 border border-sky-200/70"
                 >
                   <div className="flex items-center gap-2 mb-3">
-                    <Key className="w-5 h-5 text-black" />
-                    <span className="font-bold text-black">Claim Code Generated</span>
+                    <Key className="w-5 h-5 text-blue-700" />
+                    <span className="font-bold text-blue-700">Claim Code Generated</span>
                   </div>
 
-                  <p className="text-xs text-gray-500 mb-3">
+                  <p className="text-xs text-blue-600 mb-3">
                     Share this code with the recipient. They can claim the SOL from the "Claim with Code" tab.
                     Do not lose this code — it cannot be recovered.
                   </p>
 
-                  <div className="relative p-3 bg-white rounded-lg border border-black/10 mb-3">
-                    <p className="font-mono text-sm break-all pr-16 text-black">
+                  <div className="relative p-3 bg-white rounded-lg border border-sky-200/70 mb-3">
+                    <p className="font-mono text-sm break-all pr-16 text-blue-700">
                       {showCode ? generatedCode : "\u2022".repeat(Math.min(generatedCode.length, 60))}
                     </p>
                     <div className="absolute right-2 top-2 flex gap-1">
                       <button
                         onClick={() => setShowCode(!showCode)}
-                        className="p-1.5 hover:bg-gray-100 rounded transition-colors"
+                        className="p-1.5 hover:bg-sky-100/70 rounded transition-colors"
                         title={showCode ? "Hide code" : "Show code"}
                       >
                         {showCode ? (
-                          <EyeOff className="w-4 h-4 text-gray-400" />
+                          <EyeOff className="w-4 h-4 text-blue-500" />
                         ) : (
-                          <Eye className="w-4 h-4 text-gray-400" />
+                          <Eye className="w-4 h-4 text-blue-500" />
                         )}
                       </button>
                       <button
                         onClick={copyCode}
-                        className="p-1.5 hover:bg-gray-100 rounded transition-colors"
+                        className="p-1.5 hover:bg-sky-100/70 rounded transition-colors"
                         title="Copy code"
                       >
                         {codeCopied ? (
                           <Check className="w-4 h-4 text-green-500" />
                         ) : (
-                          <Copy className="w-4 h-4 text-gray-400" />
+                          <Copy className="w-4 h-4 text-blue-500" />
                         )}
                       </button>
                     </div>
                   </div>
 
                   {poolAddress && (
-                    <div className="mt-3 p-3 bg-white rounded-lg border border-black/10">
+                    <div className="mt-3 p-3 bg-white rounded-lg border border-sky-200/70">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-400 font-medium">Pool Address</span>
+                        <span className="text-xs text-blue-500 font-medium">Pool Address</span>
                         <div className="flex items-center gap-1">
                           <button
                             onClick={() => {
@@ -345,27 +345,27 @@ export default function Transfer() {
                               setPoolCopied(true);
                               setTimeout(() => setPoolCopied(false), 2000);
                             }}
-                            className="p-1 hover:bg-gray-100 rounded transition-colors"
+                            className="p-1 hover:bg-sky-100/70 rounded transition-colors"
                             title="Copy pool address"
                           >
                             {poolCopied ? (
                               <Check className="w-3 h-3 text-green-500" />
                             ) : (
-                              <Copy className="w-3 h-3 text-gray-400" />
+                              <Copy className="w-3 h-3 text-blue-500" />
                             )}
                           </button>
                           <a
                             href={`https://explorer.solana.com/address/${poolAddress}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1 hover:bg-gray-100 rounded transition-colors"
+                            className="p-1 hover:bg-sky-100/70 rounded transition-colors"
                             title="View on Solana Explorer"
                           >
-                            <ExternalLink className="w-3 h-3 text-gray-400" />
+                            <ExternalLink className="w-3 h-3 text-blue-500" />
                           </a>
                         </div>
                       </div>
-                      <p className="font-mono text-xs break-all text-black">{poolAddress}</p>
+                      <p className="font-mono text-xs break-all text-blue-700">{poolAddress}</p>
                     </div>
                   )}
                 </motion.div>
@@ -402,7 +402,7 @@ export default function Transfer() {
                     setStatus(null);
                     setShowCode(false);
                   }}
-                  className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium rounded-xl transition-all text-sm"
+                  className="w-full py-3 bg-sky-100/70 hover:bg-sky-200/70 text-blue-600 font-medium rounded-xl transition-all text-sm"
                 >
                   Create Another Transfer
                 </button>
@@ -415,15 +415,15 @@ export default function Transfer() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="p-6 rounded-2xl bg-white border border-black/10 relative overflow-hidden"
+            className="p-6 rounded-2xl bg-white border border-sky-200/70 relative overflow-hidden"
           >
             <div className="relative z-10 space-y-5">
-              <div className="p-4 rounded-xl bg-gray-50 border border-black/5">
+              <div className="p-4 rounded-xl bg-sky-50/70 border border-sky-200/50">
                 <div className="flex items-start gap-3">
-                  <Download className="w-5 h-5 text-black mt-0.5 shrink-0" />
-                  <div className="text-sm text-gray-600">
-                    <p className="font-medium text-black mb-1">Claim SOL</p>
-                    <p className="text-xs text-gray-500">
+                  <Download className="w-5 h-5 text-blue-700 mt-0.5 shrink-0" />
+                  <div className="text-sm text-blue-600">
+                    <p className="font-medium text-blue-700 mb-1">Claim SOL</p>
+                    <p className="text-xs text-blue-600">
                       Enter the claim code you received. The SOL will be transferred directly to your connected wallet.
                     </p>
                   </div>
@@ -431,29 +431,29 @@ export default function Transfer() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm text-gray-500 font-medium">Claim Code</label>
+                <label className="text-sm text-blue-600 font-medium">Claim Code</label>
                 <div className="relative">
                   <textarea
                     placeholder="Paste your claim code here..."
                     value={claimCode}
                     onChange={(e) => setClaimCode(e.target.value)}
                     rows={3}
-                    className="w-full bg-gray-50 border border-black/10 rounded-xl p-4 font-mono text-sm focus:outline-none focus:border-black/30 transition-colors resize-none text-black"
+                    className="w-full bg-sky-50/70 border border-sky-200/70 rounded-xl p-4 font-mono text-sm focus:outline-none focus:border-sky-400/70 transition-colors resize-none text-blue-700"
                   />
                   <Key className="absolute right-4 top-4 w-5 h-5 text-gray-300" />
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-gray-50 border border-black/5 text-sm text-gray-500 space-y-1">
+              <div className="p-4 rounded-xl bg-sky-50/70 border border-sky-200/50 text-sm text-blue-600 space-y-1">
                 <div className="flex justify-between">
                   <span>Destination</span>
-                  <span className="text-black font-mono text-xs">
+                  <span className="text-blue-700 font-mono text-xs">
                     {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "—"}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Network</span>
-                  <span className="text-black">Solana Mainnet</span>
+                  <span className="text-blue-700">Solana Mainnet</span>
                 </div>
               </div>
 
@@ -461,8 +461,8 @@ export default function Transfer() {
                 <div
                   className={`p-4 rounded-xl border flex items-start gap-3 ${
                     claimStatus.type === "success"
-                      ? "bg-green-50 border-green-200"
-                      : "bg-red-50 border-red-200"
+                      ? "bg-emerald-50 border-green-200"
+                      : "bg-rose-50 border-red-200"
                   }`}
                 >
                   {claimStatus.type === "success" ? (

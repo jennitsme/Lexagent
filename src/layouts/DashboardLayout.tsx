@@ -41,7 +41,7 @@ export default function DashboardLayout() {
   const closeSidebar = () => setSidebarOpen(false);
 
   return (
-    <div className="flex h-screen bg-white text-black overflow-hidden">
+    <div className="flex h-screen bg-white text-blue-700 overflow-hidden">
       <WalletModal />
 
       <AnimatePresence>
@@ -60,22 +60,22 @@ export default function DashboardLayout() {
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         className={`
-          fixed inset-y-0 left-0 z-50 w-64 border-r border-black/5 bg-white flex flex-col
+          fixed inset-y-0 left-0 z-50 w-64 border-r border-sky-200/50 bg-white flex flex-col
           transform transition-transform duration-300 ease-in-out
           lg:relative lg:translate-x-0
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
-        <div className="p-6 flex items-center justify-between border-b border-black/5">
+        <div className="p-6 flex items-center justify-between border-b border-sky-200/50">
           <div className="flex items-center gap-3">
             <img src="/logo11.png" alt="LEXAGENT" className="w-8 h-8 rounded-sm object-cover" />
             <span className="font-bold text-xl tracking-wider">LEXAGENT</span>
           </div>
           <button
             onClick={closeSidebar}
-            className="p-1 hover:bg-gray-100 rounded-lg transition-colors lg:hidden"
+            className="p-1 hover:bg-sky-100/70 rounded-lg transition-colors lg:hidden"
           >
-            <X className="w-5 h-5 text-gray-400" />
+            <X className="w-5 h-5 text-blue-500" />
           </button>
         </div>
 
@@ -89,8 +89,8 @@ export default function DashboardLayout() {
                 onClick={closeSidebar}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   isActive 
-                    ? "bg-black text-white" 
-                    : "text-gray-500 hover:bg-gray-100 hover:text-black"
+                    ? "lex-accent-bg text-white" 
+                    : "text-blue-600 hover:bg-sky-100/70 hover:text-blue-700"
                 }`}
               >
                 <item.icon className="w-5 h-5" />
@@ -100,11 +100,11 @@ export default function DashboardLayout() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-black/5">
+        <div className="p-4 border-t border-sky-200/50">
           <Link
             to="/"
             onClick={closeSidebar}
-            className="flex items-center gap-3 px-4 py-3 text-gray-500 hover:text-black transition-colors"
+            className="flex items-center gap-3 px-4 py-3 text-blue-600 hover:text-blue-700 transition-colors"
           >
             <LogOut className="w-5 h-5" />
             <span>Back to Home</span>
@@ -112,42 +112,42 @@ export default function DashboardLayout() {
         </div>
       </motion.aside>
 
-      <main className="flex-1 overflow-y-auto bg-gray-50 relative w-full">
+      <main className="flex-1 overflow-y-auto bg-sky-50/70 relative w-full">
         <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 relative z-10">
           <header className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="p-2 rounded-lg bg-white border border-black/5 hover:bg-gray-100 transition-colors lg:hidden shrink-0"
+                className="p-2 rounded-lg bg-white border border-sky-200/50 hover:bg-sky-100/70 transition-colors lg:hidden shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
               <div className="min-w-0">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold truncate text-black">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold truncate text-blue-700">
                   {navItems.find(item => item.path === location.pathname)?.label || "Dashboard"}
                 </h1>
-                <p className="text-gray-400 text-sm hidden sm:block">Welcome back, Agent.</p>
+                <p className="text-blue-500 text-sm hidden sm:block">Welcome back, Agent.</p>
               </div>
             </div>
             
             <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-              <button className="p-2 rounded-full bg-white border border-black/5 hover:bg-gray-100 text-gray-400 hover:text-black transition-colors relative">
+              <button className="p-2 rounded-full bg-white border border-sky-200/50 hover:bg-sky-100/70 text-blue-500 hover:text-blue-700 transition-colors relative">
                 <Bell className="w-5 h-5" />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border border-white" />
               </button>
               
               <button
                 onClick={!isConnected ? openModal : undefined}
-                className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-white rounded-full border border-black/10 ${!isConnected ? 'cursor-pointer hover:bg-gray-50 hover:border-black/20 transition-all' : ''}`}
+                className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-white rounded-full border border-sky-200/70 ${!isConnected ? 'cursor-pointer hover:bg-sky-50/70 hover:border-sky-300/80 transition-all' : ''}`}
               >
                 {walletType === 'phantom' ? (
                   <PhantomLogo className="w-5 h-5" />
                 ) : walletType === 'metamask' ? (
                   <MetaMaskLogo className="w-5 h-5" />
                 ) : (
-                  <Wallet className="w-5 h-5 text-gray-400" />
+                  <Wallet className="w-5 h-5 text-blue-500" />
                 )}
-                <span className="font-mono text-xs sm:text-sm hidden sm:inline text-gray-600">{formatAddress(address)}</span>
+                <span className="font-mono text-xs sm:text-sm hidden sm:inline text-blue-600">{formatAddress(address)}</span>
               </button>
             </div>
           </header>

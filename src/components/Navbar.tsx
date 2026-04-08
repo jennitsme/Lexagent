@@ -50,7 +50,7 @@ export function Navbar() {
       <div className="flex items-center gap-4">
         <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-cyan-50/70 rounded-full border border-sky-200/70 text-xs font-mono text-blue-600">
           <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
-          $LEXAGENT
+          $LEXA
         </div>
         
         {isConnected && address ? (

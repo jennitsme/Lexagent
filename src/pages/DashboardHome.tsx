@@ -71,17 +71,17 @@ export default function DashboardHome() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
         <Wallet className="w-16 h-16 text-gray-300" />
-        <h2 className="text-2xl font-bold text-gray-700">
+        <h2 className="text-2xl font-bold text-blue-700">
           {walletType === "metamask" ? "Unsupported Wallet" : "Wallet Not Connected"}
         </h2>
-        <p className="text-gray-400">
+        <p className="text-blue-500">
           {walletType === "metamask"
             ? "MetaMask is not supported. Please connect a Phantom wallet for Solana."
             : "Connect your Phantom wallet to view your dashboard."}
         </p>
         <button
           onClick={openModal}
-          className="mt-4 px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-bold transition-all"
+          className="mt-4 px-6 py-3 lex-accent-bg text-white rounded-lg font-bold transition-all"
         >
           Connect Phantom Wallet
         </button>
@@ -113,26 +113,26 @@ export default function DashboardHome() {
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md z-[101] p-6"
             >
-              <div className="bg-white border border-black/10 rounded-2xl p-6 shadow-xl">
+              <div className="bg-white border border-sky-200/70 rounded-2xl p-6 shadow-xl">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-bold">Receive SOL</h3>
-                  <button onClick={() => setShowReceive(false)} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
-                    <X className="w-5 h-5 text-gray-400" />
+                  <button onClick={() => setShowReceive(false)} className="p-1 hover:bg-sky-100/70 rounded-full transition-colors">
+                    <X className="w-5 h-5 text-blue-500" />
                   </button>
                 </div>
 
-                <p className="text-sm text-gray-500 mb-4">
+                <p className="text-sm text-blue-600 mb-4">
                   Share your wallet address to receive SOL or SPL tokens on Solana.
                 </p>
 
-                <div className="p-4 bg-gray-50 rounded-xl border border-black/5 mb-4">
-                  <p className="text-xs text-gray-400 mb-2">Your Solana Address</p>
-                  <p className="font-mono text-sm break-all text-black">{address}</p>
+                <div className="p-4 bg-sky-50/70 rounded-xl border border-sky-200/50 mb-4">
+                  <p className="text-xs text-blue-500 mb-2">Your Solana Address</p>
+                  <p className="font-mono text-sm break-all text-blue-700">{address}</p>
                 </div>
 
                 <button
                   onClick={copyAddress}
-                  className="w-full py-3 bg-black hover:bg-gray-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
+                  className="w-full py-3 lex-accent-bg text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
                 >
                   {copied ? (
                     <>
@@ -153,19 +153,19 @@ export default function DashboardHome() {
       </AnimatePresence>
 
       {error && (
-        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-rose-50 border border-red-200 text-red-600 text-sm flex items-center gap-2">
           <span>{error}</span>
           <button onClick={() => window.location.reload()} className="ml-auto px-3 py-1 bg-red-100 hover:bg-red-200 rounded-lg text-xs font-medium transition-colors">Retry</button>
         </div>
       )}
 
       <div className="grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 p-5 sm:p-8 rounded-2xl bg-white border border-black/10 relative overflow-hidden group">
+        <div className="lg:col-span-2 p-5 sm:p-8 rounded-2xl bg-white border border-sky-200/70 relative overflow-hidden group">
           <div className="relative z-10">
-            <div className="text-gray-400 mb-2 text-sm sm:text-base">Total Balance</div>
-            <div className="text-3xl sm:text-5xl font-black tracking-tight mb-4 sm:mb-6 text-black">
+            <div className="text-blue-500 mb-2 text-sm sm:text-base">Total Balance</div>
+            <div className="text-3xl sm:text-5xl font-black tracking-tight mb-4 sm:mb-6 text-blue-700">
               {loading ? (
-                <Loader2 className="w-8 sm:w-10 h-8 sm:h-10 animate-spin text-gray-400 inline-block" />
+                <Loader2 className="w-8 sm:w-10 h-8 sm:h-10 animate-spin text-blue-500 inline-block" />
               ) : (
                 <>
                   ${totalUsd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -176,14 +176,14 @@ export default function DashboardHome() {
             <div className="flex gap-3 sm:gap-4">
               <Link
                 to="/dashboard/transfer"
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-bold flex items-center gap-2 transition-all text-sm sm:text-base"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 lex-accent-bg text-white rounded-lg font-bold flex items-center gap-2 transition-all text-sm sm:text-base"
               >
                 <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 Send
               </Link>
               <button
                 onClick={() => setShowReceive(true)}
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-100 hover:bg-gray-200 text-black rounded-lg font-bold flex items-center gap-2 transition-all text-sm sm:text-base"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-sky-100/70 hover:bg-sky-200/70 text-blue-700 rounded-lg font-bold flex items-center gap-2 transition-all text-sm sm:text-base"
               >
                 <ArrowDownLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                 Receive
@@ -205,7 +205,7 @@ export default function DashboardHome() {
               label: "SOL Balance",
               value: loading ? "..." : `${solBalance.toLocaleString(undefined, { maximumFractionDigits: 4 })} SOL`,
               change: loading ? "..." : `$${solPrice.toFixed(2)}`,
-              color: "text-gray-500",
+              color: "text-blue-600",
             },
             {
               label: "Network Status",
@@ -217,7 +217,7 @@ export default function DashboardHome() {
               label: "SOL Price",
               value: loading ? "..." : `$${solPrice.toFixed(2)}`,
               change: "USD",
-              color: "text-gray-500",
+              color: "text-blue-600",
             },
           ].map((stat, i) => (
             <motion.div
@@ -225,11 +225,11 @@ export default function DashboardHome() {
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: i * 0.1 }}
-              className="p-6 rounded-xl bg-white border border-black/10 hover:border-black/20 transition-colors"
+              className="p-6 rounded-xl bg-white border border-sky-200/70 hover:border-sky-300/80 transition-colors"
             >
-              <div className="text-gray-400 text-sm mb-1">{stat.label}</div>
+              <div className="text-blue-500 text-sm mb-1">{stat.label}</div>
               <div className="flex justify-between items-end">
-                <div className="text-xl font-bold text-black">{stat.value}</div>
+                <div className="text-xl font-bold text-blue-700">{stat.value}</div>
                 <div className={`text-sm font-mono ${stat.color}`}>{stat.change}</div>
               </div>
             </motion.div>
@@ -238,15 +238,15 @@ export default function DashboardHome() {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-black">Recent Activity</h2>
-        <div className="rounded-xl border border-black/10 bg-white overflow-hidden">
+        <h2 className="text-xl font-bold text-blue-700">Recent Activity</h2>
+        <div className="rounded-xl border border-sky-200/70 bg-white overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center p-8">
-              <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-              <span className="ml-2 text-gray-400">Loading transactions...</span>
+              <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+              <span className="ml-2 text-blue-500">Loading transactions...</span>
             </div>
           ) : transactions.length === 0 ? (
-            <div className="p-8 text-center text-gray-400">No recent transactions found.</div>
+            <div className="p-8 text-center text-blue-500">No recent transactions found.</div>
           ) : (
             transactions.map((tx, i) => (
               <a
@@ -254,16 +254,16 @@ export default function DashboardHome() {
                 href={`https://explorer.solana.com/tx/${tx.signature}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 border-b border-black/5 last:border-0 hover:bg-gray-50 transition-colors"
+                className="flex items-center justify-between p-4 border-b border-sky-200/50 last:border-0 hover:bg-sky-50/70 transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center ${
                       tx.type === "sent"
-                        ? "bg-red-50 text-red-500"
+                        ? "bg-rose-50 text-red-500"
                         : tx.type === "received"
-                        ? "bg-green-50 text-green-500"
-                        : "bg-gray-100 text-gray-500"
+                        ? "bg-emerald-50 text-green-500"
+                        : "bg-sky-100/70 text-blue-600"
                     }`}
                   >
                     {tx.type === "sent" ? (
@@ -273,19 +273,19 @@ export default function DashboardHome() {
                     )}
                   </div>
                   <div>
-                    <div className="font-bold text-black">
+                    <div className="font-bold text-blue-700">
                       {tx.type === "sent" ? "Sent SOL" : tx.type === "received" ? "Received SOL" : "Transaction"}
                     </div>
-                    <div className="text-xs text-gray-400">{truncateSig(tx.signature)}</div>
+                    <div className="text-xs text-blue-500">{truncateSig(tx.signature)}</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-mono text-black">
+                  <div className="font-mono text-blue-700">
                     {tx.amount !== null
                       ? `${tx.type === "sent" ? "-" : "+"}${tx.amount.toFixed(4)} SOL`
                       : "—"}
                   </div>
-                  <div className="text-xs text-gray-400">{timeAgo(tx.timestamp)}</div>
+                  <div className="text-xs text-blue-500">{timeAgo(tx.timestamp)}</div>
                 </div>
               </a>
             ))

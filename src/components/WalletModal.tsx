@@ -72,7 +72,7 @@ export function WalletModal() {
 
               <div className="mt-8 pt-6 border-t border-black/5 text-center">
                 <p className="text-xs text-gray-400">
-                  By connecting, you agree to Sendra's <a href="#" className="text-black hover:underline">Terms of Service</a>
+                  By connecting, you agree to Lexagent's <a href="#" className="text-black hover:underline">Terms of Service</a>
                 </p>
               </div>
             </div>

@@ -68,8 +68,8 @@ export default function DashboardLayout() {
       >
         <div className="p-6 flex items-center justify-between border-b border-black/5">
           <div className="flex items-center gap-3">
-            <img src="/logo.jpg" alt="SENDRA" className="w-8 h-8 rounded-sm object-cover" />
-            <span className="font-bold text-xl tracking-wider">SENDRA</span>
+            <img src="/logo.jpg" alt="LEXAGENT" className="w-8 h-8 rounded-sm object-cover" />
+            <span className="font-bold text-xl tracking-wider">LEXAGENT</span>
           </div>
           <button
             onClick={closeSidebar}

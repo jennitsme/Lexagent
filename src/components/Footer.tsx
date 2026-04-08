@@ -15,7 +15,7 @@ export function Footer() {
             Ready to start making private transactions?
           </h2>
           <p className="text-gray-500 max-w-lg mx-auto">
-            Join thousands of users who trust Sendra for their secure and anonymous crypto transfers.
+            Join thousands of users who trust Lexagent for their secure and anonymous crypto transfers.
           </p>
         </motion.div>
 
@@ -30,10 +30,10 @@ export function Footer() {
 
         <div className="pt-24 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-sm text-gray-400 font-mono">
-            Powered by SENDRA
+            Powered by LEXAGENT
           </div>
           
-          <a href="https://x.com/agentsendra?s=21" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition-colors">
+          <a href="https://x.com/agentlexagent?s=21" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-black transition-colors">
             <Twitter className="w-5 h-5" />
           </a>
         </div>

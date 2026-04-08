@@ -103,7 +103,7 @@ export default function CreateAgent() {
                   required
                   value={formData.name}
                   onChange={e => setFormData({...formData, name: e.target.value})}
-                  placeholder="e.g. SendraBot_01"
+                  placeholder="e.g. LexagentBot_01"
                   className="w-full bg-gray-50 border border-black/10 rounded-xl p-3 focus:border-black/30 focus:outline-none transition-colors text-black"
                 />
               </div>

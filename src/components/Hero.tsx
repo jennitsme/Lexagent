@@ -129,7 +129,7 @@ export function Hero() {
       >
         <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-black/10 rounded-2xl flex items-center justify-center relative group">
           <div className="absolute inset-0 bg-black/5 blur-xl group-hover:bg-black/10 transition-all duration-500" />
-          <img src="/logo.jpg" alt="SENDRA" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
+          <img src="/logo.jpg" alt="LEXAGENT" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
           
           <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-black" />
           <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-black" />
@@ -205,7 +205,7 @@ export function Hero() {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:animate-shimmer" />
             <span className="relative z-10 flex items-center gap-2">
-              ENTER SENDRA
+              ENTER LEXAGENT
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </span>
           </motion.button>

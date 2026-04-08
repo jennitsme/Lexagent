@@ -6,7 +6,7 @@ if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir);
 }
 
-const dbPath = path.join(dataDir, 'sendra.json');
+const dbPath = path.join(dataDir, 'lexagent.json');
 
 // Initialize DB file if not exists
 if (!fs.existsSync(dbPath)) {

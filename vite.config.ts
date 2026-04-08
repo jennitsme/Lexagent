@@ -63,6 +63,53 @@ function apiPlugin(): Plugin {
             return res.end(JSON.stringify({ success: true, agentId: result.lastInsertRowid, botName: botInfo.username }));
           }
 
+          if (req.url === '/api/agent-chat' && req.method === 'POST') {
+            const { message } = json || {};
+            if (!message || typeof message !== 'string') {
+              res.writeHead(400, { 'Content-Type': 'application/json' });
+              return res.end(JSON.stringify({ error: 'Message is required' }));
+            }
+
+            const apiKey = process.env.OPENAI_API_KEY;
+            if (!apiKey) {
+              res.writeHead(500, { 'Content-Type': 'application/json' });
+              return res.end(JSON.stringify({ error: 'OPENAI_API_KEY is not configured on server' }));
+            }
+
+            const { default: OpenAI } = await server.ssrLoadModule('openai');
+            const openai = new OpenAI({ apiKey });
+            const c = await openai.chat.completions.create({
+              model: 'gpt-4o-mini',
+              temperature: 0,
+              messages: [
+                {
+                  role: 'system',
+                  content: 'You are a wallet transaction interpreter. Convert user chat into JSON only. JSON schema: {"intent":"send_sol"|"chat", "amountSol":number|null, "toAddress":string|null, "reply":string}. If user clearly asks to send SOL and includes amount + destination wallet, set intent=send_sol. Otherwise intent=chat and give helpful reply. Output must be pure JSON without markdown.'
+                },
+                { role: 'user', content: message },
+              ],
+            });
+
+            const raw = c.choices[0].message.content || '{}';
+            let parsed: any;
+            try {
+              parsed = JSON.parse(raw);
+            } catch {
+              const match = raw.match(/\{[\s\S]*\}/);
+              parsed = match ? JSON.parse(match[0]) : null;
+            }
+
+            const payload = {
+              intent: parsed?.intent === 'send_sol' ? 'send_sol' : 'chat',
+              amountSol: typeof parsed?.amountSol === 'number' ? parsed.amountSol : null,
+              toAddress: typeof parsed?.toAddress === 'string' ? parsed.toAddress : null,
+              reply: typeof parsed?.reply === 'string' ? parsed.reply : "I couldn't parse that. Try: send 0.1 SOL to <wallet_address>",
+            };
+
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify(payload));
+          }
+
           const wm = req.url.match(/^\/api\/telegram\/webhook\/(.+)$/);
           if (wm && req.method === 'POST') {
             const token = wm[1];

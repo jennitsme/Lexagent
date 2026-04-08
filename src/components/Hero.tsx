@@ -127,7 +127,7 @@ export function Hero() {
         transition={{ duration: 1, ease: "easeOut" }}
         className="relative z-10 mb-8"
       >
-        <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-sky-200/50 rounded-2xl flex items-center justify-center relative group">
+        <div className="w-32 h-32 md:w-40 md:h-40 border-2 border-sky-200/65 rounded-2xl flex items-center justify-center relative group">
           <div className="absolute inset-0 bg-cyan-50/70 blur-xl group-hover:bg-sky-100/70 transition-all duration-500" />
           <img src="/logo11.png" alt="LEXAGENT" className="w-28 h-28 md:w-36 md:h-36 rounded-xl relative z-10 object-cover" />
           
@@ -146,7 +146,7 @@ export function Hero() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-slate-800"
+        className="text-6xl md:text-8xl font-black tracking-tighter text-center mb-6 relative z-10 text-slate-700"
       >
         LEX<span className="lex-accent-text inline-block animate-pulse">A</span>GENT
       </motion.h1>
@@ -164,7 +164,7 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 + i * 0.05, duration: 0.4 }}
             whileHover={{ scale: 1.1, y: -2 }}
-            className="px-4 py-1.5 rounded-full border border-sky-200/50 bg-cyan-50/70 text-xs font-mono text-gray-600 hover:border-sky-400/70 hover:text-slate-800 hover:bg-sky-100/70 transition-colors cursor-default"
+            className="px-4 py-1.5 rounded-full border border-sky-200/65 bg-cyan-50/70 text-xs font-mono text-gray-600 hover:border-sky-400/70 hover:text-slate-700 hover:bg-sky-100/70 transition-colors cursor-default"
           >
             {asset}
           </motion.span>
@@ -179,7 +179,7 @@ export function Hero() {
       >
         <button
           onClick={copyCA}
-          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-sky-200/50 bg-gray-50 hover:bg-gray-100 hover:border-sky-300/70 transition-all group"
+          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-sky-200/65 bg-sky-50/70 hover:bg-sky-100/70 hover:border-sky-300/80 transition-all group"
         >
           <div className="flex flex-col items-start min-w-0">
             <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Contract Address</span>
@@ -220,7 +220,7 @@ export function Hero() {
           </p>
         </div>
 
-        <div className="mt-8 px-4 py-2 rounded-full border border-sky-200/50 bg-cyan-50/60 text-slate-600 text-[10px] font-mono flex items-center gap-2">
+        <div className="mt-8 px-4 py-2 rounded-full border border-sky-200/65 bg-cyan-50/60 text-slate-600 text-[10px] font-mono flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
           BUILT FOR THE NEXT GENERATION OF AUTONOMOUS ECONOMIES
         </div>

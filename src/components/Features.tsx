@@ -84,14 +84,14 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
         className="flex-1 flex flex-col justify-center py-4"
       >
         <div className="flex items-center gap-3 mb-6">
-          <div className="flex items-center gap-2 px-3 py-1 border border-sky-200/50 bg-gray-50 font-mono text-[10px] tracking-widest text-slate-600">
+          <div className="flex items-center gap-2 px-3 py-1 border border-sky-200/65 bg-sky-50/70 font-mono text-[10px] tracking-widest text-slate-600">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
             FEATURE {feature.id}
           </div>
           <div className="h-[1px] flex-1 bg-gradient-to-r from-sky-300/50 to-transparent" />
         </div>
 
-        <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] text-slate-800 mb-6">
+        <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] text-slate-700 mb-6">
           {feature.title.split(" ").map((word, i) => (
             <motion.span
               key={i}
@@ -118,12 +118,12 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5 + i * 0.1 }}
-              className="group/spec relative px-4 py-3 border border-sky-200/60 bg-white hover:border-sky-300/70 transition-all duration-300 cursor-default"
+              className="group/spec relative px-4 py-3 border border-sky-200/70 bg-white hover:border-sky-300/80 transition-all duration-300 cursor-default"
             >
-              <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-sky-300/70 group-hover/spec:border-sky-400/70 transition-colors" />
-              <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-sky-300/70 group-hover/spec:border-sky-400/70 transition-colors" />
+              <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-sky-300/80 group-hover/spec:border-sky-400/70 transition-colors" />
+              <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-sky-300/80 group-hover/spec:border-sky-400/70 transition-colors" />
               <span className="font-mono text-[9px] tracking-widest text-slate-500 block">{spec.label}</span>
-              <span className="font-mono text-sm font-bold text-slate-800">{spec.value}</span>
+              <span className="font-mono text-sm font-bold text-slate-700">{spec.value}</span>
             </motion.div>
           ))}
         </div>
@@ -137,11 +137,11 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
           style={{ rotateX, rotateY, transformPerspective: 1000 }}
           className="relative w-full max-w-md aspect-[4/3] group cursor-default"
         >
-          <div className="absolute inset-0 border border-sky-200/60 bg-white overflow-hidden transition-all duration-500 group-hover:border-sky-300/70 group-hover:shadow-[0_12px_50px_rgba(0,0,0,0.08)]">
-            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
-            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
-            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
-            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sky-200/60 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+          <div className="absolute inset-0 border border-sky-200/70 bg-white overflow-hidden transition-all duration-500 group-hover:border-sky-300/80 group-hover:shadow-[0_12px_50px_rgba(0,0,0,0.08)]">
+            <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-sky-200/70 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+            <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-sky-200/70 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+            <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sky-200/70 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
+            <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sky-200/70 group-hover:border-sky-400/70 group-hover:w-6 group-hover:h-6 transition-all duration-300" />
 
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-sky-200/0 to-transparent group-hover:via-sky-300/60 transition-all duration-700" />
             <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-sky-200/0 to-transparent group-hover:via-sky-300/40 transition-all duration-700" />
@@ -164,7 +164,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
                   <svg viewBox="0 0 50 50" className="absolute inset-0 w-full h-full">
                     <polygon points="25,2 46,14.5 46,35.5 25,48 4,35.5 4,14.5" fill="none" stroke="#3b82f6" strokeOpacity="0.08" strokeWidth="1" className="group-hover:stroke-[#06b6d4] group-hover:[stroke-opacity:0.2] transition-all duration-500" />
                   </svg>
-                  <feature.icon className="w-5 h-5 text-slate-500 group-hover:text-slate-800 transition-colors duration-500" strokeWidth={1.5} />
+                  <feature.icon className="w-5 h-5 text-slate-500 group-hover:text-slate-700 transition-colors duration-500" strokeWidth={1.5} />
                 </div>
               </div>
 
@@ -206,7 +206,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
 
               <div className="flex items-end justify-between">
                 <div className="space-y-1">
-                  <span className="text-5xl font-black text-slate-800/[0.06] group-hover:text-slate-800/[0.12] transition-colors duration-500 leading-none block">
+                  <span className="text-5xl font-black text-slate-700/[0.06] group-hover:text-slate-700/[0.12] transition-colors duration-500 leading-none block">
                     {feature.id}
                   </span>
                   <span className="font-mono text-[9px] tracking-widest text-slate-500 block uppercase">
@@ -214,7 +214,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
                   </span>
                 </div>
                 <div className="relative">
-                  <feature.accentIcon className="w-8 h-8 text-slate-800/[0.06] group-hover:text-slate-800/[0.15] transition-colors duration-500" strokeWidth={1} />
+                  <feature.accentIcon className="w-8 h-8 text-slate-700/[0.06] group-hover:text-slate-700/[0.15] transition-colors duration-500" strokeWidth={1} />
                 </div>
               </div>
             </div>
@@ -269,13 +269,13 @@ export function Features() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-200/50 bg-gray-50 mb-8 font-mono text-[10px] tracking-widest text-slate-600 uppercase"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-sky-200/65 bg-sky-50/70 mb-8 font-mono text-[10px] tracking-widest text-slate-600 uppercase"
           >
             <Scan className="w-3 h-3" />
             Core Modules
           </motion.div>
 
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-800">
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-700">
             FEATURES
           </h2>
 

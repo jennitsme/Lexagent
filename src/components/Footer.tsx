@@ -11,7 +11,7 @@ export function Footer() {
           viewport={{ once: true }}
           className="space-y-6"
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-800">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-700">
             Stop clicking “send.” Start deploying agents.
           </h2>
           <p className="text-slate-600 max-w-lg mx-auto">
@@ -33,7 +33,7 @@ export function Footer() {
             Built for the next generation of autonomous economies.
           </div>
           
-          <a href="https://x.com/agentlexagent?s=21" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-800 transition-colors">
+          <a href="https://x.com/agentlexagent?s=21" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-700 transition-colors">
             <Twitter className="w-5 h-5" />
           </a>
         </div>

@@ -1,9 +1,6 @@
-import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Copy, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const CONTRACT_ADDRESS = "FKWwPSYGpfBLxYoTW25HMmVHRrjvcybUxGTZweTopump";
 
 const cryptoAssets = ["AUTONOMOUS", "ON-CHAIN", "SOLANA", "TRUSTLESS", "AGENTS", "RULES", "PAYMENTS"];
 
@@ -109,14 +106,6 @@ function HiTechBackground() {
 }
 
 export function Hero() {
-  const [copied, setCopied] = useState(false);
-
-  const copyCA = () => {
-    navigator.clipboard.writeText(CONTRACT_ADDRESS);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden bg-white">
       <HiTechBackground />
@@ -171,25 +160,6 @@ export function Hero() {
         ))}
       </motion.div>
 
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.55, duration: 0.8 }}
-        className="mb-8 relative z-10 w-full max-w-sm px-4"
-      >
-        <button
-          onClick={copyCA}
-          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-sky-200/65 bg-sky-50/70 hover:bg-sky-100/70 hover:border-sky-300/80 transition-all group"
-        >
-          <div className="flex flex-col items-start min-w-0">
-            <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Contract Address</span>
-            <span className="font-mono text-xs text-gray-700 truncate w-full text-left">{CONTRACT_ADDRESS}</span>
-          </div>
-          <div className="shrink-0 p-1.5 rounded-lg bg-cyan-50/70 group-hover:bg-sky-100/70 transition-colors">
-            {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-slate-500" />}
-          </div>
-        </button>
-      </motion.div>
 
       <motion.div 
         initial={{ y: 20, opacity: 0 }}

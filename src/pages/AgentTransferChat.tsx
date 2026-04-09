@@ -34,7 +34,15 @@ export default function AgentTransferChat() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userText }),
       });
-      const data = await response.json();
+
+      const raw = await response.text();
+      let data: any;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        throw new Error("Agent API returned non-JSON response. Check Vercel API route and deployment logs.");
+      }
+
       if (!response.ok) throw new Error(data.error || "Agent failed");
 
       if (data.intent === "send_sol" && data.amountSol && data.toAddress) {

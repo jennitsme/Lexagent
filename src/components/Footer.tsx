@@ -33,7 +33,7 @@ export function Footer() {
             Built for the next generation of autonomous economies.
           </div>
           
-          <a href="https://x.com/agentlexagent?s=21" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors">
+          <a href="https://x.com/LexagentHQ" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors">
             <Twitter className="w-5 h-5" />
           </a>
         </div>

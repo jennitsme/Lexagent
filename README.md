@@ -1,73 +1,73 @@
 # Lexagent
 
-Lexagent adalah aplikasi web untuk membuat **Agen AI berbasis Telegram** yang terhubung ke dompet pengguna, plus mode **Chat Transfer Agen** untuk menerjemahkan instruksi bahasa natural menjadi aksi transfer SOL (tetap dengan persetujuan tanda tangan dompet).
+Lexagent is a web application to create **Telegram-based AI Agents** connected to a user wallet, plus an **Agent Transfer Chat** mode that translates natural language instructions into SOL transfer actions (with wallet signature approval).
 
-## Ringkasan Fitur
+## Key Features
 
-- **Pabrik Agen**: membuat dan menerapkan agen Telegram per dompet.
-- **Penyedia LLM fleksibel**: Gemini / OpenAI (Anthropic sudah ada di UI, implementasi backend bisa dilanjutkan).
-- **Webhook Telegram**: pesan masuk diproses lewat endpoint webhook.
-- **Prompt sistem kustom**: tiap agen punya kepribadian/instruksi sendiri.
-- **Chat Transfer Agen**: parsing intent transfer SOL melalui endpoint `/api/agent-chat`.
-- **Akses berbasis dompet**: pembuatan agen hanya saat dompet terkoneksi.
+- **Agent Factory**: create and deploy Telegram agents per wallet.
+- **Flexible LLM providers**: Gemini / OpenAI (Anthropic is available in UI and can be completed in backend).
+- **Telegram webhook runtime**: incoming messages are processed through a webhook endpoint.
+- **Custom system prompts**: each agent can have its own behavior/personality.
+- **Agent Transfer Chat**: transfer-intent parsing via `/api/agent-chat`.
+- **Wallet-gated access**: agent creation is available only when a wallet is connected.
 
 ---
 
-## Tumpukan Teknologi
+## Tech Stack
 
 - **Frontend**: React 19 + Vite + TypeScript + Tailwind
 - **Backend**: Express + TypeScript (`server.ts`)
-- **SDK AI**: `@google/genai`, `openai`
-- **Bot**: `node-telegram-bot-api`
+- **AI SDKs**: `@google/genai`, `openai`
+- **Bot integration**: `node-telegram-bot-api`
 - **Blockchain**: `@solana/web3.js`
-- **Penyimpanan**: berkas JSON lokal (`data/lexagent.json`)
+- **Storage**: local JSON file (`data/lexagent.json`)
 
 ---
 
-## Cara Menjalankan Secara Lokal
+## Local Setup
 
-### 1) Prasyarat
+### 1) Prerequisites
 
 - Node.js 20+
 - npm
 
-### 2) Pasang dependensi
+### 2) Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3) Atur environment
+### 3) Configure environment
 
-Salin `.env.example` menjadi `.env` lalu isi nilainya:
+Copy `.env.example` to `.env`, then fill in your values:
 
 ```bash
 cp .env.example .env
 ```
 
-Minimal yang perlu diisi:
+Minimum required values:
 
-- `OPENAI_API_KEY` → untuk endpoint `/api/agent-chat`
-- `APP_URL` → URL publik aplikasi (wajib untuk webhook Telegram saat deploy)
-- `GEMINI_API_KEY` → jika memakai Gemini pada alur terkait
+- `OPENAI_API_KEY` → used by `/api/agent-chat`
+- `APP_URL` → your public app URL (required for Telegram webhook in deployed env)
+- `GEMINI_API_KEY` → required if you use Gemini-based flow
 
-### 4) Jalankan mode pengembangan
+### 4) Run development mode
 
 ```bash
 npm run dev
 ```
 
-Aplikasi akan menjalankan:
-- server Vite (frontend)
-- proxy server (`proxy-dev.cjs`) sesuai konfigurasi proyek
+This runs:
+- Vite dev server (frontend)
+- proxy/runtime helper (`proxy-dev.cjs`) based on project config
 
-### 5) Cek tipe TypeScript
+### 5) Type-check
 
 ```bash
 npm run lint
 ```
 
-### 6) Build produksi
+### 6) Production build
 
 ```bash
 npm run build
@@ -75,95 +75,95 @@ npm run build
 
 ---
 
-## Cara Kerja Sistem
+## How It Works
 
-### A. Menerapkan Agen (Dashboard → CreateAgent)
+### A. Agent Deployment (Dashboard → CreateAgent)
 
-1. Pengguna menghubungkan dompet.
-2. Pengguna mengisi:
-   - nama agen,
-   - token bot Telegram,
-   - penyedia LLM + API key,
-   - prompt sistem,
-   - opsional `allowedChatId`.
-3. Frontend memanggil `POST /api/agents`.
-4. Server memvalidasi token bot (`getMe`) lalu mengatur webhook ke:
+1. User connects wallet.
+2. User submits:
+   - agent name,
+   - Telegram bot token,
+   - LLM provider + API key,
+   - system prompt,
+   - optional allowed chat ID.
+3. Frontend sends `POST /api/agents`.
+4. Server validates bot token (`getMe`) and sets webhook to:
    - `/api/telegram/webhook/:token`
-5. Data agen disimpan ke DB JSON (`data/lexagent.json`).
-6. Agen siap menerima chat di Telegram.
+5. Agent data is stored in JSON DB (`data/lexagent.json`).
+6. Agent is ready to receive Telegram messages.
 
-### B. Alur Chat Telegram Saat Berjalan
+### B. Telegram Runtime Chat
 
-1. Telegram mengirim update ke webhook.
-2. Server mencari agen berdasarkan token.
-3. (Opsional) server memvalidasi `allowed_chat_id`.
-4. Server meneruskan teks ke penyedia LLM sesuai konfigurasi agen.
-5. Jawaban LLM dikirim kembali ke chat Telegram.
+1. Telegram sends update to webhook.
+2. Server resolves agent by token.
+3. (Optional) server validates `allowed_chat_id`.
+4. Server forwards message text to configured LLM provider.
+5. LLM response is sent back to Telegram chat.
 
-### C. Chat Transfer Agen (Di Dalam Aplikasi)
+### C. Agent Transfer Chat (In-App)
 
-1. Pengguna menulis instruksi natural language (contoh: “send 0.1 SOL to ...”).
-2. Frontend memanggil `POST /api/agent-chat`.
-3. Endpoint meminta model OpenAI memetakan instruksi ke skema JSON:
+1. User sends natural language instruction (e.g. `send 0.1 SOL to ...`).
+2. Frontend calls `POST /api/agent-chat`.
+3. Endpoint asks OpenAI model to map instruction into JSON schema:
    - `intent`, `amountSol`, `toAddress`, `reply`.
-4. Jika `intent=send_sol` dan parameter lengkap:
-   - frontend membuat transaksi Solana,
-   - dompet pengguna menandatangani dan mengirim transaksi.
-5. UI menampilkan hasil/signature transaksi.
+4. If `intent=send_sol` and fields are complete:
+   - frontend builds Solana transaction,
+   - user wallet signs and sends transaction.
+5. UI displays result and transaction signature.
 
 ---
 
-## Bagan Arsitektur
+## Architecture Diagram
 
 ```mermaid
 flowchart TD
-    U[Pengguna Web] --> F[Dashboard React]
-    F -->|POST /api/agents| B[Server Express]
+    U[Web User] --> F[React Dashboard]
+    F -->|POST /api/agents| B[Express Server]
     B --> D[(data/lexagent.json)]
-    B --> T[API Telegram Bot]
-    T -->|Update Webhook| B
-    B -->|Panggilan LLM| L[OpenAI / Gemini]
+    B --> T[Telegram Bot API]
+    T -->|Webhook Update| B
+    B -->|LLM call| L[OpenAI / Gemini]
     B -->|sendMessage| T
 
-    U --> C[Chat Transfer Agen]
+    U --> C[Agent Transfer Chat]
     C -->|POST /api/agent-chat| B
-    B -->|Parsing Intent| O[Model OpenAI]
-    C -->|buat/tanda tangan/kirim tx| S[Dompet Solana]
-    S --> N[(Jaringan Solana)]
+    B -->|Intent Parsing| O[OpenAI Model]
+    C -->|create/sign/send tx| S[Solana Wallet]
+    S --> N[(Solana Network)]
 ```
 
 ---
 
-## Struktur Proyek (Ringkas)
+## Project Structure (Brief)
 
 ```text
 Lexagent/
 ├─ api/
-│  └─ agent-chat.ts              # Rute API alternatif (gaya serverless)
+│  └─ agent-chat.ts              # Alternative API route (serverless style)
 ├─ src/
 │  ├─ pages/
-│  │  ├─ CreateAgent.tsx         # UI penerapan agen
-│  │  └─ AgentTransferChat.tsx   # UI transfer lewat chat
-│  ├─ db/index.ts                # adaptor DB JSON
-│  ├─ lib/solana.ts              # helper transaksi SOL
+│  │  ├─ CreateAgent.tsx         # Agent deployment UI
+│  │  └─ AgentTransferChat.tsx   # Transfer-via-chat UI
+│  ├─ db/index.ts                # JSON DB adapter
+│  ├─ lib/solana.ts              # SOL transaction helper
 │  └─ ...
-├─ server.ts                     # server Express utama
-├─ proxy-dev.cjs                 # helper proxy/runtime pengembangan
+├─ server.ts                     # Main Express server
+├─ proxy-dev.cjs                 # Dev proxy/runtime helper
 ├─ .env.example
 └─ package.json
 ```
 
 ---
 
-## Endpoint API (Saat Ini)
+## API Endpoints (Current)
 
 ### `GET /api/agents?walletAddress=...`
-Mengambil daftar agen berdasarkan alamat dompet.
+Returns agent list by wallet address.
 
 ### `POST /api/agents`
-Membuat agen baru sekaligus mengatur webhook Telegram.
+Creates a new agent and sets Telegram webhook.
 
-Contoh body:
+Example body:
 
 ```json
 {
@@ -173,17 +173,17 @@ Contoh body:
   "allowedChatId": "123456789",
   "llmProvider": "gemini",
   "llmApiKey": "...",
-  "systemPrompt": "Kamu adalah agen AI yang membantu"
+  "systemPrompt": "You are a helpful AI agent"
 }
 ```
 
 ### `POST /api/telegram/webhook/:token`
-Penerima webhook dari Telegram.
+Telegram webhook receiver endpoint.
 
 ### `POST /api/agent-chat`
-Menerjemahkan instruksi pengguna menjadi intent JSON transfer/chat.
+Parses user instruction into transfer/chat intent JSON.
 
-Contoh body:
+Example body:
 
 ```json
 {
@@ -193,25 +193,25 @@ Contoh body:
 
 ---
 
-## Catatan Penting (Keterbatasan Saat Ini)
+## Important Notes (Current Limitations)
 
-- Penyimpanan kredensial masih di berkas JSON lokal (belum terenkripsi).
-- Verifikasi kepemilikan dompet saat membuat agen masih dapat diperketat (challenge-signature).
-- Endpoint webhook masih memakai token di path (perlu hardening tambahan untuk produksi).
-- Rantai dependensi `node-telegram-bot-api` saat ini masih menarik paket transitive lama yang rentan.
-
----
-
-## Rekomendasi Penguatan Produksi
-
-- Simpan rahasia di secret manager/KMS, bukan berkas plaintext.
-- Implementasikan autentikasi tanda tangan dompet (nonce + verifikasi).
-- Ganti path webhook berbasis ID internal + validasi signature header.
-- Tambahkan rate limit dan redaksi log untuk token/API key.
-- Audit dan upgrade dependensi rentan secara berkala.
+- Credentials are currently stored in local JSON (not encrypted).
+- Wallet ownership verification for agent creation can be strengthened (challenge-signature).
+- Webhook endpoint currently uses token in path (needs production hardening).
+- Current `node-telegram-bot-api` dependency chain still includes older transitive packages.
 
 ---
 
-## Lisensi
+## Production Hardening Recommendations
 
-Belum ditentukan. Tambahkan berkas `LICENSE` sesuai kebutuhan proyek.
+- Move secrets to a proper secret manager/KMS (no plaintext storage).
+- Implement wallet signature authentication (nonce + verification).
+- Replace token-based webhook path with internal ID + signature validation.
+- Add rate limiting and log redaction for tokens/API keys.
+- Audit and upgrade vulnerable dependencies regularly.
+
+---
+
+## License
+
+Not specified yet. Add a `LICENSE` file based on your preferred license model.

@@ -11,7 +11,8 @@ import {
   Bell,
   Bot,
   Menu,
-  X
+  X,
+  MessageSquare
 } from "lucide-react";
 import { useWallet } from "../context/WalletContext";
 import { Link, Outlet, useLocation } from "react-router-dom";
@@ -32,6 +33,7 @@ export default function DashboardLayout() {
   const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: Bot, label: "Agents", path: "/dashboard/agents" },
+    { icon: MessageSquare, label: "Agent Transfer", path: "/dashboard/agent-transfer" },
     { icon: Send, label: "Transfer", path: "/dashboard/transfer" },
     { icon: Repeat, label: "Swap", path: "/dashboard/swap" },
     { icon: History, label: "History", path: "/dashboard/history" },

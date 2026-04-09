@@ -19,6 +19,7 @@ import Swap from "./pages/Swap";
 import History from "./pages/History";
 import Settings from "./pages/Settings";
 import CreateAgent from "./pages/CreateAgent";
+import AgentTransferChat from "./pages/AgentTransferChat";
 
 function LandingPage() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
             <Route path="agents" element={<CreateAgent />} />
+            <Route path="agent-transfer" element={<AgentTransferChat />} />
             <Route path="transfer" element={<Transfer />} />
             <Route path="swap" element={<Swap />} />
             <Route path="history" element={<History />} />

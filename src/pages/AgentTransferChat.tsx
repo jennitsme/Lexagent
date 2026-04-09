@@ -16,7 +16,7 @@ export default function AgentTransferChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "agent",
-      text: "Hi. I’m Lexa Agent. Tell me what to do, for example: send 0.1 SOL to A3cJ7X2bJ2K7gT5YhUFMBhA6gS2krHgDk61gigdj7Vat",
+      text: "Hi. I’m Lexa Agent. Tell me what to do, for example: send 0.1 SOL to <destination_wallet_address>",
     },
   ]);
 
@@ -100,7 +100,7 @@ export default function AgentTransferChat() {
           <h1 className="text-2xl font-bold text-blue-700">Agent Transfer Chat</h1>
         </div>
         <p className="text-blue-600 text-sm">
-          Natural language transfer assistant. Example: “send 0.1 sol to A3cJ7X2bJ2K7gT5YhUFMBhA6gS2krHgDk61gigdj7Vat”.
+          Natural language transfer assistant. Example: “send 0.1 sol to &lt;destination_wallet_address&gt;”.
         </p>
       </div>
 

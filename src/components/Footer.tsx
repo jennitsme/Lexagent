@@ -19,14 +19,15 @@ export function Footer() {
           </p>
         </motion.div>
 
-        <motion.button 
+        <motion.a
+          href="/dashboard"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="px-8 py-4 lex-accent-bg text-white font-bold rounded-lg shadow-[0_0_30px_rgba(59,130,246,0.18)] hover:shadow-[0_0_50px_rgba(59,130,246,0.3)] transition-shadow flex items-center gap-2 mx-auto"
+          className="px-8 py-4 lex-accent-bg text-white font-bold rounded-lg shadow-[0_0_30px_rgba(59,130,246,0.18)] hover:shadow-[0_0_50px_rgba(59,130,246,0.3)] transition-shadow flex items-center gap-2 mx-auto w-fit"
         >
           Launch Lexagent
           <ArrowRight className="w-5 h-5" />
-        </motion.button>
+        </motion.a>
 
         <div className="pt-24 border-t border-sky-200/40 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-sm text-blue-500 font-mono">

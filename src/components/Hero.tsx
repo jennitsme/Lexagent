@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Copy, Check } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const cryptoAssets = ["AUTONOMOUS", "ON-CHAIN", "SOLANA", "TRUSTLESS", "AGENTS", "RULES", "PAYMENTS"];
 
@@ -106,6 +107,19 @@ function HiTechBackground() {
 }
 
 export function Hero() {
+  const contractAddress = "5pLCpJJRcNcXr24AQzMzEe4SERRbopKkFn1J1qZXpump";
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyContract = async () => {
+    try {
+      await navigator.clipboard.writeText(contractAddress);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      setCopied(false);
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden bg-white">
       <HiTechBackground />
@@ -193,9 +207,20 @@ export function Hero() {
         <div className="w-full max-w-3xl px-4">
           <div className="mx-auto w-fit rounded-xl border border-sky-200/70 bg-cyan-50/70 px-4 py-3 text-center">
             <p className="text-[10px] uppercase tracking-wider text-blue-500 font-semibold">Contract Address</p>
-            <p className="text-xs md:text-sm font-mono text-blue-700 break-all">
-              5pLCpJJRcNcXr24AQzMzEe4SERRbopKkFn1J1qZXpump
-            </p>
+            <div className="mt-1 flex items-center gap-2">
+              <p className="text-xs md:text-sm font-mono text-blue-700 break-all text-left">
+                {contractAddress}
+              </p>
+              <button
+                type="button"
+                onClick={handleCopyContract}
+                className="inline-flex items-center justify-center rounded-md border border-sky-200/80 bg-white/80 p-1.5 text-blue-600 hover:text-blue-700 hover:border-sky-300 transition-colors"
+                aria-label="Copy contract address"
+                title="Copy contract address"
+              >
+                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
           </div>
         </div>
 

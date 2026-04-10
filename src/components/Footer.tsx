@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowRight, Twitter } from "lucide-react";
+import { ArrowRight, Twitter, Send, Github } from "lucide-react";
 
 export function Footer() {
   return (
@@ -34,9 +34,33 @@ export function Footer() {
             Built for the next generation of autonomous economies.
           </div>
           
-          <a href="https://x.com/LexagentHQ" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 transition-colors">
-            <Twitter className="w-5 h-5" />
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://x.com/LexagentHQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:text-blue-700 transition-colors"
+              aria-label="X"
+            >
+              <Twitter className="w-5 h-5" />
+            </a>
+            <a
+              href="https://t.me/+M7MCtK3iDdszYzll"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:text-blue-700 transition-colors"
+              aria-label="Telegram"
+            >
+              <Send className="w-5 h-5" />
+            </a>
+            <a
+              href="#"
+              className="text-blue-500 hover:text-blue-700 transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

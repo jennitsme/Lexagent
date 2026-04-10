@@ -54,7 +54,7 @@ export function Footer() {
               <Send className="w-5 h-5" />
             </a>
             <a
-              href="#"
+              href="https://github.com/lexagentHQ/LexagentHQ"
               className="text-blue-500 hover:text-blue-700 transition-colors"
               aria-label="GitHub"
             >

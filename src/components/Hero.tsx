@@ -190,6 +190,15 @@ export function Hero() {
           </p>
         </div>
 
+        <div className="w-full max-w-3xl px-4">
+          <div className="mx-auto w-fit rounded-xl border border-sky-200/70 bg-cyan-50/70 px-4 py-3 text-center">
+            <p className="text-[10px] uppercase tracking-wider text-blue-500 font-semibold">Contract Address</p>
+            <p className="text-xs md:text-sm font-mono text-blue-700 break-all">
+              5pLCpJJRcNcXr24AQzMzEe4SERRbopKkFn1J1qZXpump
+            </p>
+          </div>
+        </div>
+
         <div className="mt-8 px-4 py-2 rounded-full border border-sky-200/65 bg-cyan-50/60 text-blue-600 text-[10px] font-mono flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
           BUILT FOR THE NEXT GENERATION OF AUTONOMOUS ECONOMIES

@@ -45,7 +45,7 @@ export function Footer() {
               <Twitter className="w-5 h-5" />
             </a>
             <a
-              href="https://t.me/+M7MCtK3iDdszYzll"
+              href="https://t.me/LexagentHq"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 hover:text-blue-700 transition-colors"

@@ -17,9 +17,16 @@ function extractMemoriesFromText(text: string): Array<{ key: string; value: stri
     { regex: /remember that\s+(.{3,160})/i, key: 'remembered_fact', confidence: 0.9 },
   ];
 
+  const secretLike = /(seed phrase|private key|api[_ -]?key|mnemonic|secret key)/i;
+
   for (const p of patterns) {
     const m = normalized.match(p.regex);
-    if (m?.[1]) items.push({ key: p.key, value: m[1].trim(), confidence: p.confidence });
+    if (m?.[1]) {
+      const value = m[1].trim();
+      if (!secretLike.test(value) && p.confidence >= 0.8) {
+        items.push({ key: p.key, value, confidence: p.confidence });
+      }
+    }
   }
 
   return items;
@@ -214,10 +221,45 @@ function apiPlugin(): Plugin {
               return;
             }
 
-            const thread = db.getOrCreateThread(agent.id, String(chatId), json.message.chat.title || json.message.from?.first_name || `Chat ${chatId}`);
+            const chatIdStr = String(chatId);
+
+            if (text.trim().toLowerCase() === '/newthread') {
+              const newThread = db.getOrCreateThread(
+                agent.id,
+                chatIdStr,
+                json.message.chat.title || json.message.from?.first_name || `Chat ${chatId}`,
+                true
+              );
+              const { default: TelegramBot } = await server.ssrLoadModule('node-telegram-bot-api');
+              const bot = new TelegramBot(token, { polling: false });
+              await bot.sendMessage(chatId, `Started a new thread. Context reset. (thread: ${newThread.id})`);
+              return;
+            }
+
+            if (text.trim().toLowerCase() === '/memory') {
+              const memories = db.getMemories(agent.id, chatIdStr, 20);
+              const lines = memories.length
+                ? memories.map((m: any) => `- ${m.key}: ${m.value}`).join('\n')
+                : 'No memory stored yet.';
+              const { default: TelegramBot } = await server.ssrLoadModule('node-telegram-bot-api');
+              const bot = new TelegramBot(token, { polling: false });
+              await bot.sendMessage(chatId, `Current memory:\n${lines}`);
+              return;
+            }
+
+            if (text.trim().toLowerCase().startsWith('/forget ')) {
+              const key = text.trim().slice('/forget '.length).trim();
+              const result = db.deleteMemoryByKey(agent.id, chatIdStr, key);
+              const { default: TelegramBot } = await server.ssrLoadModule('node-telegram-bot-api');
+              const bot = new TelegramBot(token, { polling: false });
+              await bot.sendMessage(chatId, result.success ? `Forgot memory key: ${key}` : `No memory found for key: ${key}`);
+              return;
+            }
+
+            const thread = db.getOrCreateThread(agent.id, chatIdStr, json.message.chat.title || json.message.from?.first_name || `Chat ${chatId}`);
             const userMsg = db.addMessage(thread.id, 'user', text);
             const recentMessages = db.getMessagesByThread(thread.id, 12).slice(-10);
-            const memories = db.getMemories(agent.id, String(chatId), 10);
+            const memories = db.getMemories(agent.id, chatIdStr, 10);
 
             const modelMessages = buildModelMessages(
               agent.system_prompt,
@@ -254,7 +296,7 @@ function apiPlugin(): Plugin {
             db.addMessage(thread.id, 'assistant', responseText);
             const extracted = extractMemoriesFromText(text);
             for (const m of extracted) {
-              db.upsertMemory(agent.id, String(chatId), m.key, m.value, m.confidence, userMsg.id);
+              db.upsertMemory(agent.id, chatIdStr, m.key, m.value, m.confidence, userMsg.id);
             }
 
             const { default: TelegramBot } = await server.ssrLoadModule('node-telegram-bot-api');

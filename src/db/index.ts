@@ -107,10 +107,29 @@ class JsonDB {
     return { lastInsertRowid: newAgent.id };
   }
 
-  getOrCreateThread(agentId: number, chatId: string, title?: string) {
+  getOrCreateThread(agentId: number, chatId: string, title?: string, forceNew: boolean = false) {
     const data = this.read();
     const now = new Date().toISOString();
-    let thread = data.threads.find((t) => t.agent_id === agentId && t.chat_id === chatId);
+
+    if (forceNew) {
+      const newThread: Thread = {
+        id: Date.now(),
+        agent_id: agentId,
+        chat_id: chatId,
+        title: title || `Chat ${chatId}`,
+        created_at: now,
+        updated_at: now,
+      };
+      data.threads.push(newThread);
+      this.write(data);
+      return newThread;
+    }
+
+    const existing = data.threads
+      .filter((t) => t.agent_id === agentId && t.chat_id === chatId)
+      .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+
+    let thread = existing[0];
 
     if (!thread) {
       thread = {
@@ -220,10 +239,29 @@ class JsonDB {
 
   getMemories(agentId: number, chatId: string, limit: number = 10) {
     const data = this.read();
+    const now = Date.now();
+    const ttlMs = 30 * 24 * 60 * 60 * 1000;
+
     return data.memories
-      .filter((m) => m.agent_id === agentId && m.chat_id === chatId)
+      .filter((m) => {
+        if (!(m.agent_id === agentId && m.chat_id === chatId)) return false;
+        const ageMs = now - new Date(m.updated_at).getTime();
+        if (m.confidence < 0.8 && ageMs > ttlMs) return false;
+        return true;
+      })
       .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
       .slice(0, Math.max(1, limit));
+  }
+
+  deleteMemoryByKey(agentId: number, chatId: string, key: string) {
+    const data = this.read();
+    const before = data.memories.length;
+    const normalized = key.trim().toLowerCase();
+    data.memories = data.memories.filter(
+      (m) => !(m.agent_id === agentId && m.chat_id === chatId && m.key.toLowerCase() === normalized)
+    );
+    this.write(data);
+    return { success: data.memories.length < before };
   }
 
   deleteMemory(id: number) {

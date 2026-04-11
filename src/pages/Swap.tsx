@@ -14,8 +14,17 @@ type Token = {
   logoURI?: string;
 };
 
+const LEXA_TOKEN: Token = {
+  symbol: "LEXA",
+  name: "LexAgent",
+  mint: "5pLCpJJRcNcXr24AQzMzEe4SERRbopKkFn1J1qZXpump",
+  decimals: 6,
+  logoURI: "/logo11.png",
+};
+
 const FALLBACK_TOKENS: Token[] = [
   { symbol: "SOL", name: "Solana", mint: "So11111111111111111111111111111111111111112", decimals: 9 },
+  LEXA_TOKEN,
   { symbol: "USDC", name: "USD Coin", mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6 },
   { symbol: "USDT", name: "Tether USD", mint: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", decimals: 6 },
 ];
@@ -79,14 +88,17 @@ export default function Swap() {
           }));
 
         const dedupMap = new Map<string, Token>();
-        [...FALLBACK_TOKENS, ...curated].forEach((t) => dedupMap.set(t.mint, t));
+        [...curated, ...FALLBACK_TOKENS].forEach((t) => dedupMap.set(t.mint, t));
+        // Ensure official LexAgent token is always present + branded logo
+        dedupMap.set(LEXA_TOKEN.mint, LEXA_TOKEN);
+
         const finalList = Array.from(dedupMap.values()).slice(0, 30);
 
         setTokens(finalList);
         const sol = finalList.find((t) => t.symbol === "SOL") || finalList[0];
-        const usdc = finalList.find((t) => t.symbol === "USDC") || finalList[1] || finalList[0];
+        const lexa = finalList.find((t) => t.mint === LEXA_TOKEN.mint) || finalList[1] || finalList[0];
         setFromToken(sol);
-        setToToken(usdc.mint === sol.mint ? finalList[1] : usdc);
+        setToToken(lexa.mint === sol.mint ? (finalList[1] || sol) : lexa);
       } catch {
         setTokens(FALLBACK_TOKENS);
       } finally {

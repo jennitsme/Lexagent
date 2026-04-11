@@ -274,7 +274,7 @@ export default function Swap() {
       animate={{ opacity: 1, y: 0 }}
       className="max-w-md mx-auto"
     >
-      <div className="p-6 rounded-2xl bg-white border border-sky-200/70 relative overflow-hidden">
+      <div className="p-6 rounded-2xl bg-white border border-sky-200/70 relative overflow-visible">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-blue-700">Swap</h2>
           <button className="p-2 hover:bg-sky-100/70 rounded-lg transition-colors">

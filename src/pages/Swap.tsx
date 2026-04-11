@@ -89,10 +89,9 @@ export default function Swap() {
 
         const dedupMap = new Map<string, Token>();
         [...curated, ...FALLBACK_TOKENS].forEach((t) => dedupMap.set(t.mint, t));
-        // Ensure official LexAgent token is always present + branded logo
-        dedupMap.set(LEXA_TOKEN.mint, LEXA_TOKEN);
-
-        const finalList = Array.from(dedupMap.values()).slice(0, 30);
+        // Ensure official LexAgent token is always present + pinned in visible list
+        const withoutLexa = Array.from(dedupMap.values()).filter((t) => t.mint !== LEXA_TOKEN.mint);
+        const finalList = [LEXA_TOKEN, ...withoutLexa].slice(0, 30);
 
         setTokens(finalList);
         const sol = finalList.find((t) => t.symbol === "SOL") || finalList[0];

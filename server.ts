@@ -16,6 +16,47 @@ const isProd = fs.existsSync(path.join(distPath, 'index.html'));
 
 app.use(express.json());
 
+function extractMemoriesFromText(text: string): Array<{ key: string; value: string; confidence: number }> {
+  const normalized = text.trim();
+  const items: Array<{ key: string; value: string; confidence: number }> = [];
+
+  const patterns = [
+    { regex: /(?:my name is|call me)\s+([a-zA-Z0-9_\- ]{2,40})/i, key: 'user_name', confidence: 0.95 },
+    { regex: /i prefer\s+(.{3,120})/i, key: 'preference', confidence: 0.8 },
+    { regex: /don't\s+(.{3,120})/i, key: 'dislike_or_constraint', confidence: 0.75 },
+    { regex: /always\s+(.{3,120})/i, key: 'always_rule', confidence: 0.75 },
+    { regex: /remember that\s+(.{3,160})/i, key: 'remembered_fact', confidence: 0.9 },
+  ];
+
+  for (const p of patterns) {
+    const m = normalized.match(p.regex);
+    if (m?.[1]) {
+      items.push({ key: p.key, value: m[1].trim(), confidence: p.confidence });
+    }
+  }
+
+  return items;
+}
+
+function buildModelMessages(
+  systemPrompt: string,
+  memories: Array<{ key: string; value: string }>,
+  history: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>,
+  userText: string
+) {
+  const memoryBlock = memories.length
+    ? `\nKnown user memories:\n${memories.map((m) => `- ${m.key}: ${m.value}`).join('\n')}`
+    : '';
+
+  const system = `${systemPrompt}${memoryBlock}\nUse memories only when relevant. Keep responses concise.`;
+
+  return [
+    { role: 'system' as const, content: system },
+    ...history.map((m) => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content })),
+    { role: 'user' as const, content: userText },
+  ];
+}
+
 app.get('/api/agents', (req, res) => {
   const { walletAddress } = req.query;
   if (!walletAddress) return res.status(400).json({ error: 'Wallet address required' });
@@ -25,7 +66,7 @@ app.get('/api/agents', (req, res) => {
 
 app.post('/api/agents', async (req, res) => {
   const { walletAddress, name, telegramToken, allowedChatId, llmProvider, llmApiKey, systemPrompt } = req.body;
-  
+
   if (!walletAddress || !name || !telegramToken || !llmProvider || !llmApiKey) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
@@ -33,14 +74,14 @@ app.post('/api/agents', async (req, res) => {
   try {
     const bot = new TelegramBot(telegramToken, { polling: false });
     const botInfo = await bot.getMe();
-    
+
     const appUrl = process.env.APP_URL || (process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : null);
     if (appUrl) {
       const webhookUrl = `${appUrl}/api/telegram/webhook/${telegramToken}`;
       console.log(`Setting webhook to: ${webhookUrl}`);
       await bot.setWebHook(webhookUrl);
     } else {
-      console.warn("APP_URL not set, skipping webhook setup.");
+      console.warn('APP_URL not set, skipping webhook setup.');
     }
 
     const result = db.createAgent({
@@ -50,12 +91,12 @@ app.post('/api/agents', async (req, res) => {
       allowed_chat_id: allowedChatId,
       llm_provider: llmProvider,
       llm_api_key: llmApiKey,
-      system_prompt: systemPrompt || "You are a helpful AI agent."
+      system_prompt: systemPrompt || 'You are a helpful AI agent.'
     });
-    
+
     res.json({ success: true, agentId: result.lastInsertRowid, botName: botInfo.username });
   } catch (error: any) {
-    console.error("Error creating agent:", error);
+    console.error('Error creating agent:', error);
     res.status(500).json({ error: error.message || 'Failed to create agent' });
   }
 });
@@ -119,10 +160,50 @@ app.post('/api/agent-chat', async (req, res) => {
   }
 });
 
+app.get('/api/threads', (req, res) => {
+  const agentId = req.query.agentId ? Number(req.query.agentId) : undefined;
+  const chatId = req.query.chatId ? String(req.query.chatId) : undefined;
+  if (!agentId && !chatId) {
+    return res.status(400).json({ error: 'agentId or chatId is required' });
+  }
+  const threads = db.getThreads(agentId, chatId);
+  res.json(threads);
+});
+
+app.get('/api/threads/:id/messages', (req, res) => {
+  const threadId = Number(req.params.id);
+  const limit = req.query.limit ? Number(req.query.limit) : 50;
+  if (!threadId) return res.status(400).json({ error: 'Invalid thread id' });
+  const messages = db.getMessagesByThread(threadId, limit);
+  res.json(messages);
+});
+
+app.post('/api/threads/:id/reset', (req, res) => {
+  const threadId = Number(req.params.id);
+  if (!threadId) return res.status(400).json({ error: 'Invalid thread id' });
+  const result = db.resetThread(threadId);
+  res.json(result);
+});
+
+app.get('/api/memories', (req, res) => {
+  const agentId = Number(req.query.agentId);
+  const chatId = String(req.query.chatId || '');
+  if (!agentId || !chatId) return res.status(400).json({ error: 'agentId and chatId are required' });
+  const memories = db.getMemories(agentId, chatId, 50);
+  res.json(memories);
+});
+
+app.delete('/api/memories/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Invalid memory id' });
+  const result = db.deleteMemory(id);
+  res.json(result);
+});
+
 app.post('/api/telegram/webhook/:token', async (req, res) => {
   const { token } = req.params;
   const update = req.body;
-  
+
   res.sendStatus(200);
 
   if (!update.message || !update.message.text) return;
@@ -132,7 +213,7 @@ app.post('/api/telegram/webhook/:token', async (req, res) => {
 
   try {
     const agent = db.getAgentByToken(token);
-    
+
     if (!agent) {
       console.error(`No agent found for token: ${token}`);
       return;
@@ -140,41 +221,61 @@ app.post('/api/telegram/webhook/:token', async (req, res) => {
 
     if (agent.allowed_chat_id && agent.allowed_chat_id.toString() !== chatId.toString()) {
       const bot = new TelegramBot(token, { polling: false });
-      await bot.sendMessage(chatId, "Access denied: You are not the authorized user for this agent.");
+      await bot.sendMessage(chatId, 'Access denied: You are not the authorized user for this agent.');
       return;
     }
+
+    const thread = db.getOrCreateThread(agent.id, String(chatId), update.message.chat.title || update.message.from?.first_name || `Chat ${chatId}`);
+    const userMsg = db.addMessage(thread.id, 'user', text);
+    const recentMessages = db.getMessagesByThread(thread.id, 12).slice(-10);
+    const memories = db.getMemories(agent.id, String(chatId), 10);
+
+    const modelMessages = buildModelMessages(
+      agent.system_prompt,
+      memories.map((m) => ({ key: m.key, value: m.value })),
+      recentMessages.filter((m) => m.id !== userMsg.id).map((m) => ({ role: m.role, content: m.content })),
+      text
+    );
 
     let responseText = "I'm sorry, I couldn't process that.";
 
     if (agent.llm_provider === 'gemini') {
       const ai = new GoogleGenAI({ apiKey: agent.llm_api_key });
+      const historyText = modelMessages
+        .filter((m) => m.role !== 'system')
+        .map((m) => `${m.role}: ${m.content}`)
+        .join('\n');
       const result = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: [{ role: 'user', parts: [{ text }] }],
+        contents: [{ role: 'user', parts: [{ text: historyText }] }],
         config: {
-          systemInstruction: agent.system_prompt
+          systemInstruction: modelMessages.find((m) => m.role === 'system')?.content || agent.system_prompt
         }
       });
-      responseText = result.text || "No response";
+      responseText = result.text || 'No response';
     } else if (agent.llm_provider === 'openai') {
       const openai = new OpenAI({ apiKey: agent.llm_api_key });
       const completion = await openai.chat.completions.create({
-        messages: [
-          { role: "system", content: agent.system_prompt },
-          { role: "user", content: text }
-        ],
-        model: "gpt-4o",
+        messages: modelMessages,
+        model: 'gpt-4o',
       });
-      responseText = completion.choices[0].message.content || "No response";
+      responseText = completion.choices[0].message.content || 'No response';
+    }
+
+    db.addMessage(thread.id, 'assistant', responseText);
+
+    const extracted = extractMemoriesFromText(text);
+    for (const m of extracted) {
+      db.upsertMemory(agent.id, String(chatId), m.key, m.value, m.confidence, userMsg.id);
     }
 
     const bot = new TelegramBot(token, { polling: false });
     await bot.sendMessage(chatId, responseText);
 
   } catch (error) {
-    console.error("Error processing webhook:", error);
+    console.error('Error processing webhook:', error);
     const bot = new TelegramBot(token, { polling: false });
-    await bot.sendMessage(chatId, "Error processing your request.");
+    await bot.sendMessage(chatId, 'Error processing your request.');
   }
 });
 
@@ -233,6 +334,6 @@ async function startServer() {
 }
 
 startServer().catch((err) => {
-  console.error("Failed to start:", err);
+  console.error('Failed to start:', err);
   process.exit(1);
 });

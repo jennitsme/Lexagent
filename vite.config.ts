@@ -2,8 +2,47 @@ import 'dotenv/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig, loadEnv} from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import type { Plugin, ViteDevServer } from 'vite';
+
+function extractMemoriesFromText(text: string): Array<{ key: string; value: string; confidence: number }> {
+  const normalized = text.trim();
+  const items: Array<{ key: string; value: string; confidence: number }> = [];
+
+  const patterns = [
+    { regex: /(?:my name is|call me)\s+([a-zA-Z0-9_\- ]{2,40})/i, key: 'user_name', confidence: 0.95 },
+    { regex: /i prefer\s+(.{3,120})/i, key: 'preference', confidence: 0.8 },
+    { regex: /don't\s+(.{3,120})/i, key: 'dislike_or_constraint', confidence: 0.75 },
+    { regex: /always\s+(.{3,120})/i, key: 'always_rule', confidence: 0.75 },
+    { regex: /remember that\s+(.{3,160})/i, key: 'remembered_fact', confidence: 0.9 },
+  ];
+
+  for (const p of patterns) {
+    const m = normalized.match(p.regex);
+    if (m?.[1]) items.push({ key: p.key, value: m[1].trim(), confidence: p.confidence });
+  }
+
+  return items;
+}
+
+function buildModelMessages(
+  systemPrompt: string,
+  memories: Array<{ key: string; value: string }>,
+  history: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>,
+  userText: string
+) {
+  const memoryBlock = memories.length
+    ? `\nKnown user memories:\n${memories.map((m) => `- ${m.key}: ${m.value}`).join('\n')}`
+    : '';
+
+  const system = `${systemPrompt}${memoryBlock}\nUse memories only when relevant. Keep responses concise.`;
+
+  return [
+    { role: 'system' as const, content: system },
+    ...history.map((m) => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content })),
+    { role: 'user' as const, content: userText },
+  ];
+}
 
 function apiPlugin(): Plugin {
   return {
@@ -58,7 +97,7 @@ function apiPlugin(): Plugin {
               wallet_address: walletAddress, name,
               telegram_token: telegramToken, allowed_chat_id: allowedChatId,
               llm_provider: llmProvider, llm_api_key: llmApiKey,
-              system_prompt: systemPrompt || "You are a helpful AI agent."
+              system_prompt: systemPrompt || 'You are a helpful AI agent.'
             });
             res.writeHead(200, { 'Content-Type': 'application/json' });
             return res.end(JSON.stringify({ success: true, agentId: result.lastInsertRowid, botName: botInfo.username }));
@@ -111,6 +150,53 @@ function apiPlugin(): Plugin {
             return res.end(JSON.stringify(payload));
           }
 
+          if (req.url.startsWith('/api/threads') && req.method === 'GET' && !req.url.includes('/messages')) {
+            const u = new URL(req.url, 'http://localhost');
+            const agentId = u.searchParams.get('agentId') ? Number(u.searchParams.get('agentId')) : undefined;
+            const chatId = u.searchParams.get('chatId') || undefined;
+            if (!agentId && !chatId) {
+              res.writeHead(400, { 'Content-Type': 'application/json' });
+              return res.end(JSON.stringify({ error: 'agentId or chatId is required' }));
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify(db.getThreads(agentId, chatId)));
+          }
+
+          const threadMessagesMatch = req.url.match(/^\/api\/threads\/(\d+)\/messages(\?.*)?$/);
+          if (threadMessagesMatch && req.method === 'GET') {
+            const u = new URL(req.url, 'http://localhost');
+            const threadId = Number(threadMessagesMatch[1]);
+            const limit = u.searchParams.get('limit') ? Number(u.searchParams.get('limit')) : 50;
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify(db.getMessagesByThread(threadId, limit)));
+          }
+
+          const threadResetMatch = req.url.match(/^\/api\/threads\/(\d+)\/reset$/);
+          if (threadResetMatch && req.method === 'POST') {
+            const threadId = Number(threadResetMatch[1]);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify(db.resetThread(threadId)));
+          }
+
+          if (req.url.startsWith('/api/memories') && req.method === 'GET') {
+            const u = new URL(req.url, 'http://localhost');
+            const agentId = Number(u.searchParams.get('agentId'));
+            const chatId = String(u.searchParams.get('chatId') || '');
+            if (!agentId || !chatId) {
+              res.writeHead(400, { 'Content-Type': 'application/json' });
+              return res.end(JSON.stringify({ error: 'agentId and chatId are required' }));
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify(db.getMemories(agentId, chatId, 50)));
+          }
+
+          const memDeleteMatch = req.url.match(/^\/api\/memories\/(\d+)$/);
+          if (memDeleteMatch && req.method === 'DELETE') {
+            const id = Number(memDeleteMatch[1]);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify(db.deleteMemory(id)));
+          }
+
           const wm = req.url.match(/^\/api\/telegram\/webhook\/(.+)$/);
           if (wm && req.method === 'POST') {
             const token = wm[1];
@@ -124,28 +210,53 @@ function apiPlugin(): Plugin {
             if (agent.allowed_chat_id && agent.allowed_chat_id.toString() !== chatId.toString()) {
               const { default: TelegramBot } = await server.ssrLoadModule('node-telegram-bot-api');
               const bot = new TelegramBot(token, { polling: false });
-              await bot.sendMessage(chatId, "Access denied.");
+              await bot.sendMessage(chatId, 'Access denied.');
               return;
             }
+
+            const thread = db.getOrCreateThread(agent.id, String(chatId), json.message.chat.title || json.message.from?.first_name || `Chat ${chatId}`);
+            const userMsg = db.addMessage(thread.id, 'user', text);
+            const recentMessages = db.getMessagesByThread(thread.id, 12).slice(-10);
+            const memories = db.getMemories(agent.id, String(chatId), 10);
+
+            const modelMessages = buildModelMessages(
+              agent.system_prompt,
+              memories.map((m: any) => ({ key: m.key, value: m.value })),
+              recentMessages.filter((m: any) => m.id !== userMsg.id).map((m: any) => ({ role: m.role, content: m.content })),
+              text
+            );
+
             let responseText = "I'm sorry, I couldn't process that.";
             if (agent.llm_provider === 'gemini') {
               const { GoogleGenAI } = await server.ssrLoadModule('@google/genai');
               const ai = new GoogleGenAI({ apiKey: agent.llm_api_key });
+              const historyText = modelMessages
+                .filter((m) => m.role !== 'system')
+                .map((m) => `${m.role}: ${m.content}`)
+                .join('\n');
+
               const r = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: [{ role: 'user', parts: [{ text }] }],
-                config: { systemInstruction: agent.system_prompt }
+                contents: [{ role: 'user', parts: [{ text: historyText }] }],
+                config: { systemInstruction: modelMessages.find((m) => m.role === 'system')?.content || agent.system_prompt }
               });
-              responseText = r.text || "No response";
+              responseText = r.text || 'No response';
             } else if (agent.llm_provider === 'openai') {
               const { default: OpenAI } = await server.ssrLoadModule('openai');
               const openai = new OpenAI({ apiKey: agent.llm_api_key });
               const c = await openai.chat.completions.create({
-                messages: [{ role: "system", content: agent.system_prompt }, { role: "user", content: text }],
-                model: "gpt-4o",
+                messages: modelMessages,
+                model: 'gpt-4o',
               });
-              responseText = c.choices[0].message.content || "No response";
+              responseText = c.choices[0].message.content || 'No response';
             }
+
+            db.addMessage(thread.id, 'assistant', responseText);
+            const extracted = extractMemoriesFromText(text);
+            for (const m of extracted) {
+              db.upsertMemory(agent.id, String(chatId), m.key, m.value, m.confidence, userMsg.id);
+            }
+
             const { default: TelegramBot } = await server.ssrLoadModule('node-telegram-bot-api');
             const bot = new TelegramBot(token, { polling: false });
             await bot.sendMessage(chatId, responseText);
@@ -154,7 +265,7 @@ function apiPlugin(): Plugin {
 
           next();
         } catch (err: any) {
-          console.error("API error:", err);
+          console.error('API error:', err);
           res.writeHead(500, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: err.message }));
         }
@@ -163,7 +274,7 @@ function apiPlugin(): Plugin {
   };
 }
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [apiPlugin(), react(), tailwindcss()],

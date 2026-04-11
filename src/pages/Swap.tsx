@@ -6,10 +6,24 @@ import { getSolBalance } from "../lib/solana";
 import { VersionedTransaction } from "@solana/web3.js";
 import { SolanaLogo, USDCLogo, USDTLogo } from "../components/icons/TokenLogos";
 
-const TOKENS = [
-  { symbol: "SOL", mint: "So11111111111111111111111111111111111111112", decimals: 9, Logo: SolanaLogo },
-  { symbol: "USDC", mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6, Logo: USDCLogo },
-  { symbol: "USDT", mint: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", decimals: 6, Logo: USDTLogo },
+type Token = {
+  symbol: string;
+  name: string;
+  mint: string;
+  decimals: number;
+  logoURI?: string;
+};
+
+const FALLBACK_TOKENS: Token[] = [
+  { symbol: "SOL", name: "Solana", mint: "So11111111111111111111111111111111111111112", decimals: 9 },
+  { symbol: "USDC", name: "USD Coin", mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", decimals: 6 },
+  { symbol: "USDT", name: "Tether USD", mint: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", decimals: 6 },
+];
+
+const DESIRED_SYMBOLS = [
+  "SOL", "USDC", "USDT", "JUP", "BONK", "WIF", "RAY", "PYTH", "JTO", "MNGO",
+  "ORCA", "SRM", "MOBILE", "RNDR", "WEN", "HNT", "BOME", "POPCAT", "MEW", "AI16Z",
+  "SAMO", "FIDA", "MSOL", "JITOSOL", "INF", "SNS", "SHDW", "TNSR", "PRCL", "KMNO",
 ];
 
 interface QuoteResponse {
@@ -23,8 +37,10 @@ interface QuoteResponse {
 
 export default function Swap() {
   const { address, isConnected, signAndSendTransaction, walletType, openModal } = useWallet();
-  const [fromToken, setFromToken] = useState(TOKENS[0]);
-  const [toToken, setToToken] = useState(TOKENS[1]);
+  const [tokens, setTokens] = useState<Token[]>(FALLBACK_TOKENS);
+  const [loadingTokens, setLoadingTokens] = useState(true);
+  const [fromToken, setFromToken] = useState<Token>(FALLBACK_TOKENS[0]);
+  const [toToken, setToToken] = useState<Token>(FALLBACK_TOKENS[1]);
   const [fromAmount, setFromAmount] = useState("");
   const [toAmount, setToAmount] = useState("");
   const [quote, setQuote] = useState<QuoteResponse | null>(null);
@@ -38,12 +54,56 @@ export default function Swap() {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const loadTokens = async () => {
+      try {
+        const response = await fetch("https://token.jup.ag/strict");
+        if (!response.ok) throw new Error("Failed loading token list");
+        const list = await response.json();
+
+        const bySymbol = new Map<string, any>();
+        for (const t of list) {
+          const symbol = String(t.symbol || "").toUpperCase();
+          if (!symbol || bySymbol.has(symbol)) continue;
+          bySymbol.set(symbol, t);
+        }
+
+        const curated: Token[] = DESIRED_SYMBOLS
+          .map((s) => bySymbol.get(s))
+          .filter(Boolean)
+          .map((t) => ({
+            symbol: String(t.symbol).toUpperCase(),
+            name: String(t.name || t.symbol),
+            mint: String(t.address),
+            decimals: Number(t.decimals || 6),
+            logoURI: t.logoURI ? String(t.logoURI) : undefined,
+          }));
+
+        const dedupMap = new Map<string, Token>();
+        [...FALLBACK_TOKENS, ...curated].forEach((t) => dedupMap.set(t.mint, t));
+        const finalList = Array.from(dedupMap.values()).slice(0, 30);
+
+        setTokens(finalList);
+        const sol = finalList.find((t) => t.symbol === "SOL") || finalList[0];
+        const usdc = finalList.find((t) => t.symbol === "USDC") || finalList[1] || finalList[0];
+        setFromToken(sol);
+        setToToken(usdc.mint === sol.mint ? finalList[1] : usdc);
+      } catch {
+        setTokens(FALLBACK_TOKENS);
+      } finally {
+        setLoadingTokens(false);
+      }
+    };
+
+    loadTokens();
+  }, []);
+
+  useEffect(() => {
     if (isConnected && address && walletType === "phantom") {
       getSolBalance(address).then(setSolBalance).catch(() => setSolBalance(0));
     }
   }, [isConnected, address, walletType]);
 
-  const fetchQuote = useCallback(async (amount: string, input: typeof TOKENS[0], output: typeof TOKENS[0]) => {
+  const fetchQuote = useCallback(async (amount: string, input: Token, output: Token) => {
     if (!amount || parseFloat(amount) <= 0) {
       setToAmount("");
       setQuote(null);
@@ -104,7 +164,7 @@ export default function Swap() {
     setSuccess("");
   };
 
-  const selectFromToken = (token: typeof TOKENS[0]) => {
+  const selectFromToken = (token: Token) => {
     if (token.mint === toToken.mint) {
       setToToken(fromToken);
     }
@@ -115,7 +175,7 @@ export default function Swap() {
     setQuote(null);
   };
 
-  const selectToToken = (token: typeof TOKENS[0]) => {
+  const selectToToken = (token: Token) => {
     if (token.mint === fromToken.mint) {
       setFromToken(toToken);
     }
@@ -184,12 +244,21 @@ export default function Swap() {
     return parseFloat(quote.priceImpactPct).toFixed(4);
   };
 
-  const TokenIcon = ({ token, size = "w-5 h-5" }: { token: typeof TOKENS[0]; size?: string }) => (
-    <token.Logo className={size} />
-  );
+  const TokenIcon = ({ token, size = "w-5 h-5" }: { token: Token; size?: string }) => {
+    if (token.symbol === "SOL") return <SolanaLogo className={size} />;
+    if (token.symbol === "USDC") return <USDCLogo className={size} />;
+    if (token.symbol === "USDT") return <USDTLogo className={size} />;
+    if (token.logoURI) return <img src={token.logoURI} alt={token.symbol} className={`${size} rounded-full`} />;
+
+    return (
+      <div className={`${size} rounded-full bg-sky-200 text-blue-700 flex items-center justify-center text-[10px] font-bold`}>
+        {token.symbol.slice(0, 2)}
+      </div>
+    );
+  };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="max-w-md mx-auto"
@@ -201,6 +270,12 @@ export default function Swap() {
             <Settings2 className="w-5 h-5 text-blue-500" />
           </button>
         </div>
+
+        {loadingTokens && (
+          <div className="mb-4 text-xs text-blue-500 flex items-center gap-2">
+            <Loader2 className="w-3 h-3 animate-spin" /> Loading token list...
+          </div>
+        )}
 
         {!isConnected || walletType !== "phantom" ? (
           <div className="text-center py-8 text-blue-600 space-y-4">
@@ -227,15 +302,15 @@ export default function Swap() {
                   </span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     placeholder="0.0"
                     value={fromAmount}
                     onChange={(e) => handleFromAmountChange(e.target.value)}
                     className="w-full bg-transparent text-3xl font-bold focus:outline-none text-blue-700"
                   />
                   <div className="relative">
-                    <button 
+                    <button
                       onClick={() => { setShowFromDropdown(!showFromDropdown); setShowToDropdown(false); }}
                       className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-sky-200/70 hover:bg-sky-100/70 transition-colors font-bold text-blue-700"
                     >
@@ -244,15 +319,18 @@ export default function Swap() {
                       <ChevronDown className="w-3 h-3" />
                     </button>
                     {showFromDropdown && (
-                      <div className="absolute right-0 top-full mt-2 bg-white border border-sky-200/70 rounded-xl overflow-hidden z-20 min-w-[140px] shadow-lg">
-                        {TOKENS.map((t) => (
+                      <div className="absolute right-0 top-full mt-2 bg-white border border-sky-200/70 rounded-xl overflow-y-auto z-20 min-w-[190px] max-h-72 shadow-lg">
+                        {tokens.map((t) => (
                           <button
                             key={t.mint}
                             onClick={() => selectFromToken(t)}
                             className="flex items-center gap-2 w-full px-4 py-3 hover:bg-sky-50/70 transition-colors text-left text-blue-700"
                           >
                             <TokenIcon token={t} size="w-4 h-4" />
-                            <span className="font-medium">{t.symbol}</span>
+                            <div>
+                              <div className="font-medium text-sm">{t.symbol}</div>
+                              <div className="text-[10px] text-blue-500">{t.name}</div>
+                            </div>
                           </button>
                         ))}
                       </div>
@@ -262,7 +340,7 @@ export default function Swap() {
               </div>
 
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                <button 
+                <button
                   onClick={handleSwapTokens}
                   className="p-2 rounded-xl bg-white border border-sky-200/70 hover:border-sky-300/80 hover:bg-sky-50/70 transition-all text-blue-700"
                 >
@@ -276,15 +354,15 @@ export default function Swap() {
                   {loadingQuote && <Loader2 className="w-3 h-3 text-blue-500 animate-spin" />}
                 </div>
                 <div className="flex items-center gap-4">
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     placeholder="0.0"
                     value={toAmount}
                     readOnly
                     className="w-full bg-transparent text-3xl font-bold focus:outline-none text-blue-600"
                   />
                   <div className="relative">
-                    <button 
+                    <button
                       onClick={() => { setShowToDropdown(!showToDropdown); setShowFromDropdown(false); }}
                       className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-sky-200/70 hover:bg-sky-100/70 transition-colors font-bold text-blue-700"
                     >
@@ -293,15 +371,18 @@ export default function Swap() {
                       <ChevronDown className="w-3 h-3" />
                     </button>
                     {showToDropdown && (
-                      <div className="absolute right-0 top-full mt-2 bg-white border border-sky-200/70 rounded-xl overflow-hidden z-20 min-w-[140px] shadow-lg">
-                        {TOKENS.map((t) => (
+                      <div className="absolute right-0 top-full mt-2 bg-white border border-sky-200/70 rounded-xl overflow-y-auto z-20 min-w-[190px] max-h-72 shadow-lg">
+                        {tokens.map((t) => (
                           <button
                             key={t.mint}
                             onClick={() => selectToToken(t)}
                             className="flex items-center gap-2 w-full px-4 py-3 hover:bg-sky-50/70 transition-colors text-left text-blue-700"
                           >
                             <TokenIcon token={t} size="w-4 h-4" />
-                            <span className="font-medium">{t.symbol}</span>
+                            <div>
+                              <div className="font-medium text-sm">{t.symbol}</div>
+                              <div className="text-[10px] text-blue-500">{t.name}</div>
+                            </div>
                           </button>
                         ))}
                       </div>
@@ -341,7 +422,7 @@ export default function Swap() {
                 </div>
               )}
 
-              <button 
+              <button
                 onClick={handleSwap}
                 disabled={!quote || loadingSwap || loadingQuote || !fromAmount}
                 className="w-full py-4 bg-black hover:bg-gray-800 disabled:bg-gray-200 disabled:text-blue-500 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"

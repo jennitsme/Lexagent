@@ -56,7 +56,7 @@ export default function Swap() {
   useEffect(() => {
     const loadTokens = async () => {
       try {
-        const response = await fetch("https://token.jup.ag/strict");
+        const response = await fetch("https://api.jup.ag/tokens/v2/tag?query=verified");
         if (!response.ok) throw new Error("Failed loading token list");
         const list = await response.json();
 
@@ -73,9 +73,9 @@ export default function Swap() {
           .map((t) => ({
             symbol: String(t.symbol).toUpperCase(),
             name: String(t.name || t.symbol),
-            mint: String(t.address),
+            mint: String(t.id || t.address),
             decimals: Number(t.decimals || 6),
-            logoURI: t.logoURI ? String(t.logoURI) : undefined,
+            logoURI: t.icon ? String(t.icon) : (t.logoURI ? String(t.logoURI) : undefined),
           }));
 
         const dedupMap = new Map<string, Token>();
